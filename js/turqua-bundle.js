@@ -184,7 +184,8 @@ const map = new maplibregl.Map({
   container: "globe",
   style: {
     version: 8,
-    projection: { type: "globe" },
+    // Standard 2D flat Mercator map projection per user request (not 3D globe)
+    projection: { type: "mercator" },
     sources: {
       "nasa-blue-marble": {
         type: "raster",
@@ -251,10 +252,7 @@ const map = new maplibregl.Map({
         type: "raster",
         source: "nasa-blue-marble",
         paint: {
-          "raster-brightness-min": 0.02,
-          "raster-brightness-max": 0.96,
-          "raster-saturation": 0.32,
-          "raster-contrast": 0.45,
+          "raster-opacity": 1,
         },
       },
       {
@@ -285,9 +283,9 @@ const map = new maplibregl.Map({
         minzoom: 4,
         paint: {
           "hillshade-exaggeration": 0.32,
-          "hillshade-shadow-color": "#070B1E",
-          "hillshade-highlight-color": "#94A3B8",
-          "hillshade-accent-color": "#14B8A6",
+          "hillshade-shadow-color": "#111827",
+          "hillshade-highlight-color": "#FFFFFF",
+          "hillshade-accent-color": "#334155",
         },
       },
       {
@@ -414,7 +412,8 @@ const map = new maplibregl.Map({
     ],
   },
   center: [35, 39],
-  zoom: 1.65,
+  zoom: 2.2,
+  renderWorldCopies: true,
   attributionControl: { compact: true },
 });
 
@@ -480,16 +479,7 @@ function setMapLayers(options) {
   activeLayers = { ...activeLayers, ...options };
   applyMapLayers();
 
-  try {
-    if (typeof map.setSky === "function") {
-      map.setSky({
-        "sky-color": "#050814",
-        "horizon-color": "#00A389",
-        "fog-color": "#050814",
-        "atmosphere-blend": ["interpolate", ["linear"], ["zoom"], 0, 0.85, 5, 0.35, 8, 0]
-      });
-    }
-  } catch (_) {}
+  // Sky atmosphere removed for flat 2D map
 
 }
 
