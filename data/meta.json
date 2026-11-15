@@ -1,0 +1,13 @@
+{
+  "project": "TURQUA // Harmonized Burning Activity Calendar",
+  "version": "3.0.0-final",
+  "generated_at_utc": "2026-11-15T14:09:02Z",
+  "challenge": "NASA Space Apps 2026 — Harmonization of MODIS and VIIRS Hot Spots",
+  "sources": [
+    "NASA FIRMS MODIS Collection 6.1 (Terra MOD14, Aqua MYD14)",
+    "NASA/NOAA FIRMS VIIRS 375m (Suomi-NPP VNP14IMG, NOAA-20 VJ114IMG, NOAA-21 VJ214IMG)",
+    "NASA GIBS WMTS (Blue Marble, VIIRS TrueColor, MODIS MCD12Q1 IGBP)",
+    "ESA WorldCover 2020 v100 (CC BY 4.0)"
+  ],
+  "ai_disclosure": "Built with AI assistance (Claude, Gemini, Antigravity); all figures are computed by scripts in this repo and reviewed by the team."
+}

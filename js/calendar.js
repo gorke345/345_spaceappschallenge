@@ -1,4 +1,4 @@
-import { applyDataQuery, setActivityMetric, state } from "./harmonizer.js";
+﻿import { applyDataQuery, setActivityMetric, state } from "./harmonizer.js";
 import { beginAoiDrawing, focusAOI, setMapActivityMetric, setMapColorRamp, updateAOI } from "./map.js";
 
 const YEARS = Array.from({ length: 27 }, (_, index) => 2000 + index);
@@ -6,7 +6,7 @@ const MONTHS = ["OCAK", "ŞUBAT", "MART", "NİSAN", "MAYIS", "HAZİRAN", "TEMMUZ
 const PRODUCTS = [
   { id: "MODIS_SP", from: "2000-11-01" },
   { id: "VIIRS_SNPP_SP", from: "2012-01-20" },
-  { id: "VIIRS_NOAA20_SP", from: "2020-01-01" },
+  { id: "VIIRS_NOAA20_SP", from: "2018-04-01" },
   { id: "VIIRS_NOAA21_NRT", from: "2024-01-17" },
 ];
 const PRESETS = {
@@ -331,7 +331,7 @@ function normalizeActivityRow(row) {
   if (![scan, track, frp, lat, lon].every(Number.isFinite) || scan <= 0 || track <= 0) return null;
   const bounds = state.bounds;
   if (bounds && (lat < bounds.minLat || lat > bounds.maxLat || lon < bounds.minLon || lon > bounds.maxLon)) return null;
-  const factor = sensor === "MODIS" ? 1 : 0.14;
+  const factor = sensor === "MODIS" ? 1.0 : (0.14 * 0.14);
   const area = scan * track;
   return {
     date: String(date),
@@ -654,6 +654,50 @@ async function refreshCalendar({ focusLatestLocalMonth = false } = {}) {
     }
     coverageMonthCache = new Map();
     const archiveMonths = new Map();
+    try {
+      const staticRes = await fetch("data/monthly_tr.json", { cache: "no-store" });
+      if (staticRes.ok) {
+        const staticData = await staticRes.json();
+        for (const item of staticData.series || []) {
+          if (item.status !== "no_observation" && item.harmonized_bd != null) {
+            archiveMonths.set(item.ym, {
+              countDensity: Number(item.harmonized_bd),
+              frpDensity: Number(item.harmonized_bd) * 18.5,
+              detections: Number(item.raw_hotspots || Math.round(item.harmonized_bd)),
+              status: item.status,
+            });
+            for (const prod of PRODUCTS) {
+              const list = coverageByProduct.get(prod.id) || [];
+              const mRange = monthRange(item.ym);
+              list.push([mRange.start, mRange.end]);
+              coverageByProduct.set(prod.id, list);
+            }
+          }
+        }
+      }
+    } catch (_) {}
+    try {
+      const staticRes = await fetch("data/monthly_tr.json", { cache: "no-store" });
+      if (staticRes.ok) {
+        const staticData = await staticRes.json();
+        for (const item of staticData.series || []) {
+          if (item.status !== "no_observation" && item.harmonized_bd != null) {
+            archiveMonths.set(item.ym, {
+              countDensity: Number(item.harmonized_bd),
+              frpDensity: Number(item.harmonized_bd) * 18.5,
+              detections: Number(item.raw_hotspots || Math.round(item.harmonized_bd)),
+              status: item.status,
+            });
+            for (const prod of PRODUCTS) {
+              const list = coverageByProduct.get(prod.id) || [];
+              const mRange = monthRange(item.ym);
+              list.push([mRange.start, mRange.end]);
+              coverageByProduct.set(prod.id, list);
+            }
+          }
+        }
+      }
+    } catch (_) {}
     for (const entry of cachedEntries) {
       for (const item of entry.monthly) {
         const total = archiveMonths.get(item.month) || { countDensity: 0, frpDensity: 0, detections: 0 };
@@ -885,7 +929,7 @@ export function exportResultsCSV() {
     const time = members.find(point => point.acq_date === date)?.acq_time || "";
     const area = members.reduce((sum, point) => sum + point.scan_km * point.track_km, 0);
     const frp = members.reduce((sum, point) =>
-      sum + point.frp * (point.sensor === "MODIS" ? 1 : 0.14), 0);
+      sum + point.frp, 0);
     const delta = members.reduce((sum, point) => sum + point.delta_t, 0) / members.length;
     const key = date.slice(0, 7);
     const month = Number(key.slice(5, 7));
@@ -1069,3 +1113,4 @@ function updateColorbars() {
 export function refreshActivityCalendar(options) {
   return refreshCalendar(options);
 }
+

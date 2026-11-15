@@ -1,0 +1,33 @@
+{
+  "pipeline_version": "3.0.0-final",
+  "computed_at_utc": "2026-11-15T14:09:02Z",
+  "total_detections_processed": 186650,
+  "sta_detections_removed": 12273,
+  "files": [
+    {
+      "path": "data/monthly_tr.json",
+      "bytes": 173480,
+      "sha256": "92f1a682dad17a05329faeee8e394694fa06e10686683a8e65db27b14287c6a2"
+    },
+    {
+      "path": "data/cells_tr.json",
+      "bytes": 88944,
+      "sha256": "6af1bdee66ae050e3a77c7eef97f14c93719d738d3743cd0b43e8cb2880c3e40"
+    },
+    {
+      "path": "data/proof.json",
+      "bytes": 15647,
+      "sha256": "772df6214aa83d6580d848ad872eec54a09b4a92c1d2d9f57499f6d9a3ae1731"
+    },
+    {
+      "path": "data/meta.json",
+      "bytes": 682,
+      "sha256": "33b27108f561fcb1b7773828d0d3e648c920fe3e970d22bb2b9bd8fdbf727176"
+    },
+    {
+      "path": "data/preloaded-data.js",
+      "bytes": 512569,
+      "sha256": "9c35751ad20ff652e90d67eac599700cdccdbe6de3452f47ebc4511716c1a0f0"
+    }
+  ]
+}

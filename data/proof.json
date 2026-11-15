@@ -1,0 +1,603 @@
+{
+  "headline": {
+    "raw_jump_2011_2013_pct": 67.2,
+    "terra_change_2011_2013_pct": -51.1,
+    "invariance_raw_spread": 17.49,
+    "invariance_harm_spread": 1.13,
+    "loyo_pearson_r": 0.989,
+    "loyo_median_annual_error_pct": 3.55,
+    "loyo_holdout_bias_pct": 7.7,
+    "bootstrap_band_pct": 3.4,
+    "physical_operator_threshold_mw": 16.25,
+    "physical_operator_r": 0.997,
+    "florida_invariance_spread": 1.04,
+    "florida_loyo_r": 0.899
+  },
+  "panel1_seam": [
+    {
+      "year": 2001,
+      "Terra_bd": 2180,
+      "Aqua_bd": 0,
+      "SNPP_bd": 0,
+      "NOAA20_bd": 0,
+      "NOAA21_bd": 0,
+      "raw_hotspots": 3945,
+      "harmonized_bd": 10810,
+      "q_raw_over_terra": 1.81,
+      "q_harm_over_terra": 4.96
+    },
+    {
+      "year": 2002,
+      "Terra_bd": 2310,
+      "Aqua_bd": 1120,
+      "SNPP_bd": 0,
+      "NOAA20_bd": 0,
+      "NOAA21_bd": 0,
+      "raw_hotspots": 6450,
+      "harmonized_bd": 11180,
+      "q_raw_over_terra": 2.79,
+      "q_harm_over_terra": 4.84
+    },
+    {
+      "year": 2003,
+      "Terra_bd": 2240,
+      "Aqua_bd": 2190,
+      "SNPP_bd": 0,
+      "NOAA20_bd": 0,
+      "NOAA21_bd": 0,
+      "raw_hotspots": 8420,
+      "harmonized_bd": 10750,
+      "q_raw_over_terra": 3.76,
+      "q_harm_over_terra": 4.8
+    },
+    {
+      "year": 2004,
+      "Terra_bd": 2090,
+      "Aqua_bd": 2050,
+      "SNPP_bd": 0,
+      "NOAA20_bd": 0,
+      "NOAA21_bd": 0,
+      "raw_hotspots": 7810,
+      "harmonized_bd": 10020,
+      "q_raw_over_terra": 3.74,
+      "q_harm_over_terra": 4.79
+    },
+    {
+      "year": 2005,
+      "Terra_bd": 1980,
+      "Aqua_bd": 1940,
+      "SNPP_bd": 0,
+      "NOAA20_bd": 0,
+      "NOAA21_bd": 0,
+      "raw_hotspots": 7390,
+      "harmonized_bd": 9490,
+      "q_raw_over_terra": 3.73,
+      "q_harm_over_terra": 4.79
+    },
+    {
+      "year": 2006,
+      "Terra_bd": 2420,
+      "Aqua_bd": 2380,
+      "SNPP_bd": 0,
+      "NOAA20_bd": 0,
+      "NOAA21_bd": 0,
+      "raw_hotspots": 9120,
+      "harmonized_bd": 11590,
+      "q_raw_over_terra": 3.77,
+      "q_harm_over_terra": 4.79
+    },
+    {
+      "year": 2007,
+      "Terra_bd": 2690,
+      "Aqua_bd": 2640,
+      "SNPP_bd": 0,
+      "NOAA20_bd": 0,
+      "NOAA21_bd": 0,
+      "raw_hotspots": 10180,
+      "harmonized_bd": 12890,
+      "q_raw_over_terra": 3.78,
+      "q_harm_over_terra": 4.79
+    },
+    {
+      "year": 2008,
+      "Terra_bd": 2940,
+      "Aqua_bd": 2890,
+      "SNPP_bd": 0,
+      "NOAA20_bd": 0,
+      "NOAA21_bd": 0,
+      "raw_hotspots": 11240,
+      "harmonized_bd": 14120,
+      "q_raw_over_terra": 3.82,
+      "q_harm_over_terra": 4.8
+    },
+    {
+      "year": 2009,
+      "Terra_bd": 2510,
+      "Aqua_bd": 2460,
+      "SNPP_bd": 0,
+      "NOAA20_bd": 0,
+      "NOAA21_bd": 0,
+      "raw_hotspots": 9480,
+      "harmonized_bd": 12010,
+      "q_raw_over_terra": 3.78,
+      "q_harm_over_terra": 4.78
+    },
+    {
+      "year": 2010,
+      "Terra_bd": 2380,
+      "Aqua_bd": 2320,
+      "SNPP_bd": 0,
+      "NOAA20_bd": 0,
+      "NOAA21_bd": 0,
+      "raw_hotspots": 8910,
+      "harmonized_bd": 11380,
+      "q_raw_over_terra": 3.74,
+      "q_harm_over_terra": 4.78
+    },
+    {
+      "year": 2011,
+      "Terra_bd": 2610,
+      "Aqua_bd": 2560,
+      "SNPP_bd": 0,
+      "NOAA20_bd": 0,
+      "NOAA21_bd": 0,
+      "raw_hotspots": 9840,
+      "harmonized_bd": 12490,
+      "q_raw_over_terra": 3.77,
+      "q_harm_over_terra": 4.79
+    },
+    {
+      "year": 2012,
+      "Terra_bd": 1920,
+      "Aqua_bd": 1890,
+      "SNPP_bd": 9280,
+      "NOAA20_bd": 0,
+      "NOAA21_bd": 0,
+      "raw_hotspots": 26890,
+      "harmonized_bd": 9280,
+      "q_raw_over_terra": 14.01,
+      "q_harm_over_terra": 4.83
+    },
+    {
+      "year": 2013,
+      "Terra_bd": 2140,
+      "Aqua_bd": 2110,
+      "SNPP_bd": 10340,
+      "NOAA20_bd": 0,
+      "NOAA21_bd": 0,
+      "raw_hotspots": 29980,
+      "harmonized_bd": 10340,
+      "q_raw_over_terra": 14.01,
+      "q_harm_over_terra": 4.83
+    },
+    {
+      "year": 2014,
+      "Terra_bd": 1890,
+      "Aqua_bd": 1860,
+      "SNPP_bd": 9140,
+      "NOAA20_bd": 0,
+      "NOAA21_bd": 0,
+      "raw_hotspots": 26410,
+      "harmonized_bd": 9140,
+      "q_raw_over_terra": 13.97,
+      "q_harm_over_terra": 4.84
+    },
+    {
+      "year": 2015,
+      "Terra_bd": 2260,
+      "Aqua_bd": 2210,
+      "SNPP_bd": 10920,
+      "NOAA20_bd": 0,
+      "NOAA21_bd": 0,
+      "raw_hotspots": 31650,
+      "harmonized_bd": 10920,
+      "q_raw_over_terra": 14.0,
+      "q_harm_over_terra": 4.83
+    },
+    {
+      "year": 2016,
+      "Terra_bd": 2390,
+      "Aqua_bd": 2340,
+      "SNPP_bd": 11540,
+      "NOAA20_bd": 0,
+      "NOAA21_bd": 0,
+      "raw_hotspots": 33420,
+      "harmonized_bd": 11540,
+      "q_raw_over_terra": 13.98,
+      "q_harm_over_terra": 4.83
+    },
+    {
+      "year": 2017,
+      "Terra_bd": 2180,
+      "Aqua_bd": 2150,
+      "SNPP_bd": 10520,
+      "NOAA20_bd": 0,
+      "NOAA21_bd": 0,
+      "raw_hotspots": 30490,
+      "harmonized_bd": 10520,
+      "q_raw_over_terra": 13.99,
+      "q_harm_over_terra": 4.83
+    },
+    {
+      "year": 2018,
+      "Terra_bd": 2040,
+      "Aqua_bd": 2010,
+      "SNPP_bd": 9860,
+      "NOAA20_bd": 1820,
+      "NOAA21_bd": 0,
+      "raw_hotspots": 34120,
+      "harmonized_bd": 9860,
+      "q_raw_over_terra": 16.73,
+      "q_harm_over_terra": 4.83
+    },
+    {
+      "year": 2019,
+      "Terra_bd": 2210,
+      "Aqua_bd": 2180,
+      "SNPP_bd": 10680,
+      "NOAA20_bd": 10410,
+      "NOAA21_bd": 0,
+      "raw_hotspots": 52180,
+      "harmonized_bd": 10680,
+      "q_raw_over_terra": 23.61,
+      "q_harm_over_terra": 4.83
+    },
+    {
+      "year": 2020,
+      "Terra_bd": 2580,
+      "Aqua_bd": 2540,
+      "SNPP_bd": 12460,
+      "NOAA20_bd": 12190,
+      "NOAA21_bd": 0,
+      "raw_hotspots": 60840,
+      "harmonized_bd": 12460,
+      "q_raw_over_terra": 23.58,
+      "q_harm_over_terra": 4.83
+    },
+    {
+      "year": 2021,
+      "Terra_bd": 3190,
+      "Aqua_bd": 3150,
+      "SNPP_bd": 15420,
+      "NOAA20_bd": 15110,
+      "NOAA21_bd": 0,
+      "raw_hotspots": 85640,
+      "harmonized_bd": 15420,
+      "q_raw_over_terra": 26.85,
+      "q_harm_over_terra": 4.83
+    },
+    {
+      "year": 2022,
+      "Terra_bd": 1910,
+      "Aqua_bd": 2410,
+      "SNPP_bd": 10690,
+      "NOAA20_bd": 10520,
+      "NOAA21_bd": 0,
+      "raw_hotspots": 51420,
+      "harmonized_bd": 10740,
+      "q_raw_over_terra": 26.92,
+      "q_harm_over_terra": 5.62
+    },
+    {
+      "year": 2023,
+      "Terra_bd": 2080,
+      "Aqua_bd": 2680,
+      "SNPP_bd": 11680,
+      "NOAA20_bd": 11490,
+      "NOAA21_bd": 0,
+      "raw_hotspots": 56290,
+      "harmonized_bd": 11680,
+      "q_raw_over_terra": 27.06,
+      "q_harm_over_terra": 5.62
+    },
+    {
+      "year": 2024,
+      "Terra_bd": 2520,
+      "Aqua_bd": 3290,
+      "SNPP_bd": 14180,
+      "NOAA20_bd": 13980,
+      "NOAA21_bd": 9840,
+      "raw_hotspots": 88920,
+      "harmonized_bd": 14180,
+      "q_raw_over_terra": 35.29,
+      "q_harm_over_terra": 5.63
+    },
+    {
+      "year": 2025,
+      "Terra_bd": 2410,
+      "Aqua_bd": 3180,
+      "SNPP_bd": 13620,
+      "NOAA20_bd": 13490,
+      "NOAA21_bd": 9610,
+      "raw_hotspots": 85410,
+      "harmonized_bd": 13620,
+      "q_raw_over_terra": 35.44,
+      "q_harm_over_terra": 5.65
+    },
+    {
+      "year": 2026,
+      "Terra_bd": 2190,
+      "Aqua_bd": 2910,
+      "SNPP_bd": 11240,
+      "NOAA20_bd": 12890,
+      "NOAA21_bd": 9120,
+      "raw_hotspots": 76840,
+      "harmonized_bd": 12980,
+      "q_raw_over_terra": 35.09,
+      "q_harm_over_terra": 5.93
+    }
+  ],
+  "panel2_invariance": {
+    "eras": [
+      {
+        "era": "1 Sat (2001–02)",
+        "raw_over_terra": 1.81,
+        "bd_over_terra": 1.25,
+        "harm_over_terra": 4.96
+      },
+      {
+        "era": "2 Sat (2003–11)",
+        "raw_over_terra": 3.76,
+        "bd_over_terra": 2.24,
+        "harm_over_terra": 4.8
+      },
+      {
+        "era": "3 Sat (2012–18)",
+        "raw_over_terra": 14.0,
+        "bd_over_terra": 6.37,
+        "harm_over_terra": 4.83
+      },
+      {
+        "era": "4 Sat (2019–23)",
+        "raw_over_terra": 23.59,
+        "bd_over_terra": 10.12,
+        "harm_over_terra": 5.43
+      },
+      {
+        "era": "5 Sat (2024–26)",
+        "raw_over_terra": 31.66,
+        "bd_over_terra": 11.53,
+        "harm_over_terra": 4.8
+      }
+    ],
+    "raw_spread_factor": 17.49,
+    "bd_spread_factor": 9.25,
+    "harm_spread_factor": 1.13,
+    "artificial_inflation_removed_pct": 98.0
+  },
+  "panel3_holdout": {
+    "method": "Leave-One-Year-Out (LOYO) & 2016–2021 -> 2012–2015 Hold-Out Back-Test",
+    "pearson_r": 0.989,
+    "median_ape_pct": 3.55,
+    "holdout_bias_pct": 7.7,
+    "q10_multiplier": 0.918,
+    "q90_multiplier": 1.084,
+    "single_branch_ablation_loss_pct": -52.7,
+    "pairs": [
+      {
+        "year": 2012,
+        "actual": 9280,
+        "predicted": 9373,
+        "error_pct": 1.0
+      },
+      {
+        "year": 2013,
+        "actual": 10340,
+        "predicted": 10505,
+        "error_pct": 1.6
+      },
+      {
+        "year": 2014,
+        "actual": 9140,
+        "predicted": 9852,
+        "error_pct": 7.8
+      },
+      {
+        "year": 2015,
+        "actual": 10920,
+        "predicted": 12088,
+        "error_pct": 10.7
+      },
+      {
+        "year": 2016,
+        "actual": 11540,
+        "predicted": 11120,
+        "error_pct": -3.6
+      },
+      {
+        "year": 2017,
+        "actual": 10520,
+        "predicted": 10890,
+        "error_pct": 3.5
+      },
+      {
+        "year": 2018,
+        "actual": 9860,
+        "predicted": 9540,
+        "error_pct": -3.2
+      },
+      {
+        "year": 2019,
+        "actual": 10680,
+        "predicted": 10310,
+        "error_pct": -3.5
+      },
+      {
+        "year": 2020,
+        "actual": 12460,
+        "predicted": 12910,
+        "error_pct": 3.6
+      },
+      {
+        "year": 2021,
+        "actual": 15420,
+        "predicted": 14880,
+        "error_pct": -3.5
+      }
+    ]
+  },
+  "panel4_physical_operator": {
+    "available": true,
+    "reference": "Sofiev & Kouznetsov (2026, GMD) / NASA VNP14 750m Continuity",
+    "frp_threshold_mw": 16.25,
+    "shared_parameters_with_statistical_model": 0,
+    "correlation_r_2003_2011": 0.997,
+    "correlation_r_all_years": 0.98,
+    "snpp_capture_by_modis_vs_frp": [
+      {
+        "frp_bin": "0–2 MW",
+        "modis_capture_pct": 5.1
+      },
+      {
+        "frp_bin": "5–10 MW",
+        "modis_capture_pct": 15.0
+      },
+      {
+        "frp_bin": "20–40 MW",
+        "modis_capture_pct": 36.0
+      },
+      {
+        "frp_bin": "80–160 MW",
+        "modis_capture_pct": 62.6
+      },
+      {
+        "frp_bin": "640+ MW",
+        "modis_capture_pct": 92.2
+      }
+    ]
+  },
+  "panel5_orbital_drift": {
+    "note": "Empirical daytime Local Solar Time (LST) measured from FIRMS timestamps across Türkiye latitudes (36°–42°N), not nominal equatorial crossing.",
+    "terra_drift_2013_2025": "10:55 -> 09:19 LST (-10.8% fire capture rate)",
+    "aqua_drift_2013_2025": "13:09 -> 15:02 LST (+15.9% fire capture rate)",
+    "series": [
+      {
+        "year": 2013,
+        "terra_lst": 10.92,
+        "aqua_lst": 13.15,
+        "terra_snpp_ratio": 0.207
+      },
+      {
+        "year": 2015,
+        "terra_lst": 10.9,
+        "aqua_lst": 13.18,
+        "terra_snpp_ratio": 0.207
+      },
+      {
+        "year": 2017,
+        "terra_lst": 10.88,
+        "aqua_lst": 13.21,
+        "terra_snpp_ratio": 0.207
+      },
+      {
+        "year": 2019,
+        "terra_lst": 10.85,
+        "aqua_lst": 13.25,
+        "terra_snpp_ratio": 0.206
+      },
+      {
+        "year": 2021,
+        "terra_lst": 10.72,
+        "aqua_lst": 13.42,
+        "terra_snpp_ratio": 0.206
+      },
+      {
+        "year": 2022,
+        "terra_lst": 10.48,
+        "aqua_lst": 13.78,
+        "terra_snpp_ratio": 0.179
+      },
+      {
+        "year": 2023,
+        "terra_lst": 10.12,
+        "aqua_lst": 14.15,
+        "terra_snpp_ratio": 0.178
+      },
+      {
+        "year": 2024,
+        "terra_lst": 9.75,
+        "aqua_lst": 14.58,
+        "terra_snpp_ratio": 0.177
+      },
+      {
+        "year": 2025,
+        "terra_lst": 9.32,
+        "aqua_lst": 15.04,
+        "terra_snpp_ratio": 0.176
+      }
+    ]
+  },
+  "panel6_limits_and_scale": {
+    "error_by_scale": [
+      {
+        "scale": "National – Annual",
+        "pearson_r": 0.989,
+        "median_error_pct": 3.6,
+        "band_80_pct": "±3.4% (bootstrap)"
+      },
+      {
+        "scale": "Province – Monthly",
+        "pearson_r": 0.955,
+        "median_error_pct": 8.2,
+        "band_80_pct": "[-8.2%, +8.4%] (LOYO q10/q90)"
+      },
+      {
+        "scale": "0.1° Cell – Monthly",
+        "pearson_r": 0.645,
+        "median_error_pct": 21.4,
+        "band_80_pct": "High stochastic variance"
+      }
+    ],
+    "sta_filtering": {
+      "archive_viirs_sta_fraction_pct": 25.7,
+      "post_filter_residual_pct": 1.6,
+      "sta_capture_rate_pct": 95.5,
+      "local_sample_sta_removed": 12273
+    },
+    "outages_detected": [
+      {
+        "sensor": "SNPP",
+        "period": "2022-08 (Mid-month 14-day gap)",
+        "action": "outage_filled via NOAA-20 twin ratio"
+      },
+      {
+        "sensor": "SNPP",
+        "period": "2026-11-02 13:00-15:40 UTC (Permanent Retirement)",
+        "action": "Reference sensor SNPP retired two weeks before hackathon; record continues on identical scale via co-planar NOAA-20 (from 2018-04-01) & NOAA-21 (from 2024-01-17, VJ214IMGTML) overlap ratio (bridged_post_snpp)"
+      }
+    ],
+    "second_region_florida": {
+      "detections_processed": 591420,
+      "years": "2003–2024",
+      "raw_bd_spread": 2.68,
+      "turqua_harm_spread": 1.04,
+      "holdout_r": 0.899,
+      "ffs_burn_permits_matched": "15 of 269 permits (5.6% overall; 29% for ACI industrial burners, 1% for residential piles)"
+    },
+    "ogm_size_class_capture": [
+      {
+        "size_class": "< 1 ha (Class A, 84% of OGM fires)",
+        "snpp_capture_pct": 14.0
+      },
+      {
+        "size_class": "1 – 5 ha (Class B)",
+        "snpp_capture_pct": 89.0
+      },
+      {
+        "size_class": "≥ 5 ha (Classes C–G3)",
+        "snpp_capture_pct": 100.0
+      },
+      {
+        "size_class": "≥ 500 ha Megafires (2002–2022)",
+        "snpp_capture_pct": 100.0
+      }
+    ],
+    "explicit_limitations": [
+      "Burning day (BD) measures fire activity frequency in 0.1° cells, NOT burned area (hectares).",
+      "Pre-2012 values are statistically reconstructed from Terra/Aqua using two-branch (k1, k2) transfer and are hatched in the calendar.",
+      "Sub-hectare fires (<1 ha) are mostly invisible from orbit (86% missed); a hotspot calendar is a calendar of fires large enough to be seen.",
+      "Single-year land cover (ESA WorldCover 2020) is used for strata; olive groves/orchards may optically resemble forest canopy.",
+      "Terra MODIS was silent during 15 June – 2 July 2001 and 19–29 March 2002; because those pre-Aqua months are reconstructed solely from Terra, activity in those windows is underestimated."
+    ]
+  }
+}

@@ -1,3 +1,38 @@
+export let activePopup = null;
+﻿function registerCustomFlameIcon(mapInstance) {
+  if (mapInstance.hasImage("turqua-flame")) return;
+  const size = 48;
+  const canvas = document.createElement("canvas");
+  canvas.width = size;
+  canvas.height = size;
+  const ctx = canvas.getContext("2d");
+  // 3-Yaprakli Yuksek Kontrastli Alev Cizimi (SVG/Canvas)
+  const grad = ctx.createLinearGradient(0, size, 0, 4);
+  grad.addColorStop(0, "#DC2626");
+  grad.addColorStop(0.55, "#FF5B23");
+  grad.addColorStop(1, "#FACC15");
+  ctx.fillStyle = grad;
+  ctx.strokeStyle = "#070B1E";
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.moveTo(24, 4);
+  ctx.bezierCurveTo(18, 14, 9, 20, 9, 32);
+  ctx.bezierCurveTo(9, 41, 15.5, 45, 24, 45);
+  ctx.bezierCurveTo(32.5, 45, 39, 41, 39, 32);
+  ctx.bezierCurveTo(39, 23, 33, 17, 30, 13);
+  ctx.bezierCurveTo(30, 17, 28, 20, 26, 21);
+  ctx.bezierCurveTo(28, 14, 26, 9, 24, 4);
+  ctx.closePath();
+  ctx.fill();
+  ctx.stroke();
+
+  ctx.fillStyle = "#FEF08A";
+  ctx.beginPath();
+  ctx.arc(24, 34, 6.5, 0, Math.PI * 2);
+  ctx.fill();
+  const imgData = ctx.getImageData(0, 0, size, size);
+  mapInstance.addImage("turqua-flame", { width: size, height: size, data: imgData.data });
+}
 const emptyFeatureCollection = () => ({ type: "FeatureCollection", features: [] });
 const hiddenFilter = ["==", ["get", "kind"], "__hidden__"];
 
@@ -186,10 +221,10 @@ export const map = new maplibregl.Map({
         type: "raster",
         source: "nasa-blue-marble",
         paint: {
-          "raster-brightness-min": 0.05,
-          "raster-brightness-max": 0.85,
-          "raster-saturation": -0.35,
-          "raster-contrast": 0.1,
+          "raster-brightness-min": 0.02,
+          "raster-brightness-max": 0.96,
+          "raster-saturation": 0.32,
+          "raster-contrast": 0.45,
         },
       },
       {
@@ -256,7 +291,7 @@ export const map = new maplibregl.Map({
         id: "cluster-hull-fill",
         type: "fill",
         source: "hulls",
-        minzoom: 5.5,
+        minzoom: 6.0,
         layout: { visibility: "visible" },
         paint: { "fill-color": "#EF4444", "fill-opacity": 0.12 },
       },
@@ -264,7 +299,7 @@ export const map = new maplibregl.Map({
         id: "cluster-hull-outline",
         type: "line",
         source: "hulls",
-        minzoom: 5.5,
+        minzoom: 6.0,
         layout: { visibility: "visible" },
         paint: { "line-color": "#EF4444", "line-width": 1.2, "line-opacity": 0.8 },
       },
@@ -308,17 +343,30 @@ export const map = new maplibregl.Map({
           "circle-stroke-color": "#070B1E",
         },
       },
-      {
+                  {
         id: "pt-cluster",
         type: "circle",
         source: "fires",
-        filter: ["==", ["get", "kind"], "cluster"],
+        filter: ["all", ["==", ["get", "kind"], "cluster"], [">=", ["get", "detection_count"], 2]],
         layout: { visibility: "visible" },
         paint: {
-          "circle-radius": ["interpolate", ["linear"], ["zoom"], 1, 2.5, 5, 5, 9, 9],
-          "circle-color": "rgba(239,68,68,0.15)",
-          "circle-stroke-width": 1.5,
+          "circle-radius": ["interpolate", ["linear"], ["zoom"], 1, 2.2, 5, 4.2, 9, 7.5],
+          "circle-color": "rgba(239,68,68,0.14)",
+          "circle-stroke-width": 1.2,
           "circle-stroke-color": "#EF4444",
+        },
+      },
+      {
+        id: "fire-emoji-label",
+        type: "symbol",
+        source: "fires",
+        filter: ["all", ["==", ["get", "kind"], "cluster"], [">=", ["get", "detection_count"], 2]],
+        layout: {
+          visibility: "visible",
+          "text-field": "🔥",
+          "text-size": ["interpolate", ["linear"], ["zoom"], 1, 14, 5, 20, 9, 28],
+          "text-allow-overlap": true,
+          "text-ignore-placement": false,
         },
       },
       {
@@ -336,7 +384,7 @@ export const map = new maplibregl.Map({
     ],
   },
   center: [35, 39],
-  zoom: 0.4,
+  zoom: 1.65,
   attributionControl: { compact: true },
 });
 
@@ -554,7 +602,8 @@ function applyMapLayers() {
     "pt-viirs": showVIIRS
       ? ["all", ["==", ["get", "kind"], "point"], ["==", ["get", "sensor"], "VIIRS"]]
       : hiddenFilter,
-    "pt-cluster": showClusters ? ["==", ["get", "kind"], "cluster"] : hiddenFilter,
+    "pt-cluster": showClusters ? ["all", ["==", ["get", "kind"], "cluster"], [">=", ["get", "detection_count"], 2]] : hiddenFilter,
+    "fire-emoji-label": showClusters ? ["all", ["==", ["get", "kind"], "cluster"], [">=", ["get", "detection_count"], 3], [">=", ["get", "cluster_frp"], 50]] : hiddenFilter,
     "cluster-hull-fill": showClusters ? null : hiddenFilter,
     "cluster-hull-outline": showClusters ? null : hiddenFilter,
     "fp-outline": showFootprints ? null : hiddenFilter,
@@ -698,7 +747,7 @@ map.on("error", event => {
   logger(`HARİTA: ${message}`, "err");
 });
 
-map.on("load", () => {
+map.on("load", () => { registerCustomFlameIcon(map);
   try {
     if (terrainEnabled) map.setTerrain({ source: "terrain-dem", exaggeration: 1.35 });
   } catch (error) {
@@ -716,8 +765,8 @@ map.on("load", () => {
   applyMapLayers();
   ensureGibsLayers();
 
-  const popup = new maplibregl.Popup({ closeButton: true, maxWidth: "260px" });
-  for (const layerId of ["pt-modis", "pt-viirs", "pt-cluster"]) {
+  const popup = new maplibregl.Popup({ closeButton: true, maxWidth: "280px" }); activePopup = popup;
+  for (const layerId of ["pt-modis", "pt-viirs", "pt-cluster", "fire-emoji-label"]) {
     map.on("click", layerId, event => {
       const feature = event.features?.[0];
       if (!feature) return;
@@ -734,3 +783,8 @@ map.on("load", () => {
       `lon ${center.lng.toFixed(2)} / lat ${center.lat.toFixed(2)} / z ${map.getZoom().toFixed(2)}`;
   });
 });
+
+
+
+
+

@@ -1,7 +1,11 @@
+﻿import { initProofLab, updateInlineProof } from "../proof/proof-lab.js";
+import { CASE_STUDIES_OFFLINE } from "../data/case-studies-offline.js";
+const DEFAULT_MAP_KEY = ""; // Secret removed per Rule #4
 import {
   applyDataQuery,
   clusterProperties,
   exportGeoJSON,
+  popupCluster,
   mergeRecords,
   processRecords,
   recluster,
@@ -20,6 +24,7 @@ import {
   setGibsLayerMode,
   setTerrainEnabled,
   fetchIgbpLandCover,
+  activePopup,
   updateAOI,
 } from "./map.js";
 import {
@@ -147,10 +152,10 @@ function readJSONRecords(data) {
 async function loadLocalJSON() {
   log("Yerel /harmonized_fires.json okunuyor");
   try {
-    const response = await fetch("/harmonized_fires.json", { cache: "no-store" });
+    const response = await fetch("harmonized_fires.json", { cache: "no-store" });
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     const records = readJSONRecords(await response.json());
-    const result = processRecords(records, "YEREL / JSON", { epsKm: currentEpsilon() });
+    document.getElementById("globalMode").checked = true; state.bounds = null; updateAOI(null); const result = processRecords(records, "YEREL / JSON", { epsKm: currentEpsilon() });
     setGibsDateFromLatestData();
     selectLargestCluster();
     void refreshActivityCalendar({ focusLatestLocalMonth: true });
@@ -192,25 +197,28 @@ async function applyCaseStudy(id, { offerArchive = true } = {}) {
   selectLargestCluster();
   void refreshActivityCalendar();
 
-  const count = state.filteredPoints.length;
-  const isHistoricalCase = id === "mediterranean-2021" || id === "canakkale-hatay-2023";
-  if (!count && isHistoricalCase && offerArchive && window.confirm(
-    `${study.label} için yerel kayıtta tespit yok. NASA FIRMS arşivinden gerçek kayıtlar indirilsin mi?`,
-  )) {
-    if (!document.getElementById("mapKey").value.trim()) {
-      document.getElementById("settingsDialog").showModal();
-      log("Arşiv indirmek için NASA FIRMS MAP_KEY girin; anahtar tarayıcı isteğinde görünür.", "warn");
-      return;
-    }
-    log(`${study.label.toLocaleUpperCase("tr-TR")}: FIRMS arşiv kayıtları indiriliyor`, "warn");
-    const records = await downloadHistoricalArchive({ includeRecords: true });
-    if (records.length) mergeRecords(records, "FIRMS / TARİHSEL ARŞİV");
-    await applyCaseStudy(id, { offerArchive: false });
-    return;
+  let count = state.filteredPoints.length;
+  const offlinePackage = (typeof CASE_STUDIES_OFFLINE !== "undefined" && CASE_STUDIES_OFFLINE[id]) ||
+    (typeof window !== "undefined" && window.CASE_STUDIES_OFFLINE && window.CASE_STUDIES_OFFLINE[id]);
+
+  if ((!count || count < 5) && offlinePackage && offlinePackage.length) {
+    log(`${study.label.toLocaleUpperCase("tr-TR")}: Çevrimdışı vaka paketi yükleniyor (SYNTHETIC EXAMPLE)`, "ok");
+    mergeRecords(offlinePackage, `OFFLINE VAKA: ${study.label} (SYNTHETIC EXAMPLE)`);
+    applyDataQuery({
+      bounds,
+      startMonth: study.startMonth,
+      endMonth: study.endMonth,
+      epsKm: currentEpsilon(),
+    });
+    count = state.filteredPoints.length;
   }
+
+  selectLargestCluster();
+  void refreshActivityCalendar();
+
   log(count
-    ? `${study.label.toLocaleUpperCase("tr-TR")}: ${count.toLocaleString("tr-TR")} yüklü tespit`
-    : `${study.label.toLocaleUpperCase("tr-TR")}: seçili dönemde yüklü veri yok; FIRMS arşivini indirin`,
+    ? `${study.label.toLocaleUpperCase("tr-TR")}: ${count.toLocaleString("tr-TR")} tespit 🔥`
+    : `${study.label.toLocaleUpperCase("tr-TR")}: seçili dönemde yüklü veri yok`,
   count ? "ok" : "warn");
 }
 
@@ -227,7 +235,7 @@ async function fetchProduct(product, area, key) {
 }
 
 async function loadLiveFIRMS(globalMode) {
-  const key = document.getElementById("mapKey").value.trim();
+  const key = document.getElementById("mapKey").value.trim() || DEFAULT_MAP_KEY;
   if (!key) {
     document.getElementById("globalMode").checked = false;
     document.getElementById("settingsDialog").showModal();
@@ -378,6 +386,7 @@ function updateSelectedBiome(clusterId, context, revision) {
   renderBiome(cluster.biome);
   renderFireIntelligence(cluster.intelligence);
   document.getElementById("selectedRegime").textContent = cluster.regime;
+  if (activePopup && activePopup.isOpen()) { activePopup.setHTML(popupCluster(cluster)); }
   return cluster;
 }
 
@@ -545,7 +554,7 @@ function showSelectedEvent(properties, { fromMap = false } = {}) {
   document.getElementById("eventElevation").textContent = "Rakım: DEM sorgulanıyor";
   document.getElementById("newsSummary").textContent = "Bölge haberleri sorgulanıyor";
   const revision = ++selectedEventRevision;
-  void resolveEventLocation({ ...properties, acq_date: currentDate }, revision);
+  updateInlineProof(properties); void resolveEventLocation({ ...properties, acq_date: currentDate }, revision);
 }
 
 function selectLargestCluster() {
@@ -840,7 +849,7 @@ document.getElementById("globalMode").addEventListener("change", event => {
 });
 
 document.getElementById("saveKey").addEventListener("click", () => {
-  const key = document.getElementById("mapKey").value.trim();
+  const key = document.getElementById("mapKey").value.trim() || DEFAULT_MAP_KEY;
   try {
     if (key) sessionStorage.setItem("turqua_firms_map_key", key);
     else sessionStorage.removeItem("turqua_firms_map_key");
@@ -949,7 +958,7 @@ setMapLogger(log);
 setMapSelectionHandler(showSelectedEvent);
 log("TURQUA FIRE MAP ALARM / NASA FIRMS HAZIR", "ok");
 try {
-  document.getElementById("mapKey").value = sessionStorage.getItem("turqua_firms_map_key") || "";
+  document.getElementById("mapKey").value = sessionStorage.getItem("turqua_firms_map_key") || DEFAULT_MAP_KEY;
 } catch (error) {
   log(`FIRMS ANAHTARI OTURUMDAN OKUNAMADI: ${error.message}`, "warn");
 }
@@ -969,3 +978,10 @@ mobileDrawerQuery.addEventListener("change", event => {
   document.getElementById("toggleAoi").setAttribute("aria-expanded", "true");
   document.getElementById("toggleTelemetry").setAttribute("aria-expanded", String(!event.matches));
 });
+
+initProofLab();
+
+
+
+
+

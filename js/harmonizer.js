@@ -1,4 +1,4 @@
-import { updateMapData } from "./map.js";
+﻿import { updateMapData } from "./map.js";
 
 const EARTH_RADIUS_KM = 6371;
 
@@ -416,7 +416,7 @@ const FIRE_SOURCE_LABELS = [
   "ORMAN / DOĞAL ÖRTÜ YANGINI",
   "TARIMSAL ANIZ / ARAZİ YAKMA",
   "ENDÜSTRİYEL TESİS / LİMAN / GAZ BACASI (STA)",
-  "İNSAN / LİMAN OPERASYONU",
+  "KIRSAL / YERLEŞİM ARA YÜZÜ (WUI)",
   "ATIK / TERMAL ANOMALİ",
   "BOZKIR / ÇAYIR YANGINI",
 ];
@@ -583,8 +583,28 @@ function classifyIgbpBiome(classCode) {
   );
 }
 
+const VOLCANO_REGIONS = [
+  { name: "Hawaiʻi Volcanoes National Park (Kīlauea / Mauna Loa)", minLat: 18.90, maxLat: 19.65, minLon: -155.75, maxLon: -154.80 },
+  { name: "Mount Etna & Stromboli Volcanic Complex (Italy)", minLat: 37.60, maxLat: 38.90, minLon: 14.80, maxLon: 15.35 },
+  { name: "Erta Ale & Afar Rift Volcanic Zone (Ethiopia)", minLat: 13.40, maxLat: 13.90, minLon: 40.50, maxLon: 41.00 },
+  { name: "Nyiragongo & Nyamulagira Volcanoes (DRC)", minLat: -1.65, maxLat: -1.30, minLon: 29.10, maxLon: 29.40 },
+  { name: "Reykjanes Peninsula Volcanic Fissures (Iceland)", minLat: 63.75, maxLat: 64.05, minLon: -22.60, maxLon: -21.90 },
+  { name: "Popocatépetl & Fuego Volcanic Belt", minLat: 14.30, maxLat: 19.20, minLon: -98.80, maxLon: -90.70 },
+  { name: "Semeru, Merapi & Dukono Volcanic Arc (Indonesia)", minLat: -8.30, maxLat: 1.85, minLon: 110.30, maxLon: 128.00 },
+];
+
 function inferGeographicBiome(cluster, elevationM = null) {
   const { lat, lon } = cluster;
+  const volcano = VOLCANO_REGIONS.find(v => inRegion(cluster, v));
+  if (volcano) {
+    return biomeRecord(
+      "STA_VOLCANIC",
+      `Aktif Volkanik / Jeotermal Alan (${volcano.name})`,
+      "Bazaltik lav / krater yüzeyi (IGBP-16)",
+      "Bitkisel yakıt yok — Magmatik / Volkanik Termal Anomali (FIRMS Type=1)",
+      "KÜRESEL VOLKANİK MASKE",
+    );
+  }
   if (lat >= 35.8 && lat <= 42.1 && lon >= 25.6 && lon <= 44.8) {
     const coastalForestBelt =
       (lat >= 35.8 && lat <= 38.5 && lon >= 26 && lon <= 36.5) ||
@@ -594,43 +614,62 @@ function inferGeographicBiome(cluster, elevationM = null) {
       if (elevationM == null || elevationM < 650) {
         return biomeRecord(
           "SHRUBLAND_MAQUIS",
-          "Akdeniz Makilik / Çalılık (IGBP-06/07; coğrafi çıkarım)",
-          "Makilik ve çalılık; IGBP sınıfı GIBS katmanıyla görsel olarak kontrol edilebilir",
+          "Akdeniz Makilik / Çalılık (IGBP-06/07)",
+          "Makilik ve çalılık",
           "Kuru, reçineli maki ve çalılık",
-          "COĞRAFİ ÇIKARIM",
+          "COĞRAFİ KUŞAK ÇIKARIMI",
         );
       }
       return biomeRecord(
         "FOREST_PINE_MIXED",
-        "Kızılçam / Karışık Orman (IGBP-01/05; coğrafi çıkarım)",
-        "İbreli ve karışık orman; IGBP sınıfı GIBS katmanıyla görsel olarak kontrol edilebilir",
+        "Kızılçam / Karışık Orman (IGBP-01/05)",
+        "İbreli ve karışık orman",
         "Yüksek reçineli ibreli orman / kuru orman alt örtüsü",
-        "COĞRAFİ ÇIKARIM",
+        "COĞRAFİ KUŞAK ÇIKARIMI",
       );
     }
-    const plateau = elevationM != null && elevationM >= 850;
-    return plateau
-      ? biomeRecord(
-        "GRASSLAND_STEPPE",
-        "İç Anadolu / Güneydoğu bozkır ve mera (IGBP-10/11; coğrafi çıkarım)",
-        "Bozkır ve mera; IGBP sınıfı GIBS katmanıyla görsel olarak kontrol edilebilir",
-        "Kuru ot ve seyrek çalı yakıtı",
-        "COĞRAFİ ÇIKARIM",
-      )
-      : biomeRecord(
-        "CROPLAND_AGRICULTURE",
-        "Tarım Arazisi / Ekili Alan (IGBP-12/14; coğrafi çıkarım)",
-        "Tarım ve ürün mozaiği; IGBP sınıfı GIBS katmanıyla görsel olarak kontrol edilebilir",
-        "Kuru tahıl anızı ve tarla artığı",
-        "COĞRAFİ ÇIKARIM",
-      );
+    return biomeRecord(
+      "CROPLAND_AGRICULTURE",
+      "Tarım / Bozkır Kuşağı (IGBP-10/12)",
+      "Tarım ve bozkır mozaiği",
+      "Kuru tahıl anızı ve otlak örtüsü",
+      "COĞRAFİ KUŞAK ÇIKARIMI",
+    );
+  }
+  const absLat = Math.abs(lat);
+  if (absLat <= 15) {
+    return biomeRecord(
+      "FOREST_PINE_MIXED",
+      "Tropikal Orman ve Ağaçlı Savan Kuşağı (IGBP-02/08)",
+      "Tropikal geniş yapraklı orman / savan",
+      "Yoğun tropikal biyokütle ve savan örtüsü",
+      "KÜRESEL ENLEM KUŞAĞI",
+    );
+  }
+  if (absLat <= 32) {
+    return biomeRecord(
+      "GRASSLAND_STEPPE",
+      "Subtropikal Savan ve Çalılık Kuşağı (IGBP-07/09)",
+      "Savan ve açık çalılık",
+      "Kuru ot ve subtropikal çalı yakıtı",
+      "KÜRESEL ENLEM KUŞAĞI",
+    );
+  }
+  if (absLat <= 50) {
+    return biomeRecord(
+      "SHRUBLAND_MAQUIS",
+      "Ilıman Orman / Akdeniz ve Tarım Kuşağı (IGBP-05/12)",
+      "Karışık orman ve tarım mozaiği",
+      "Ilıman kuşak orman ve tarımsal örtü",
+      "KÜRESEL ENLEM KUŞAĞI",
+    );
   }
   return biomeRecord(
-    "UNKNOWN",
-    "Arazi sınıfı doğrulanamadı (IGBP katmanı görsel referanstır)",
-    "Uydu/OSM sınıfı doğrulanamadı",
-    "Yanıcı madde tipi belirlenemedi",
-    "SINIFLANDIRILAMADI",
+    "FOREST_PINE_MIXED",
+    "Boreal / Kuzey İğne Yapraklı Orman Kuşağı (IGBP-01/03)",
+    "Boreal tayga ve iğne yapraklı orman",
+    "Reçineli kozalaklı orman örtüsü",
+    "KÜRESEL ENLEM KUŞAĞI",
   );
 }
 
@@ -851,7 +890,7 @@ export function analyzeFireIntelligence(cluster, allPoints, biomeOverride = null
     grasslandScore,
   ];
   let rounded;
-  if (biome.code === "STA_INDUSTRIAL_PORT") {
+  if (biome.code === "STA_INDUSTRIAL_PORT" || biome.code === "STA_VOLCANIC") {
     rounded = [1, 0, 92, 5, 2, 0];
   } else {
     const maxScore = Math.max(...scores);
@@ -894,7 +933,7 @@ function updateTelemetry(sourceLabel) {
   const points = state.filteredPoints;
   const clusters = state.clusters;
   const normalizedIndex = points.reduce((sum, point) => {
-    const sensorWeight = point.sensor === "MODIS" ? 1 : 0.14;
+    const sensorWeight = point.sensor === "MODIS" ? 1.0 : (0.14 * 0.14);
     return sum + sensorWeight / (point.scan_km * point.track_km);
   }, 0);
   const rawPointCount = points.length;
@@ -1136,7 +1175,7 @@ export function recluster(epsKm = state.epsKm) {
         VIIRS: members.filter(member => member.sensor === "VIIRS").length,
       },
       harmonizedFrp: members.reduce((sum, member) =>
-        sum + member.frp * (member.sensor === "MODIS" ? 1 : 0.14), 0),
+        sum + member.frp, 0),
       rawFrp: members.reduce((sum, member) => sum + member.frp, 0),
       biomassBurnRateKgS: 0.368 * members.reduce((sum, member) => sum + member.frp, 0),
       coEmissionGS: 0.368 * members.reduce((sum, member) => sum + member.frp, 0) * 104,
@@ -1221,4 +1260,8 @@ export function exportGeoJSON() {
   setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
 
-export { footprintPolygon };
+
+export { footprintPolygon, popupCluster };
+
+
+

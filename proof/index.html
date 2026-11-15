@@ -1,0 +1,230 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TURQUA // Why You Can Trust This Calendar — 6 Empirical Proofs</title>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-0: #070B1E; --bg-1: #0A0F2C; --bg-2: #111A3A; --line: #1E2D52;
+      --fg-0: #F8FAFC; --fg-1: #CBD5E1; --fg-2: #94A3B8;
+      --accent: #FF5B23; --turqua: #02D8E1; --amber: #FACC15; --ok: #22C55E;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: var(--bg-0); color: var(--fg-0); font-family: "IBM Plex Sans", sans-serif; font-size: 14px; line-height: 1.55; }
+    .mono { font-family: "IBM Plex Mono", monospace; }
+    header { background: var(--bg-1); border-bottom: 1px solid var(--line); padding: 14px 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; position: sticky; top: 0; z-index: 10; }
+    .brand { display: flex; align-items: center; gap: 10px; font-family: "IBM Plex Mono", monospace; font-weight: 700; color: var(--turqua); }
+    .brand img { width: 28px; height: 28px; }
+    .btn { border-radius: 8px; background: var(--bg-2); color: var(--fg-0); border: 1px solid var(--accent); padding: 7px 14px; font-family: "IBM Plex Mono", monospace; font-size: 12px; text-decoration: none; cursor: pointer; }
+    .btn:hover { border-color: var(--turqua); color: var(--turqua); }
+    main { max-width: 1240px; margin: 0 auto; padding: 24px 16px 60px; }
+    .hero { background: linear-gradient(135deg, rgba(14, 22, 52, 0.88) 0%, rgba(8, 12, 28, 0.92) 100%); border: 1px solid rgba(0, 240, 255, 0.28); border-radius: 16px; box-shadow: 0 16px 40px rgba(0,0,0,0.6); padding: 22px; margin-bottom: 20px; }
+    .hero h1 { font-size: 24px; color: var(--amber); margin-bottom: 6px; font-family: "IBM Plex Mono", monospace; }
+    .kpi-strip { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; margin-top: 14px; }
+    .kpi { background: rgba(6, 9, 22, 0.85); border: 1px solid rgba(0, 240, 255, 0.2); border-radius: 10px; padding: 14px; font-family: "IBM Plex Mono", monospace; }
+    .kpi .v { font-size: 22px; font-weight: 700; color: var(--turqua); }
+    .kpi .l { font-size: 12px; color: var(--fg-2); }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    @media (max-width: 860px) { .grid { grid-template-columns: 1fr; } }
+    .panel { background: rgba(11, 16, 38, 0.78); backdrop-filter: blur(14px); border: 1px solid rgba(0, 240, 255, 0.22); border-radius: 14px; box-shadow: 0 12px 32px rgba(0,0,0,0.55); padding: 18px; display: flex; flex-direction: column; gap: 10px; }
+    .panel h2 { font-family: "IBM Plex Mono", monospace; font-size: 14px; color: var(--turqua); border-bottom: 1px solid var(--line); padding-bottom: 6px; }
+    canvas { width: 100%; height: 210px; background: #040713; border: 1px solid var(--line); display: block; }
+    table { width: 100%; border-collapse: collapse; font-family: "IBM Plex Mono", monospace; font-size: 12px; }
+    th, td { border: 1px solid var(--line); padding: 6px 8px; text-align: left; }
+    th { background: var(--bg-2); color: var(--amber); }
+    .repro { background: #040713; border-left: 3px solid var(--accent); padding: 6px 10px; font-family: "IBM Plex Mono", monospace; font-size: 12px; color: var(--fg-1); margin-top: auto; }
+    footer { border-top: 1px solid var(--line); padding: 16px 24px; text-align: center; font-family: "IBM Plex Mono", monospace; font-size: 12px; color: var(--fg-2); background: var(--bg-1); }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <img src="../assets/flame.svg" alt="TURQUA Flame" />
+      <span>TURQUA // EVIDENCE &amp; VALIDATION LABORATORY</span>
+    </div>
+    <div>
+      <a href="../index.html" class="btn">← BACK TO 3D GLOBE &amp; CALENDAR</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <h1>Why You Can Trust This Calendar: 6 Non-Circular Empirical Proofs</h1>
+      <p>The raw multi-satellite archive says burning rose <b>+67.2%</b> between 2011 and 2013 when Suomi-NPP VIIRS joined; Terra MODIS alone shows it fell <b>-51.1%</b>. Below is the empirical proof computed directly from <code>data/proof.json</code>.</p>
+      <div class="kpi-strip" id="kpiStrip"></div>
+    </section>
+
+    <div class="grid">
+      <!-- PANEL 1 -->
+      <section class="panel">
+        <h2>PANEL 1 · DOES THE SEAM CLOSE? (2001–2026 ANNUAL SERIES)</h2>
+        <p>Raw hotspot counts jump at every VIIRS launch (2012 SNPP, 2019 NOAA-20, 2024 NOAA-21). Two-branch (k₁, k₂) transfer + 0.1° Burning Days closes all three seams.</p>
+        <canvas id="cSeam"></canvas>
+        <div class="repro">Reproduce: <code>python pipeline/harmonize_and_validate.py</code> → <code>data/proof.json#panel1_seam</code></div>
+      </section>
+
+      <!-- PANEL 2 -->
+      <section class="panel">
+        <h2>PANEL 2 · NON-CIRCULAR INVARIANCE TEST (Q = SERIES / TERRA)</h2>
+        <p>Dividing by unchanged Terra MODIS across 1→5 satellites: raw detections inflate <b>×17.49</b> (raw burning days ×9.25), while TURQUA stays flat at <b>×1.13</b> (98% inflation removed).</p>
+        <table id="tInvariance"></table>
+        <div class="repro">Reproduce: <code>python pipeline/harmonize_and_validate.py</code> → <code>data/proof.json#panel2_invariance</code></div>
+      </section>
+
+      <!-- PANEL 3 -->
+      <section class="panel">
+        <h2>PANEL 3 · LEAVE-ONE-YEAR-OUT (LOYO) &amp; HOLD-OUT BACK-TEST</h2>
+        <p>Trained on 2016–2021 and tested on unseen years: Pearson <b>r = 0.989</b>, median annual error <b>3.55%</b>, hold-out bias <b>+7.7%</b>, 80% CI multiplier <code>[0.918, 1.084]</code>. Removing branch k₂ loses <b>-52.7%</b> of burning days.</p>
+        <canvas id="cLoyo"></canvas>
+        <div class="repro">Reproduce: <code>python pipeline/harmonize_and_validate.py</code> → <code>data/proof.json#panel3_holdout</code></div>
+      </section>
+
+      <!-- PANEL 4 -->
+      <section class="panel">
+        <h2>PANEL 4 · INDEPENDENT PHYSICAL OBSERVATION OPERATOR (16.25 MW)</h2>
+        <p>Following Sofiev &amp; Kouznetsov (2026) and NASA VNP14 continuity: filtering SNPP cell-days at <b>FRP ≥ 16.25 MW</b> shares <b>zero parameters</b> with our statistical model yet agrees at <b>r = 0.997</b> on 2003–2011.</p>
+        <table id="tPhys"></table>
+        <div class="repro">Reproduce: <code>python pipeline/harmonize_and_validate.py</code> → <code>data/proof.json#panel4_physical_operator</code></div>
+      </section>
+
+      <!-- PANEL 5 -->
+      <section class="panel">
+        <h2>PANEL 5 · ORBITAL DRIFT MEASURED FROM FIRMS TIMESTAMPS (LST)</h2>
+        <p>Empirical daytime Local Solar Time (LST) across Türkiye latitudes: Terra drifted earlier (<b>10:55 → 09:19 LST</b>, -10.8% fire capture), while Aqua drifted later toward peak burning (<b>13:09 → 15:02 LST</b>, +15.9%).</p>
+        <canvas id="cDrift"></canvas>
+        <div class="repro">Reproduce: <code>python pipeline/harmonize_and_validate.py</code> → <code>data/proof.json#panel5_orbital_drift</code></div>
+      </section>
+
+      <!-- PANEL 6 -->
+      <section class="panel">
+        <h2>PANEL 6 · ERROR BY SCALE, SECOND REGION (FLORIDA) &amp; LIMITATIONS</h2>
+        <table id="tScale"></table>
+        <div id="limitsList" style="font-size:12px;color:var(--fg-1);"></div>
+        <div class="repro">Reproduce: <code>python pipeline/harmonize_and_validate.py</code> → <code>data/proof.json#panel6_limits_and_scale</code></div>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    Built with AI assistance (Claude, Gemini, Antigravity); all figures are computed by scripts in this repo and reviewed by the team. | Data: NASA FIRMS / LANCE / GIBS &amp; ESA WorldCover 2020.
+  </footer>
+
+  <script src="../data/preloaded-data.js"></script>
+  <script>
+    async function loadProof() {
+      const d = window.TURQUA_PRELOADED_PROOF || await (await fetch("../data/proof.json")).json();
+      const h = d.headline;
+
+      document.getElementById("kpiStrip").innerHTML = `
+        <div class="kpi"><div class="v">×${h.invariance_raw_spread} → ×${h.invariance_harm_spread}</div><div class="l">Invariance Spread (1→5 Satellites)</div></div>
+        <div class="kpi"><div class="v">r = ${h.loyo_pearson_r}</div><div class="l">Hold-Out Back-Test Correlation</div></div>
+        <div class="kpi"><div class="v">+${h.loyo_holdout_bias_pct}% / ±${h.bootstrap_band_pct}%</div><div class="l">Hold-Out Bias / Bootstrap Band</div></div>
+        <div class="kpi"><div class="v">r = ${h.physical_operator_r}</div><div class="l">Physical Operator (T = ${h.physical_operator_threshold_mw} MW)</div></div>
+        <div class="kpi"><div class="v">×${h.florida_invariance_spread} (FL)</div><div class="l">2nd Continent Test (Florida, r=${h.florida_loyo_r})</div></div>
+      `;
+
+      // Table 2: Invariance
+      document.getElementById("tInvariance").innerHTML = `
+        <thead><tr><th>Constellation Era</th><th>Raw Hotspots / Terra</th><th>Raw BD / Terra</th><th>TURQUA Harmonized / Terra</th></tr></thead>
+        <tbody>${d.panel2_invariance.eras.map(r => `<tr><td>${r.era}</td><td>${r.raw_over_terra}</td><td>${r.bd_over_terra}</td><td style="color:var(--turqua);font-weight:700;">${r.harm_over_terra}</td></tr>`).join("")}</tbody>
+      `;
+
+      // Table 4: Physical Operator
+      document.getElementById("tPhys").innerHTML = `
+        <thead><tr><th>SNPP Cell-Day FRP Bin</th><th>MODIS Co-Detection Capture Rate</th></tr></thead>
+        <tbody>${d.panel4_physical_operator.snpp_capture_by_modis_vs_frp.map(r => `<tr><td>${r.frp_bin}</td><td style="color:var(--amber);font-weight:700;">${r.modis_capture_pct}%</td></tr>`).join("")}</tbody>
+      `;
+
+      // Table 6: Error by scale
+      const p6 = d.panel6_limits_and_scale;
+      document.getElementById("tScale").innerHTML = `
+        <thead><tr><th>Aggregation Scale</th><th>Pearson r</th><th>Median Error</th><th>Uncertainty Band</th></tr></thead>
+        <tbody>${p6.error_by_scale.map(r => `<tr><td>${r.scale}</td><td>${r.pearson_r}</td><td>${r.median_error_pct}%</td><td>${r.band_80_pct}</td></tr>`).join("")}</tbody>
+      `;
+      document.getElementById("limitsList").innerHTML = `
+        <p style="margin-top:6px;"><b style="color:var(--amber);">STA Filter:</b> Removed ${p6.sta_filtering.archive_viirs_sta_fraction_pct}% industrial false positives down to ${p6.sta_filtering.post_filter_residual_pct}% (${p6.sta_filtering.sta_capture_rate_pct}% capture). <b>Florida Test:</b> ${p6.second_region_florida.ffs_burn_permits_matched}.</p>
+        <ul style="padding-left:18px;margin-top:6px;">${p6.explicit_limitations.map(l => `<li>${l}</li>`).join("")}</ul>
+      `;
+
+      drawSeamChart(d.panel1_seam);
+      drawLoyoChart(d.panel3_holdout.pairs);
+      drawDriftChart(d.panel5_orbital_drift.series);
+    }
+
+    function setupCanvas(id) {
+      const c = document.getElementById(id);
+      const dpr = window.devicePixelRatio || 1;
+      const w = c.clientWidth || 540, h = 210;
+      c.width = w * dpr; c.height = h * dpr;
+      const ctx = c.getContext("2d");
+      ctx.scale(dpr, dpr);
+      return { ctx, w, h };
+    }
+
+    function drawSeamChart(rows) {
+      const { ctx, w, h } = setupCanvas("cSeam");
+      const maxY = 92000, padL = 46, padR = 14, padT = 16, padB = 24;
+      const pw = w - padL - padR, ph = h - padT - padB;
+      const xOf = i => padL + (i / (rows.length - 1)) * pw;
+      const yOf = v => padT + ph - (v / maxY) * ph;
+
+      // Raw Hotspots (Red)
+      ctx.strokeStyle = "#EF4444"; ctx.lineWidth = 2; ctx.beginPath();
+      rows.forEach((r, i) => { const x = xOf(i), y = yOf(r.raw_hotspots); if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y); });
+      ctx.stroke();
+
+      // Harmonized BD (Cyan)
+      ctx.strokeStyle = "#02D8E1"; ctx.lineWidth = 3; ctx.beginPath();
+      rows.forEach((r, i) => { const x = xOf(i), y = yOf(r.harmonized_bd); if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y); });
+      ctx.stroke();
+
+      ctx.fillStyle = "#94A3B8"; ctx.font = "11px IBM Plex Mono";
+      ctx.fillText("Red: Raw Hotspots (×17.5 jump) | Cyan: TURQUA Harmonized BD (×1.13)", padL, 13);
+      rows.forEach((r, i) => { if (r.year % 4 === 1 || r.year === 2012 || r.year === 2026) ctx.fillText(String(r.year), xOf(i) - 12, h - 6); });
+    }
+
+    function drawLoyoChart(pairs) {
+      const { ctx, w, h } = setupCanvas("cLoyo");
+      const maxY = 17000, padL = 46, padR = 14, padT = 18, padB = 24;
+      const pw = w - padL - padR, ph = h - padT - padB;
+      const gw = pw / pairs.length;
+      pairs.forEach((p, i) => {
+        const x = padL + i * gw + 6;
+        const hAct = (p.actual / maxY) * ph;
+        const hPred = (p.predicted / maxY) * ph;
+        ctx.fillStyle = "#14B8A6"; ctx.fillRect(x, padT + ph - hAct, gw * 0.36, hAct);
+        ctx.fillStyle = "#FACC15"; ctx.fillRect(x + gw * 0.4, padT + ph - hPred, gw * 0.36, hPred);
+        ctx.fillStyle = "#94A3B8"; ctx.font = "10px IBM Plex Mono";
+        ctx.fillText(String(p.year).slice(2) + "'", x, h - 6);
+      });
+      ctx.fillStyle = "#94A3B8"; ctx.font = "11px IBM Plex Mono";
+      ctx.fillText("Teal: Actual SNPP BD | Gold: Hold-Out Predicted BD (r = 0.989)", padL, 13);
+    }
+
+    function drawDriftChart(series) {
+      const { ctx, w, h } = setupCanvas("cDrift");
+      const padL = 46, padR = 14, padT = 18, padB = 24;
+      const pw = w - padL - padR, ph = h - padT - padB;
+      const xOf = i => padL + (i / (series.length - 1)) * pw;
+      const yOf = lst => padT + ph - ((lst - 8.5) / 7.5) * ph;
+
+      ctx.strokeStyle = "#F59E0B"; ctx.lineWidth = 2.5; ctx.beginPath();
+      series.forEach((s, i) => { const x = xOf(i), y = yOf(s.terra_lst); if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y); });
+      ctx.stroke();
+
+      ctx.strokeStyle = "#02D8E1"; ctx.lineWidth = 2.5; ctx.beginPath();
+      series.forEach((s, i) => { const x = xOf(i), y = yOf(s.aqua_lst); if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y); });
+      ctx.stroke();
+
+      ctx.fillStyle = "#94A3B8"; ctx.font = "11px IBM Plex Mono";
+      ctx.fillText("Amber: Terra LST (10:55→09:19) | Cyan: Aqua LST (13:09→15:02)", padL, 13);
+      series.forEach((s, i) => ctx.fillText(String(s.year), xOf(i) - 12, h - 6));
+    }
+
+    loadProof();
+  </script>
+</body>
+</html>
+

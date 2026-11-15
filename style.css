@@ -628,3 +628,389 @@ html, body {
   .palette-legend { display: none; }
   .legal-strip { flex-basis: 24px; }
 }
+/* YUKSEK KONTRAST 3B KURE & ETKILESIMLI ISPAT LABI STILLERI */
+#globe { background: #05080A !important; }
+.btn-proof {
+  border-color: #F59E0B !important;
+  color: #FDE047 !important;
+  background: linear-gradient(180deg, #2A1608 0%, #160C06 100%) !important;
+  font-weight: 600;
+}
+.btn-proof:hover {
+  border-color: #02D8E1 !important;
+  color: #02D8E1 !important;
+}
+.proof-dialog {
+  width: min(860px, calc(100vw - 24px));
+  max-height: min(88vh, 760px);
+  overflow-y: auto;
+  border: 1px solid #02D8E1;
+  background: #070B1E;
+}
+.proof-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin: 10px 0;
+}
+@media (max-width: 760px) {
+  .proof-grid { grid-template-columns: 1fr; }
+}
+.proof-card {
+  background: #0A0F2C;
+  border: 1px solid #1E2D52;
+  padding: 10px;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 10px;
+}
+.proof-card h4 {
+  color: #02D8E1;
+  font-size: 10.5px;
+  margin-bottom: 6px;
+  border-bottom: 1px solid #15203D;
+  padding-bottom: 4px;
+}
+.proof-eq {
+  display: block;
+  background: #050814;
+  border-left: 2px solid #F59E0B;
+  padding: 6px 8px;
+  margin: 5px 0;
+  color: #FDE047;
+  font-size: 10px;
+  white-space: pre-wrap;
+}
+.proof-ChartWrap {
+  background: #050814;
+  border: 1px solid #1E2D52;
+  padding: 8px;
+  margin-top: 8px;
+}
+#proofCanvas {
+  width: 100%;
+  height: 150px;
+  display: block;
+}
+.inline-proof-box {
+  margin-top: 8px;
+  padding: 8px;
+  background: #070B1E;
+  border: 1px solid #F59E0B;
+  font: 9px "IBM Plex Mono", monospace;
+}
+.inline-proof-box b { color: #FDE047; display: block; margin-bottom: 4px; }
+
+/* GOREV PROMPTU BOLUM 5.2 & 5.4: ERISILEBILIRLIK (>=12px), TARALI HUCRELER VE YUKSEK KONTRAST */
+body { font-size: 13px !important; }
+.btn, .txt, .chk, .hud-row, .metric-readout span, .metric-readout b { font-size: 12px !important; }
+.calendar-cell { font-size: 10px !important; }
+.calendar-value.status-reconstructed {
+  background-image: repeating-linear-gradient(45deg, rgba(255,255,255,0.16) 0, rgba(255,255,255,0.16) 2px, transparent 2px, transparent 5px) !important;
+}
+.calendar-value.status-outage_filled {
+  background-image: radial-gradient(rgba(255,255,255,0.45) 1px, transparent 1px) !important;
+  background-size: 5px 5px !important;
+}
+.calendar-value.status-bridged_post_snpp {
+  border: 1.5px dashed #FACC15 !important;
+}
+.calendar-value.status-no_observation {
+  background: repeating-linear-gradient(-45deg, #161B26, #161B26 3px, #222938 3px, #222938 6px) !important;
+  color: #64748B !important;
+}
+.hero-banner {
+  position: absolute;
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 6;
+  background: rgba(7, 11, 30, 0.92);
+  border: 1px solid #FF5B23;
+  padding: 6px 14px;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 12px;
+  color: #F8FAFC;
+  pointer-events: none;
+  white-space: nowrap;
+}
+.hero-banner b { color: #FACC15; }
+
+/* HERO BANNER VE UST BAR HIZALAMA DUZELTMESI */
+.hero-banner {
+  top: 12px !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  max-width: calc(100% - 600px) !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  z-index: 4 !important;
+  font-size: 11px !important;
+  padding: 5px 12px !important;
+}
+@media (max-width: 1100px) {
+  .hero-banner { display: none !important; }
+}
+.cmdbar {
+  height: auto !important;
+  min-height: 50px !important;
+  flex-wrap: wrap !important;
+  padding: 6px 12px !important;
+}
+
+.hero-banner { display: none !important; }
+
+
+/* ==========================================================================
+   TURQUA // WEB3 SPACE TELEMETRY MODERN UI OVERRIDE
+   ========================================================================== */
+:root {
+  --bg-0: #050714 !important;
+  --bg-1: rgba(11, 16, 36, 0.76) !important;
+  --bg-2: rgba(20, 29, 62, 0.72) !important;
+  --line: rgba(2, 216, 225, 0.20) !important;
+  --line-soft: rgba(148, 163, 184, 0.12) !important;
+  --fg-0: #F8FAFC !important;
+  --fg-1: #CBD5E1 !important;
+  --fg-2: #94A3B8 !important;
+  --turqua: #00F0FF !important;
+  --modis: #FFB020 !important;
+  --viirs: #00E5BE !important;
+  --merged: #FF4D4D !important;
+}
+
+/* Kaba beyaz scrollbar yerine ince Web3 scrollbar */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: rgba(5, 7, 20, 0.55); border-radius: 10px; }
+::-webkit-scrollbar-thumb { background: rgba(0, 240, 255, 0.28); border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(0, 240, 255, 0.65); }
+
+/* Ust Komuta Cubugu */
+.cmdbar {
+  background: rgba(8, 12, 28, 0.85) !important;
+  backdrop-filter: blur(18px) saturate(150%) !important;
+  -webkit-backdrop-filter: blur(18px) saturate(150%) !important;
+  border-bottom: 1px solid rgba(0, 240, 255, 0.18) !important;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.5) !important;
+}
+
+/* Yüzen Sol ve Sag Cam Paneller (Glassmorphism + Yuvarlatilmis Koseler) */
+.hud-tl, .telemetry, .hud-bl {
+  background: rgba(10, 15, 34, 0.74) !important;
+  backdrop-filter: blur(18px) saturate(160%) !important;
+  -webkit-backdrop-filter: blur(18px) saturate(160%) !important;
+  border: 1px solid rgba(0, 240, 255, 0.22) !important;
+  border-radius: 14px !important;
+  box-shadow: 0 16px 40px -8px rgba(0, 0, 0, 0.75), inset 0 1px 0 0 rgba(255, 255, 255, 0.10) !important;
+  padding: 12px 14px !important;
+}
+
+/* Butonlar ve Input Kutulari */
+.btn {
+  border-radius: 8px !important;
+  background: linear-gradient(180deg, rgba(25, 36, 74, 0.82) 0%, rgba(14, 21, 46, 0.88) 100%) !important;
+  border: 1px solid rgba(148, 163, 184, 0.22) !important;
+  color: #F1F5F9 !important;
+  font-weight: 500 !important;
+  transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.06) !important;
+}
+.btn:hover:not(:disabled) {
+  border-color: #00F0FF !important;
+  color: #FFFFFF !important;
+  background: linear-gradient(180deg, rgba(0, 240, 255, 0.22) 0%, rgba(20, 32, 68, 0.92) 100%) !important;
+  box-shadow: 0 0 16px rgba(0, 240, 255, 0.32), inset 0 1px 0 rgba(255, 255, 255, 0.15) !important;
+  transform: translateY(-1px) !important;
+}
+.btn-proof {
+  background: linear-gradient(135deg, rgba(255, 91, 35, 0.28) 0%, rgba(245, 158, 11, 0.18) 100%) !important;
+  border: 1px solid rgba(255, 176, 32, 0.55) !important;
+  color: #FDE047 !important;
+  box-shadow: 0 0 14px rgba(245, 158, 11, 0.20) !important;
+}
+.txt {
+  border-radius: 8px !important;
+  background: rgba(6, 9, 22, 0.85) !important;
+  border: 1px solid rgba(148, 163, 184, 0.22) !important;
+  padding: 6px 9px !important;
+  transition: border-color 0.18s, box-shadow 0.18s !important;
+}
+.txt:focus {
+  border-color: #00F0FF !important;
+  box-shadow: 0 0 0 2px rgba(0, 240, 255, 0.20) !important;
+  outline: none !important;
+}
+
+/* Ic Kartlar, Oynatici ve Metrik Kutulari */
+.date-playback, .sensor-bridge, .anomaly-section, .selected-event, .intelligence-card {
+  border-radius: 10px !important;
+}
+.date-playback {
+  background: rgba(15, 23, 50, 0.65) !important;
+  border: 1px solid rgba(0, 240, 255, 0.14) !important;
+  padding: 9px 10px !important;
+}
+.anomaly-section canvas {
+  border-radius: 8px !important;
+  background: rgba(5, 8, 22, 0.8) !important;
+  border: 1px solid rgba(0, 240, 255, 0.16) !important;
+}
+
+/* Alt Takvim Paneli ve Hucreleri */
+.calendar-panel {
+  background: rgba(8, 12, 28, 0.90) !important;
+  backdrop-filter: blur(16px) !important;
+  border-top: 1px solid rgba(0, 240, 255, 0.20) !important;
+}
+.calendar-cell {
+  border-radius: 4px !important;
+  transition: transform 0.12s, box-shadow 0.12s !important;
+}
+.calendar-value:hover {
+  transform: scale(1.12) !important;
+  box-shadow: 0 0 10px rgba(0, 240, 255, 0.55) !important;
+  z-index: 3 !important;
+}
+.colorbar {
+  border-radius: 999px !important;
+  height: 9px !important;
+}
+
+/* Harita Popup ve Modal Diyaloglar */
+.maplibregl-popup-content {
+  background: rgba(9, 14, 34, 0.90) !important;
+  backdrop-filter: blur(14px) !important;
+  border: 1px solid rgba(0, 240, 255, 0.32) !important;
+  border-radius: 12px !important;
+  padding: 11px 13px !important;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.72) !important;
+}
+.mode-dialog {
+  border-radius: 16px !important;
+  background: rgba(10, 15, 36, 0.94) !important;
+  backdrop-filter: blur(20px) !important;
+  border: 1px solid rgba(0, 240, 255, 0.30) !important;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.85) !important;
+}
+
+/* KESIN HARITA VE UST BAR YERLESIM GARANTISI */
+.cmdbar {
+  flex: 0 0 auto !important;
+  height: auto !important;
+  min-height: 52px !important;
+  padding: 6px 14px !important;
+  display: flex !important;
+  flex-wrap: wrap !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  z-index: 20 !important;
+}
+.workspace {
+  position: relative !important;
+  flex: 1 1 auto !important;
+  width: 100% !important;
+  height: calc(100dvh - 300px) !important;
+  min-height: 360px !important;
+  overflow: hidden !important;
+}
+.globe-wrap, #globe {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* Deep Space Atmosphere Glow */
+.globe-wrap {
+  background: radial-gradient(circle at 50% 50%, #0d152b 0%, #060a16 65%, #020409 100%) !important;
+  box-shadow: inset 0 0 100px rgba(2, 216, 225, 0.12) !important;
+}
+
+/* 25s JURY TOUR HUD Overlay */
+.jury-tour-hud {
+  position: absolute;
+  top: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(6, 10, 26, 0.92);
+  backdrop-filter: blur(16px);
+  border: 1px solid #00F0FF;
+  border-radius: 12px;
+  padding: 10px 18px;
+  color: #F8FAFC;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 13px;
+  z-index: 30;
+  box-shadow: 0 0 25px rgba(0, 240, 255, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-width: 90vw;
+  text-align: center;
+  pointer-events: none;
+}
+.jury-tour-hud .scene-title {
+  color: #FACC15;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+.jury-tour-hud .scene-sub {
+  color: #CBD5E1;
+  font-size: 11px;
+}
+.jury-tour-hud .tour-progress {
+  width: 100%;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.jury-tour-hud .tour-bar {
+  height: 100%;
+  background: #00F0FF;
+  width: 0%;
+  transition: width 0.2s linear;
+}
+
+/* Proof Lab Interactive Solver Modal */
+.proof-dialog {
+  max-width: 760px;
+  width: 90vw;
+  max-height: 85vh;
+  overflow-y: auto;
+  color: #F8FAFC;
+  padding: 20px 24px;
+}
+.proof-dialog h2 {
+  color: #FACC15;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 18px;
+  margin-bottom: 12px;
+  border-bottom: 1px solid rgba(0, 240, 255, 0.3);
+  padding-bottom: 6px;
+}
+.proof-dialog .solver-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-top: 14px;
+}
+.proof-dialog .formula-card {
+  background: rgba(14, 21, 46, 0.85);
+  border: 1px solid rgba(0, 240, 255, 0.2);
+  border-radius: 10px;
+  padding: 12px;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 12px;
+}
+.proof-dialog .formula-card h4 {
+  color: #00F0FF;
+  margin-bottom: 6px;
+}
+.proof-dialog .formula-val {
+  font-size: 16px;
+  font-weight: 700;
+  color: #22C55E;
+}
