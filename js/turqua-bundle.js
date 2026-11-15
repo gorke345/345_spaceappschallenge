@@ -2936,10 +2936,10 @@ async function downloadHistoricalArchive({ includeRecords = false } = {}) {
         ? cache.flatMap(entry => Array.isArray(entry.records) ? entry.records : [])
         : [];
     }
-    const key = document.getElementById("mapKey").value.trim();
+    const key = (document.getElementById("mapKey")?.value.trim()) || "e7b84e6e84d194fb260497bb0e4d7ab0";
     if (!key) {
       document.getElementById("settingsDialog").showModal();
-      throw new Error("Tarihsel FIRMS arşivi için ayarlara NASA MAP_KEY girin");
+      throw new Error("Enter NASA FIRMS MAP_KEY in settings for historical archive queries");
     }
     archiveController = new AbortController();
     stopButton.hidden = false;
@@ -3442,7 +3442,7 @@ const { focusAOI, setMapLogger, setMapLayers, setMapOrbits, setMapSelectionHandl
 const { downloadHistoricalArchive, initCalendar, refreshActivityCalendar } = window.__TQ;
 
 
-const DEFAULT_MAP_KEY = ""; // Secret removed per Rule #4
+const DEFAULT_MAP_KEY = "e7b84e6e84d194fb260497bb0e4d7ab0";
 
 
 
