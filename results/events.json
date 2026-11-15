@@ -1,0 +1,322 @@
+{
+  "generated_by": "pipeline/run_all.py",
+  "computed_at_utc": "2026-11-15T19:30:39.395850+00:00",
+  "provenance": "measured",
+  "n_records": 162266,
+  "input_files": [
+    "fire_archive_J1V-C2_817182.dbf",
+    "fire_archive_M-C61_817180.dbf",
+    "fire_archive_SV-C2_817184.dbf",
+    "fire_nrt_J1V-C2_817182.dbf",
+    "fire_nrt_J2V-C2_817183.dbf",
+    "fire_nrt_LS_817181.dbf",
+    "fire_nrt_M-C61_817180.dbf",
+    "fire_nrt_SV-C2_817184.dbf",
+    "modis_2021_Turkey.csv"
+  ],
+  "top_fire_events": [
+    {
+      "date": "2021-07-29",
+      "centroid_lat": 36.9138,
+      "centroid_lon": 31.4889,
+      "n_detections": 121,
+      "total_frp_mw": 54781.4,
+      "footprint_area_km2": 504.17,
+      "hull_km2": null,
+      "satellites": [
+        "Aqua",
+        "Terra"
+      ],
+      "multi_sensor": true
+    },
+    {
+      "date": "2021-07-29",
+      "centroid_lat": 36.8299,
+      "centroid_lon": 31.5455,
+      "n_detections": 98,
+      "total_frp_mw": 52867.5,
+      "footprint_area_km2": 350.16,
+      "hull_km2": null,
+      "satellites": [
+        "Aqua",
+        "Terra"
+      ],
+      "multi_sensor": true
+    },
+    {
+      "date": "2026-07-29",
+      "centroid_lat": 36.6709,
+      "centroid_lon": 29.4388,
+      "n_detections": 509,
+      "total_frp_mw": 43518.7,
+      "footprint_area_km2": 192.15,
+      "hull_km2": null,
+      "satellites": [
+        "Aqua",
+        "NOAA20",
+        "NOAA21",
+        "SNPP",
+        "Terra"
+      ],
+      "multi_sensor": true
+    },
+    {
+      "date": "2026-09-08",
+      "centroid_lat": 37.4592,
+      "centroid_lon": 35.5265,
+      "n_detections": 511,
+      "total_frp_mw": 22267.7,
+      "footprint_area_km2": 272.37,
+      "hull_km2": null,
+      "satellites": [
+        "Aqua",
+        "NOAA20",
+        "NOAA21",
+        "SNPP",
+        "Terra"
+      ],
+      "multi_sensor": true
+    },
+    {
+      "date": "2021-08-01",
+      "centroid_lat": 37.0451,
+      "centroid_lon": 27.7488,
+      "n_detections": 99,
+      "total_frp_mw": 21065.5,
+      "footprint_area_km2": 314.86,
+      "hull_km2": null,
+      "satellites": [
+        "Aqua",
+        "Terra"
+      ],
+      "multi_sensor": true
+    },
+    {
+      "date": "2026-09-07",
+      "centroid_lat": 37.0784,
+      "centroid_lon": 30.7855,
+      "n_detections": 189,
+      "total_frp_mw": 18348.0,
+      "footprint_area_km2": 80.42,
+      "hull_km2": null,
+      "satellites": [
+        "NOAA20",
+        "NOAA21",
+        "SNPP",
+        "Terra"
+      ],
+      "multi_sensor": true
+    },
+    {
+      "date": "2026-08-29",
+      "centroid_lat": 36.4181,
+      "centroid_lon": 29.3477,
+      "n_detections": 324,
+      "total_frp_mw": 18029.3,
+      "footprint_area_km2": 130.1,
+      "hull_km2": null,
+      "satellites": [
+        "Aqua",
+        "NOAA20",
+        "NOAA21",
+        "SNPP",
+        "Terra"
+      ],
+      "multi_sensor": true
+    },
+    {
+      "date": "2021-07-28",
+      "centroid_lat": 36.8605,
+      "centroid_lon": 31.3339,
+      "n_detections": 20,
+      "total_frp_mw": 15438.4,
+      "footprint_area_km2": 34.44,
+      "hull_km2": null,
+      "satellites": [
+        "Aqua",
+        "Terra"
+      ],
+      "multi_sensor": true
+    },
+    {
+      "date": "2021-08-05",
+      "centroid_lat": 37.3176,
+      "centroid_lon": 28.3401,
+      "n_detections": 64,
+      "total_frp_mw": 14243.6,
+      "footprint_area_km2": 251.17,
+      "hull_km2": null,
+      "satellites": [
+        "Aqua",
+        "Terra"
+      ],
+      "multi_sensor": true
+    },
+    {
+      "date": "2021-07-28",
+      "centroid_lat": 36.9027,
+      "centroid_lon": 31.3441,
+      "n_detections": 23,
+      "total_frp_mw": 13100.1,
+      "footprint_area_km2": 33.5,
+      "hull_km2": null,
+      "satellites": [
+        "Aqua",
+        "Terra"
+      ],
+      "multi_sensor": true
+    },
+    {
+      "date": "2021-07-31",
+      "centroid_lat": 36.7485,
+      "centroid_lon": 32.0141,
+      "n_detections": 72,
+      "total_frp_mw": 12910.6,
+      "footprint_area_km2": 332.7,
+      "hull_km2": null,
+      "satellites": [
+        "Aqua",
+        "Terra"
+      ],
+      "multi_sensor": true
+    },
+    {
+      "date": "2026-07-29",
+      "centroid_lat": 39.3323,
+      "centroid_lon": 26.9247,
+      "n_detections": 189,
+      "total_frp_mw": 12097.6,
+      "footprint_area_km2": 130.32,
+      "hull_km2": null,
+      "satellites": [
+        "Aqua",
+        "NOAA20",
+        "NOAA21",
+        "SNPP",
+        "Terra"
+      ],
+      "multi_sensor": true
+    },
+    {
+      "date": "2021-08-02",
+      "centroid_lat": 36.7829,
+      "centroid_lon": 31.9673,
+      "n_detections": 83,
+      "total_frp_mw": 12071.7,
+      "footprint_area_km2": 199.21,
+      "hull_km2": null,
+      "satellites": [
+        "Aqua",
+        "Terra"
+      ],
+      "multi_sensor": true
+    },
+    {
+      "date": "2026-07-24",
+      "centroid_lat": 36.6761,
+      "centroid_lon": 40.2531,
+      "n_detections": 79,
+      "total_frp_mw": 11539.6,
+      "footprint_area_km2": 117.82,
+      "hull_km2": null,
+      "satellites": [
+        "Aqua",
+        "NOAA20",
+        "NOAA21",
+        "SNPP"
+      ],
+      "multi_sensor": true
+    },
+    {
+      "date": "2021-07-29",
+      "centroid_lat": 36.1829,
+      "centroid_lon": 33.2862,
+      "n_detections": 73,
+      "total_frp_mw": 11149.0,
+      "footprint_area_km2": 234.53,
+      "hull_km2": null,
+      "satellites": [
+        "Aqua",
+        "Terra"
+      ],
+      "multi_sensor": true
+    },
+    {
+      "date": "2026-07-30",
+      "centroid_lat": 36.7097,
+      "centroid_lon": 42.0189,
+      "n_detections": 314,
+      "total_frp_mw": 10579.7,
+      "footprint_area_km2": 91.77,
+      "hull_km2": null,
+      "satellites": [
+        "Aqua",
+        "NOAA20",
+        "NOAA21",
+        "SNPP"
+      ],
+      "multi_sensor": true
+    },
+    {
+      "date": "2021-08-01",
+      "centroid_lat": 36.9869,
+      "centroid_lon": 31.4388,
+      "n_detections": 76,
+      "total_frp_mw": 10220.4,
+      "footprint_area_km2": 221.26,
+      "hull_km2": null,
+      "satellites": [
+        "Aqua",
+        "Terra"
+      ],
+      "multi_sensor": true
+    },
+    {
+      "date": "2026-06-19",
+      "centroid_lat": 36.9117,
+      "centroid_lon": 40.2963,
+      "n_detections": 184,
+      "total_frp_mw": 10071.7,
+      "footprint_area_km2": 78.43,
+      "hull_km2": null,
+      "satellites": [
+        "Aqua",
+        "NOAA20",
+        "NOAA21",
+        "SNPP",
+        "Terra"
+      ],
+      "multi_sensor": true
+    },
+    {
+      "date": "2026-06-23",
+      "centroid_lat": 36.944,
+      "centroid_lon": 41.0746,
+      "n_detections": 215,
+      "total_frp_mw": 10006.9,
+      "footprint_area_km2": 157.94,
+      "hull_km2": null,
+      "satellites": [
+        "Aqua",
+        "NOAA20",
+        "NOAA21",
+        "SNPP"
+      ],
+      "multi_sensor": true
+    },
+    {
+      "date": "2021-07-28",
+      "centroid_lat": 36.9082,
+      "centroid_lon": 31.3919,
+      "n_detections": 22,
+      "total_frp_mw": 9981.6,
+      "footprint_area_km2": 33.88,
+      "hull_km2": null,
+      "satellites": [
+        "Aqua",
+        "Terra"
+      ],
+      "multi_sensor": true
+    }
+  ]
+}

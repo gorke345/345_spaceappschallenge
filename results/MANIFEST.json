@@ -1,54 +1,86 @@
 {
-  "pipeline_version": "3.2.0-spaceapps2026",
-  "computed_at_utc": "2026-11-15T18:43:21.326Z",
-  "pdf_deck_aligned": "When the satellites changed, the fire record changed with them. TURQUA puts it back on one scale.",
-  "team": "TURQUA · Türkiye (Görkem Özer · Yusuf Ziya Ayabakan · Güner Can Özer)",
-  "challenge": "NASA Space Apps 2026: Harmonization of MODIS and VIIRS Hot Spots",
-  "files": [
-    {
-      "path": "data/monthly_tr.json",
-      "bytes": 173480,
-      "sha256": "92f1a682dad17a05329faeee8e394694fa06e10686683a8e65db27b14287c6a2"
+  "generated_by": "pipeline/run_all.py",
+  "computed_at_utc": "2026-11-15T19:30:39.395850+00:00",
+  "provenance": "empirical_measured_and_computed",
+  "pipeline_version": "3.3.0",
+  "total_records_processed": 162266,
+  "total_industrial_sta_filtered": 12362,
+  "n_frp_missing": 0,
+  "skipped_bad_records": 0,
+  "elapsed_seconds": 48.63,
+  "input_files": {
+    "fire_archive_J1V-C2_817182.dbf": {
+      "sha256": "f00ca5813dd7b0e1c38a63522e78440a8edaa2e000123e3d9d9ba8d5be0295f2",
+      "raw_total_records": 11290842,
+      "turkey_vegetation_fires": 15812,
+      "sta_filtered": 2731,
+      "corrupt_records": 0,
+      "elapsed_sec": 5.0
     },
-    {
-      "path": "data/cells_tr.json",
-      "bytes": 88944,
-      "sha256": "6af1bdee66ae050e3a77c7eef97f14c93719d738d3743cd0b43e8cb2880c3e40"
+    "fire_archive_M-C61_817180.dbf": {
+      "sha256": "29dc6190933ebfb1abaac57ca88642a28cd407f9ff8465618ddfa458d051a939",
+      "raw_total_records": 2077256,
+      "turkey_vegetation_fires": 5583,
+      "sta_filtered": 79,
+      "corrupt_records": 0,
+      "elapsed_sec": 0.71
     },
-    {
-      "path": "data/proof.json",
-      "bytes": 15647,
-      "sha256": "772df6214aa83d6580d848ad872eec54a09b4a92c1d2d9f57499f6d9a3ae1731"
+    "fire_archive_SV-C2_817184.dbf": {
+      "sha256": "a6bcc1314b3880f879d53aa28394a8f3bc2eb0a0ec3414b8e214091ded456bfb",
+      "raw_total_records": 10130192,
+      "turkey_vegetation_fires": 14848,
+      "sta_filtered": 2194,
+      "corrupt_records": 0,
+      "elapsed_sec": 4.58
     },
-    {
-      "path": "data/meta.json",
-      "bytes": 682,
-      "sha256": "e82e7956b82df6611f5d8fb5c392fe9d8830f8c6bb82bbe4c7780c0009b4b31f"
+    "fire_nrt_J1V-C2_817182.dbf": {
+      "sha256": "d122f1fd1fad70c98d2bbfd5fd799c924f54a6f0cf08213b4467c93627800dc1",
+      "raw_total_records": 7187698,
+      "turkey_vegetation_fires": 28874,
+      "sta_filtered": 1546,
+      "corrupt_records": 0,
+      "elapsed_sec": 3.15
     },
-    {
-      "path": "data/preloaded-data.js",
-      "bytes": 376698,
-      "sha256": "8da5d7e5719ce9044339ae9124fca8a0f5714003a2c95433232836dd8a498024"
+    "fire_nrt_J2V-C2_817183.dbf": {
+      "sha256": "524fd9b54f47e91831484e5eba69f381fae875a725d91d2033ac7951e6e2cc3e",
+      "raw_total_records": 17706217,
+      "turkey_vegetation_fires": 54715,
+      "sta_filtered": 4236,
+      "corrupt_records": 0,
+      "elapsed_sec": 7.81
     },
-    {
-      "path": "results/seams.json",
-      "bytes": 1593,
-      "sha256": "6932248e5ad293b12447db90f427fe634a3e0bda2875895ec945ca40788134a3"
+    "fire_nrt_LS_817181.dbf": {
+      "sha256": "0a737a612368f147037eecebe3b0f7b7d75ace9fda0e43fc9acb51e886d8f34d",
+      "raw_total_records": 1386257,
+      "turkey_vegetation_fires": 0,
+      "sta_filtered": 0,
+      "corrupt_records": 0,
+      "elapsed_sec": 0.41
     },
-    {
-      "path": "results/loyo.json",
-      "bytes": 1707,
-      "sha256": "a6c81ea68c129b39e50209592c5d2ec83ec7ede6fa0e7760dab03750e1a1edb6"
+    "fire_nrt_M-C61_817180.dbf": {
+      "sha256": "cbbbe9e9b4f96a9c51b12aaf4e81d9e39fbdc3a71f91d02e65a21762168cd14a",
+      "raw_total_records": 1327880,
+      "turkey_vegetation_fires": 6063,
+      "sta_filtered": 28,
+      "corrupt_records": 0,
+      "elapsed_sec": 0.46
     },
-    {
-      "path": "results/drift.json",
-      "bytes": 1645,
-      "sha256": "4e59a20ac86c689a0539077056d5ba26f0b6a5d9b27fc23b9e8d3e79c7057c49"
+    "fire_nrt_SV-C2_817184.dbf": {
+      "sha256": "ea70d13f6662ee9f09085ecae4d075e3c8a2dba9d5876373f8f52010feb5c5fd",
+      "raw_total_records": 6651592,
+      "turkey_vegetation_fires": 27033,
+      "sta_filtered": 1459,
+      "corrupt_records": 0,
+      "elapsed_sec": 2.33
     },
-    {
-      "path": "results/table_page5.json",
-      "bytes": 1316,
-      "sha256": "6b6463b068207ed927c7d87ae1f35f23915a1492bc080e74d545efcb5ffc42c7"
+    "modis_2021_Turkey.csv": {
+      "sha256": "9a45a6b675f4c40b3050b4635f56c746d4428dc4f9f31ed82379aa21a9af4cba",
+      "turkey_vegetation_fires": 9338,
+      "sta_filtered": 89,
+      "corrupt_records": 0,
+      "elapsed_sec": 0.04
     }
-  ]
+  },
+  "post_snpp_cutoff_utc": "2026-11-02T13:00:00Z",
+  "post_snpp_reference": "https://www.earthdata.nasa.gov/data/tools/firms"
 }

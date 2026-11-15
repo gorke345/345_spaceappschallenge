@@ -34,30 +34,24 @@ export let activePopup = null;
     mapInstance.addImage("fire-emoji", { width: size, height: size, data: imgData.data });
   }
 
-  // Also load high-resolution assets/flame.svg if available
-  if (typeof mapInstance.loadImage === "function") {
-    mapInstance.loadImage("assets/flame.svg", (err, image) => {
-      if (!err && image) {
-        try {
-          if (mapInstance.hasImage("turqua-flame")) mapInstance.removeImage("turqua-flame");
-          mapInstance.addImage("turqua-flame", image);
-          if (mapInstance.hasImage("fire-emoji")) mapInstance.removeImage("fire-emoji");
-          mapInstance.addImage("fire-emoji", image);
-        } catch (_) {}
+  // Smoothly blend assets/flame.svg into canvas when loaded
+  const img = new Image(size, size);
+  img.onload = () => {
+    try {
+      ctx.clearRect(0, 0, size, size);
+      ctx.drawImage(img, 0, 0, size, size);
+      const updated = ctx.getImageData(0, 0, size, size);
+      if (mapInstance.hasImage("turqua-flame")) {
+        mapInstance.removeImage("turqua-flame");
+        mapInstance.addImage("turqua-flame", { width: size, height: size, data: updated.data });
       }
-    });
-  } else {
-    const img = new Image(64, 64);
-    img.onload = () => {
-      try {
-        if (mapInstance.hasImage("turqua-flame")) mapInstance.removeImage("turqua-flame");
-        mapInstance.addImage("turqua-flame", img);
-        if (mapInstance.hasImage("fire-emoji")) mapInstance.removeImage("fire-emoji");
-        mapInstance.addImage("fire-emoji", img);
-      } catch (_) {}
-    };
-    img.src = "assets/flame.svg";
-  }
+      if (mapInstance.hasImage("fire-emoji")) {
+        mapInstance.removeImage("fire-emoji");
+        mapInstance.addImage("fire-emoji", { width: size, height: size, data: updated.data });
+      }
+    } catch (_) {}
+  };
+  img.src = "assets/flame.svg";
 }
 const emptyFeatureCollection = () => ({ type: "FeatureCollection", features: [] });
 const hiddenFilter = ["==", ["get", "kind"], "__hidden__"];

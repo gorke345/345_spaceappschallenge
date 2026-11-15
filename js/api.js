@@ -1,6 +1,6 @@
 import { initProofLab, updateInlineProof } from "../proof/proof-lab.js";
 import { CASE_STUDIES_OFFLINE } from "../data/case-studies-offline.js";
-const DEFAULT_MAP_KEY = "e7b84e6e84d194fb260497bb0e4d7ab0";
+const DEFAULT_MAP_KEY = "";
 import {
   applyDataQuery,
   clusterProperties,

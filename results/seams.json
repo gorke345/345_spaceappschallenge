@@ -1,68 +1,61 @@
 {
-  "title": "Seam Analysis & Raw Count Inflation vs Fixed Instrument (Terra MODIS 1km)",
-  "pdf_reference": "NASA Space Apps 2026 Presentation Page 2/7 & Page 5/7",
-  "region": "Türkiye (35.8-42.1N, 25.6-44.8E)",
-  "period": "2001-2021",
-  "fixed_instrument": "Terra MODIS 1km",
-  "pixel_ratio_modis_viirs": 7.11,
-  "raw_count_inflation_spread": 17.49,
-  "turqua_harmonized_spread": 1.13,
-  "artificial_inflation_removed_pct": 98,
-  "eras": [
+  "generated_by": "pipeline/run_all.py",
+  "computed_at_utc": "2026-11-15T19:30:39.395850+00:00",
+  "provenance": "measured",
+  "n_records": 162266,
+  "input_files": [
+    "fire_archive_J1V-C2_817182.dbf",
+    "fire_archive_M-C61_817180.dbf",
+    "fire_archive_SV-C2_817184.dbf",
+    "fire_nrt_J1V-C2_817182.dbf",
+    "fire_nrt_J2V-C2_817183.dbf",
+    "fire_nrt_LS_817181.dbf",
+    "fire_nrt_M-C61_817180.dbf",
+    "fire_nrt_SV-C2_817184.dbf",
+    "modis_2021_Turkey.csv"
+  ],
+  "seams_table": [
     {
-      "era": "1 Sat (2001–2002)",
-      "satellites": [
+      "year": "2021",
+      "raw_hotspots": 9338,
+      "terra_bd": 2300,
+      "viirs_bd": 0,
+      "q_raw_over_terra": 4.06,
+      "q_viirs_over_terra": 0.0,
+      "active_satellites": [
+        "Aqua",
         "Terra"
-      ],
-      "raw_over_terra": 1.81,
-      "bd_over_terra": 1.25,
-      "turqua_harm_over_terra": 4.96
+      ]
     },
     {
-      "era": "2 Sat (2003–2011)",
-      "satellites": [
-        "Terra",
-        "Aqua"
-      ],
-      "raw_over_terra": 3.76,
-      "bd_over_terra": 2.24,
-      "turqua_harm_over_terra": 4.8
-    },
-    {
-      "era": "3 Sat (2012–2018)",
-      "satellites": [
-        "Terra",
+      "year": "2025",
+      "raw_hotspots": 34308,
+      "terra_bd": 416,
+      "viirs_bd": 12433,
+      "q_raw_over_terra": 82.47,
+      "q_viirs_over_terra": 29.89,
+      "active_satellites": [
         "Aqua",
-        "Suomi-NPP"
-      ],
-      "raw_over_terra": 14,
-      "bd_over_terra": 6.37,
-      "turqua_harm_over_terra": 4.83
+        "NOAA20",
+        "NOAA21",
+        "SNPP",
+        "Terra"
+      ]
     },
     {
-      "era": "4 Sat (2019–2023)",
-      "satellites": [
-        "Terra",
+      "year": "2026",
+      "raw_hotspots": 118620,
+      "terra_bd": 3711,
+      "viirs_bd": 31939,
+      "q_raw_over_terra": 31.96,
+      "q_viirs_over_terra": 8.61,
+      "active_satellites": [
         "Aqua",
-        "Suomi-NPP",
-        "NOAA-20"
-      ],
-      "raw_over_terra": 23.59,
-      "bd_over_terra": 10.12,
-      "turqua_harm_over_terra": 5.43
-    },
-    {
-      "era": "5 Sat (2024–2026)",
-      "satellites": [
-        "Terra",
-        "Aqua",
-        "Suomi-NPP",
-        "NOAA-20",
-        "NOAA-21"
-      ],
-      "raw_over_terra": 31.66,
-      "bd_over_terra": 11.53,
-      "turqua_harm_over_terra": 4.8
+        "NOAA20",
+        "NOAA21",
+        "SNPP",
+        "Terra"
+      ]
     }
   ]
 }

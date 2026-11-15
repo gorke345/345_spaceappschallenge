@@ -1,0 +1,116 @@
+{
+  "generated_by": "pipeline/run_all.py",
+  "computed_at_utc": "2026-11-15T19:30:39.395850+00:00",
+  "provenance": "computed",
+  "n_records": 162266,
+  "input_files": [
+    "fire_archive_J1V-C2_817182.dbf",
+    "fire_archive_M-C61_817180.dbf",
+    "fire_archive_SV-C2_817184.dbf",
+    "fire_nrt_J1V-C2_817182.dbf",
+    "fire_nrt_J2V-C2_817183.dbf",
+    "fire_nrt_LS_817181.dbf",
+    "fire_nrt_M-C61_817180.dbf",
+    "fire_nrt_SV-C2_817184.dbf",
+    "modis_2021_Turkey.csv"
+  ],
+  "global_k1": 2.9705,
+  "monthly_coefficients": {
+    "1": {
+      "month": 1,
+      "k1": 3.0223,
+      "k2": 2.4783,
+      "raw_k1": 3.3333,
+      "n_cell_months": 5,
+      "shrinkage_applied": true
+    },
+    "2": {
+      "month": 2,
+      "k1": 2.8182,
+      "k2": 2.3109,
+      "raw_k1": 2.8182,
+      "n_cell_months": 60,
+      "shrinkage_applied": false
+    },
+    "3": {
+      "month": 3,
+      "k1": 1.7843,
+      "k2": 1.4631,
+      "raw_k1": 1.7843,
+      "n_cell_months": 86,
+      "shrinkage_applied": false
+    },
+    "4": {
+      "month": 4,
+      "k1": 2.4471,
+      "k2": 2.0066,
+      "raw_k1": 2.4471,
+      "n_cell_months": 47,
+      "shrinkage_applied": false
+    },
+    "5": {
+      "month": 5,
+      "k1": 2.7087,
+      "k2": 2.2212,
+      "raw_k1": 2.7087,
+      "n_cell_months": 50,
+      "shrinkage_applied": false
+    },
+    "6": {
+      "month": 6,
+      "k1": 2.1845,
+      "k2": 1.7913,
+      "raw_k1": 2.1845,
+      "n_cell_months": 306,
+      "shrinkage_applied": false
+    },
+    "7": {
+      "month": 7,
+      "k1": 2.6654,
+      "k2": 2.1856,
+      "raw_k1": 2.6654,
+      "n_cell_months": 525,
+      "shrinkage_applied": false
+    },
+    "8": {
+      "month": 8,
+      "k1": 3.1466,
+      "k2": 2.5802,
+      "raw_k1": 3.1466,
+      "n_cell_months": 456,
+      "shrinkage_applied": false
+    },
+    "9": {
+      "month": 9,
+      "k1": 3.5095,
+      "k2": 2.8778,
+      "raw_k1": 3.5095,
+      "n_cell_months": 643,
+      "shrinkage_applied": false
+    },
+    "10": {
+      "month": 10,
+      "k1": 3.3657,
+      "k2": 2.7599,
+      "raw_k1": 3.3657,
+      "n_cell_months": 299,
+      "shrinkage_applied": false
+    },
+    "11": {
+      "month": 11,
+      "k1": 2.9945,
+      "k2": 2.4555,
+      "raw_k1": 2.9945,
+      "n_cell_months": 406,
+      "shrinkage_applied": false
+    },
+    "12": {
+      "month": 12,
+      "k1": 3.468,
+      "k2": 2.8438,
+      "raw_k1": 3.468,
+      "n_cell_months": 119,
+      "shrinkage_applied": false
+    }
+  }
+}

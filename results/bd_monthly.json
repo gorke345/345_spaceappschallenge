@@ -1,0 +1,723 @@
+{
+  "generated_by": "pipeline/run_all.py",
+  "computed_at_utc": "2026-11-15T19:30:39.395850+00:00",
+  "provenance": "measured",
+  "n_records": 162266,
+  "input_files": [
+    "fire_archive_J1V-C2_817182.dbf",
+    "fire_archive_M-C61_817180.dbf",
+    "fire_archive_SV-C2_817184.dbf",
+    "fire_nrt_J1V-C2_817182.dbf",
+    "fire_nrt_J2V-C2_817183.dbf",
+    "fire_nrt_LS_817181.dbf",
+    "fire_nrt_M-C61_817180.dbf",
+    "fire_nrt_SV-C2_817184.dbf",
+    "modis_2021_Turkey.csv"
+  ],
+  "series": [
+    {
+      "ym": "2021-01",
+      "satellite": "Aqua",
+      "burning_days": 159,
+      "raw_hotspots": 286,
+      "total_frp_mw": 5043.9,
+      "provenance": "measured"
+    },
+    {
+      "ym": "2021-01",
+      "satellite": "Terra",
+      "burning_days": 96,
+      "raw_hotspots": 144,
+      "total_frp_mw": 1974.4,
+      "provenance": "measured"
+    },
+    {
+      "ym": "2021-02",
+      "satellite": "Aqua",
+      "burning_days": 141,
+      "raw_hotspots": 170,
+      "total_frp_mw": 1677.0,
+      "provenance": "measured"
+    },
+    {
+      "ym": "2021-02",
+      "satellite": "Terra",
+      "burning_days": 115,
+      "raw_hotspots": 140,
+      "total_frp_mw": 1351.1,
+      "provenance": "measured"
+    },
+    {
+      "ym": "2021-03",
+      "satellite": "Aqua",
+      "burning_days": 33,
+      "raw_hotspots": 38,
+      "total_frp_mw": 323.1,
+      "provenance": "measured"
+    },
+    {
+      "ym": "2021-03",
+      "satellite": "Terra",
+      "burning_days": 50,
+      "raw_hotspots": 58,
+      "total_frp_mw": 620.4,
+      "provenance": "measured"
+    },
+    {
+      "ym": "2021-04",
+      "satellite": "Aqua",
+      "burning_days": 23,
+      "raw_hotspots": 33,
+      "total_frp_mw": 452.1,
+      "provenance": "measured"
+    },
+    {
+      "ym": "2021-04",
+      "satellite": "Terra",
+      "burning_days": 43,
+      "raw_hotspots": 48,
+      "total_frp_mw": 390.4,
+      "provenance": "measured"
+    },
+    {
+      "ym": "2021-05",
+      "satellite": "Aqua",
+      "burning_days": 101,
+      "raw_hotspots": 138,
+      "total_frp_mw": 3396.9,
+      "provenance": "measured"
+    },
+    {
+      "ym": "2021-05",
+      "satellite": "Terra",
+      "burning_days": 108,
+      "raw_hotspots": 164,
+      "total_frp_mw": 3975.4,
+      "provenance": "measured"
+    },
+    {
+      "ym": "2021-06",
+      "satellite": "Aqua",
+      "burning_days": 185,
+      "raw_hotspots": 274,
+      "total_frp_mw": 13079.3,
+      "provenance": "measured"
+    },
+    {
+      "ym": "2021-06",
+      "satellite": "Terra",
+      "burning_days": 450,
+      "raw_hotspots": 751,
+      "total_frp_mw": 20629.7,
+      "provenance": "measured"
+    },
+    {
+      "ym": "2021-07",
+      "satellite": "Aqua",
+      "burning_days": 217,
+      "raw_hotspots": 892,
+      "total_frp_mw": 150350.2,
+      "provenance": "measured"
+    },
+    {
+      "ym": "2021-07",
+      "satellite": "Terra",
+      "burning_days": 258,
+      "raw_hotspots": 970,
+      "total_frp_mw": 149922.1,
+      "provenance": "measured"
+    },
+    {
+      "ym": "2021-08",
+      "satellite": "Aqua",
+      "burning_days": 274,
+      "raw_hotspots": 1025,
+      "total_frp_mw": 91312.0,
+      "provenance": "measured"
+    },
+    {
+      "ym": "2021-08",
+      "satellite": "Terra",
+      "burning_days": 245,
+      "raw_hotspots": 1042,
+      "total_frp_mw": 91775.4,
+      "provenance": "measured"
+    },
+    {
+      "ym": "2021-09",
+      "satellite": "Aqua",
+      "burning_days": 144,
+      "raw_hotspots": 184,
+      "total_frp_mw": 4913.6,
+      "provenance": "measured"
+    },
+    {
+      "ym": "2021-09",
+      "satellite": "Terra",
+      "burning_days": 129,
+      "raw_hotspots": 179,
+      "total_frp_mw": 4440.5,
+      "provenance": "measured"
+    },
+    {
+      "ym": "2021-10",
+      "satellite": "Aqua",
+      "burning_days": 275,
+      "raw_hotspots": 368,
+      "total_frp_mw": 5574.1,
+      "provenance": "measured"
+    },
+    {
+      "ym": "2021-10",
+      "satellite": "Terra",
+      "burning_days": 253,
+      "raw_hotspots": 307,
+      "total_frp_mw": 3792.3,
+      "provenance": "measured"
+    },
+    {
+      "ym": "2021-11",
+      "satellite": "Aqua",
+      "burning_days": 577,
+      "raw_hotspots": 884,
+      "total_frp_mw": 14692.1,
+      "provenance": "measured"
+    },
+    {
+      "ym": "2021-11",
+      "satellite": "Terra",
+      "burning_days": 467,
+      "raw_hotspots": 771,
+      "total_frp_mw": 12887.0,
+      "provenance": "measured"
+    },
+    {
+      "ym": "2021-12",
+      "satellite": "Aqua",
+      "burning_days": 221,
+      "raw_hotspots": 354,
+      "total_frp_mw": 4679.3,
+      "provenance": "measured"
+    },
+    {
+      "ym": "2021-12",
+      "satellite": "Terra",
+      "burning_days": 86,
+      "raw_hotspots": 118,
+      "total_frp_mw": 2346.4,
+      "provenance": "measured"
+    },
+    {
+      "ym": "2025-10",
+      "satellite": "Aqua",
+      "burning_days": 318,
+      "raw_hotspots": 428,
+      "total_frp_mw": 7182.2,
+      "provenance": "measured"
+    },
+    {
+      "ym": "2025-10",
+      "satellite": "NOAA20",
+      "burning_days": 2045,
+      "raw_hotspots": 3261,
+      "total_frp_mw": 18625.9,
+      "provenance": "measured"
+    },
+    {
+      "ym": "2025-10",
+      "satellite": "NOAA21",
+      "burning_days": 2825,
+      "raw_hotspots": 5035,
+      "total_frp_mw": 22379.6,
+      "provenance": "measured"
+    },
+    {
+      "ym": "2025-10",
+      "satellite": "SNPP",
+      "burning_days": 1804,
+      "raw_hotspots": 2806,
+      "total_frp_mw": 15442.9,
+      "provenance": "measured"
+    },
+    {
+      "ym": "2025-10",
+      "satellite": "Terra",
+      "burning_days": 164,
+      "raw_hotspots": 198,
+      "total_frp_mw": 2115.9,
+      "provenance": "measured"
+    },
+    {
+      "ym": "2025-11",
+      "satellite": "Aqua",
+      "burning_days": 666,
+      "raw_hotspots": 966,
+      "total_frp_mw": 16355.3,
+      "provenance": "measured"
+    },
+    {
+      "ym": "2025-11",
+      "satellite": "NOAA20",
+      "burning_days": 2249,
+      "raw_hotspots": 4257,
+      "total_frp_mw": 26590.7,
+      "provenance": "measured"
+    },
+    {
+      "ym": "2025-11",
+      "satellite": "NOAA21",
+      "burning_days": 3161,
+      "raw_hotspots": 6158,
+      "total_frp_mw": 37952.1,
+      "provenance": "measured"
+    },
+    {
+      "ym": "2025-11",
+      "satellite": "SNPP",
+      "burning_days": 2051,
+      "raw_hotspots": 4218,
+      "total_frp_mw": 28589.9,
+      "provenance": "measured"
+    },
+    {
+      "ym": "2025-11",
+      "satellite": "Terra",
+      "burning_days": 242,
+      "raw_hotspots": 329,
+      "total_frp_mw": 4963.2,
+      "provenance": "measured"
+    },
+    {
+      "ym": "2025-12",
+      "satellite": "Aqua",
+      "burning_days": 263,
+      "raw_hotspots": 439,
+      "total_frp_mw": 5685.5,
+      "provenance": "measured"
+    },
+    {
+      "ym": "2025-12",
+      "satellite": "NOAA20",
+      "burning_days": 836,
+      "raw_hotspots": 1628,
+      "total_frp_mw": 8751.4,
+      "provenance": "measured"
+    },
+    {
+      "ym": "2025-12",
+      "satellite": "NOAA21",
+      "burning_days": 1426,
+      "raw_hotspots": 2854,
+      "total_frp_mw": 15434.6,
+      "provenance": "measured"
+    },
+    {
+      "ym": "2025-12",
+      "satellite": "SNPP",
+      "burning_days": 799,
+      "raw_hotspots": 1719,
+      "total_frp_mw": 9956.3,
+      "provenance": "measured"
+    },
+    {
+      "ym": "2025-12",
+      "satellite": "Terra",
+      "burning_days": 10,
+      "raw_hotspots": 12,
+      "total_frp_mw": 179.1,
+      "provenance": "measured"
+    },
+    {
+      "ym": "2026-01",
+      "satellite": "Aqua",
+      "burning_days": 15,
+      "raw_hotspots": 19,
+      "total_frp_mw": 420.5,
+      "provenance": "measured"
+    },
+    {
+      "ym": "2026-01",
+      "satellite": "NOAA20",
+      "burning_days": 202,
+      "raw_hotspots": 312,
+      "total_frp_mw": 1217.2,
+      "provenance": "measured"
+    },
+    {
+      "ym": "2026-01",
+      "satellite": "NOAA21",
+      "burning_days": 488,
+      "raw_hotspots": 827,
+      "total_frp_mw": 2816.9,
+      "provenance": "measured"
+    },
+    {
+      "ym": "2026-01",
+      "satellite": "SNPP",
+      "burning_days": 150,
+      "raw_hotspots": 226,
+      "total_frp_mw": 1054.3,
+      "provenance": "measured"
+    },
+    {
+      "ym": "2026-01",
+      "satellite": "Terra",
+      "burning_days": 3,
+      "raw_hotspots": 5,
+      "total_frp_mw": 128.1,
+      "provenance": "measured"
+    },
+    {
+      "ym": "2026-02",
+      "satellite": "Aqua",
+      "burning_days": 103,
+      "raw_hotspots": 135,
+      "total_frp_mw": 1770.7,
+      "provenance": "measured"
+    },
+    {
+      "ym": "2026-02",
+      "satellite": "NOAA20",
+      "burning_days": 414,
+      "raw_hotspots": 672,
+      "total_frp_mw": 3879.6,
+      "provenance": "measured"
+    },
+    {
+      "ym": "2026-02",
+      "satellite": "NOAA21",
+      "burning_days": 761,
+      "raw_hotspots": 1360,
+      "total_frp_mw": 6159.9,
+      "provenance": "measured"
+    },
+    {
+      "ym": "2026-02",
+      "satellite": "SNPP",
+      "burning_days": 378,
+      "raw_hotspots": 649,
+      "total_frp_mw": 3925.1,
+      "provenance": "measured"
+    },
+    {
+      "ym": "2026-02",
+      "satellite": "Terra",
+      "burning_days": 14,
+      "raw_hotspots": 17,
+      "total_frp_mw": 332.1,
+      "provenance": "measured"
+    },
+    {
+      "ym": "2026-03",
+      "satellite": "Aqua",
+      "burning_days": 130,
+      "raw_hotspots": 173,
+      "total_frp_mw": 2995.4,
+      "provenance": "measured"
+    },
+    {
+      "ym": "2026-03",
+      "satellite": "NOAA20",
+      "burning_days": 620,
+      "raw_hotspots": 866,
+      "total_frp_mw": 4798.9,
+      "provenance": "measured"
+    },
+    {
+      "ym": "2026-03",
+      "satellite": "NOAA21",
+      "burning_days": 973,
+      "raw_hotspots": 1538,
+      "total_frp_mw": 6159.5,
+      "provenance": "measured"
+    },
+    {
+      "ym": "2026-03",
+      "satellite": "SNPP",
+      "burning_days": 391,
+      "raw_hotspots": 563,
+      "total_frp_mw": 3098.1,
+      "provenance": "measured"
+    },
+    {
+      "ym": "2026-03",
+      "satellite": "Terra",
+      "burning_days": 22,
+      "raw_hotspots": 28,
+      "total_frp_mw": 678.0,
+      "provenance": "measured"
+    },
+    {
+      "ym": "2026-04",
+      "satellite": "Aqua",
+      "burning_days": 116,
+      "raw_hotspots": 133,
+      "total_frp_mw": 1434.6,
+      "provenance": "measured"
+    },
+    {
+      "ym": "2026-04",
+      "satellite": "NOAA20",
+      "burning_days": 300,
+      "raw_hotspots": 359,
+      "total_frp_mw": 971.2,
+      "provenance": "measured"
+    },
+    {
+      "ym": "2026-04",
+      "satellite": "NOAA21",
+      "burning_days": 843,
+      "raw_hotspots": 1485,
+      "total_frp_mw": 3846.0,
+      "provenance": "measured"
+    },
+    {
+      "ym": "2026-04",
+      "satellite": "SNPP",
+      "burning_days": 223,
+      "raw_hotspots": 261,
+      "total_frp_mw": 783.8,
+      "provenance": "measured"
+    },
+    {
+      "ym": "2026-04",
+      "satellite": "Terra",
+      "burning_days": 216,
+      "raw_hotspots": 265,
+      "total_frp_mw": 2741.4,
+      "provenance": "measured"
+    },
+    {
+      "ym": "2026-05",
+      "satellite": "Aqua",
+      "burning_days": 127,
+      "raw_hotspots": 152,
+      "total_frp_mw": 2297.4,
+      "provenance": "measured"
+    },
+    {
+      "ym": "2026-05",
+      "satellite": "NOAA20",
+      "burning_days": 319,
+      "raw_hotspots": 394,
+      "total_frp_mw": 1007.2,
+      "provenance": "measured"
+    },
+    {
+      "ym": "2026-05",
+      "satellite": "NOAA21",
+      "burning_days": 1072,
+      "raw_hotspots": 2143,
+      "total_frp_mw": 5172.6,
+      "provenance": "measured"
+    },
+    {
+      "ym": "2026-05",
+      "satellite": "Terra",
+      "burning_days": 310,
+      "raw_hotspots": 411,
+      "total_frp_mw": 4869.7,
+      "provenance": "measured"
+    },
+    {
+      "ym": "2026-06",
+      "satellite": "Aqua",
+      "burning_days": 320,
+      "raw_hotspots": 529,
+      "total_frp_mw": 37736.1,
+      "provenance": "measured"
+    },
+    {
+      "ym": "2026-06",
+      "satellite": "NOAA20",
+      "burning_days": 1505,
+      "raw_hotspots": 4063,
+      "total_frp_mw": 50490.7,
+      "provenance": "measured"
+    },
+    {
+      "ym": "2026-06",
+      "satellite": "NOAA21",
+      "burning_days": 2545,
+      "raw_hotspots": 6102,
+      "total_frp_mw": 58628.3,
+      "provenance": "measured"
+    },
+    {
+      "ym": "2026-06",
+      "satellite": "SNPP",
+      "burning_days": 1549,
+      "raw_hotspots": 4406,
+      "total_frp_mw": 50921.6,
+      "provenance": "measured"
+    },
+    {
+      "ym": "2026-06",
+      "satellite": "Terra",
+      "burning_days": 836,
+      "raw_hotspots": 1344,
+      "total_frp_mw": 29531.6,
+      "provenance": "measured"
+    },
+    {
+      "ym": "2026-07",
+      "satellite": "Aqua",
+      "burning_days": 508,
+      "raw_hotspots": 896,
+      "total_frp_mw": 68452.6,
+      "provenance": "measured"
+    },
+    {
+      "ym": "2026-07",
+      "satellite": "NOAA20",
+      "burning_days": 3336,
+      "raw_hotspots": 7281,
+      "total_frp_mw": 70798.4,
+      "provenance": "measured"
+    },
+    {
+      "ym": "2026-07",
+      "satellite": "NOAA21",
+      "burning_days": 3356,
+      "raw_hotspots": 7790,
+      "total_frp_mw": 93196.9,
+      "provenance": "measured"
+    },
+    {
+      "ym": "2026-07",
+      "satellite": "SNPP",
+      "burning_days": 2732,
+      "raw_hotspots": 6373,
+      "total_frp_mw": 70032.4,
+      "provenance": "measured"
+    },
+    {
+      "ym": "2026-07",
+      "satellite": "Terra",
+      "burning_days": 904,
+      "raw_hotspots": 1352,
+      "total_frp_mw": 45238.4,
+      "provenance": "measured"
+    },
+    {
+      "ym": "2026-08",
+      "satellite": "Aqua",
+      "burning_days": 401,
+      "raw_hotspots": 652,
+      "total_frp_mw": 28359.0,
+      "provenance": "measured"
+    },
+    {
+      "ym": "2026-08",
+      "satellite": "NOAA20",
+      "burning_days": 3601,
+      "raw_hotspots": 7873,
+      "total_frp_mw": 65894.7,
+      "provenance": "measured"
+    },
+    {
+      "ym": "2026-08",
+      "satellite": "NOAA21",
+      "burning_days": 3348,
+      "raw_hotspots": 6931,
+      "total_frp_mw": 73910.1,
+      "provenance": "measured"
+    },
+    {
+      "ym": "2026-08",
+      "satellite": "SNPP",
+      "burning_days": 3372,
+      "raw_hotspots": 7625,
+      "total_frp_mw": 66713.5,
+      "provenance": "measured"
+    },
+    {
+      "ym": "2026-08",
+      "satellite": "Terra",
+      "burning_days": 628,
+      "raw_hotspots": 837,
+      "total_frp_mw": 16747.2,
+      "provenance": "measured"
+    },
+    {
+      "ym": "2026-09",
+      "satellite": "Aqua",
+      "burning_days": 651,
+      "raw_hotspots": 1107,
+      "total_frp_mw": 41045.6,
+      "provenance": "measured"
+    },
+    {
+      "ym": "2026-09",
+      "satellite": "NOAA20",
+      "burning_days": 5747,
+      "raw_hotspots": 13594,
+      "total_frp_mw": 86498.2,
+      "provenance": "measured"
+    },
+    {
+      "ym": "2026-09",
+      "satellite": "NOAA21",
+      "burning_days": 5364,
+      "raw_hotspots": 12379,
+      "total_frp_mw": 96302.7,
+      "provenance": "measured"
+    },
+    {
+      "ym": "2026-09",
+      "satellite": "SNPP",
+      "burning_days": 5294,
+      "raw_hotspots": 12941,
+      "total_frp_mw": 85189.3,
+      "provenance": "measured"
+    },
+    {
+      "ym": "2026-09",
+      "satellite": "Terra",
+      "burning_days": 771,
+      "raw_hotspots": 1187,
+      "total_frp_mw": 52499.5,
+      "provenance": "measured"
+    },
+    {
+      "ym": "2026-10",
+      "satellite": "Aqua",
+      "burning_days": 16,
+      "raw_hotspots": 21,
+      "total_frp_mw": 321.0,
+      "provenance": "measured"
+    },
+    {
+      "ym": "2026-10",
+      "satellite": "NOAA20",
+      "burning_days": 72,
+      "raw_hotspots": 126,
+      "total_frp_mw": 788.5,
+      "provenance": "measured"
+    },
+    {
+      "ym": "2026-10",
+      "satellite": "NOAA21",
+      "burning_days": 76,
+      "raw_hotspots": 113,
+      "total_frp_mw": 762.9,
+      "provenance": "measured"
+    },
+    {
+      "ym": "2026-10",
+      "satellite": "SNPP",
+      "burning_days": 61,
+      "raw_hotspots": 94,
+      "total_frp_mw": 565.0,
+      "provenance": "measured"
+    },
+    {
+      "ym": "2026-10",
+      "satellite": "Terra",
+      "burning_days": 7,
+      "raw_hotspots": 11,
+      "total_frp_mw": 200.0,
+      "provenance": "measured"
+    }
+  ]
+}

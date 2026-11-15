@@ -1,48 +1,67 @@
 {
-  "title": "How we try to break it — Test on Türkiye",
-  "source": "NASA Space Apps 2026 Presentation Page 5/7",
-  "generated_by": "pipeline/harmonize_and_validate.py",
-  "headers": [
-    "TEST ON TÜRKIYE",
-    "RAW / PLAIN RATIO",
-    "TURQUA"
+  "generated_by": "pipeline/run_all.py",
+  "computed_at_utc": "2026-11-15T19:30:39.395850+00:00",
+  "provenance": "computed_and_measured",
+  "n_records": 162266,
+  "input_files": [
+    "fire_archive_J1V-C2_817182.dbf",
+    "fire_archive_M-C61_817180.dbf",
+    "fire_archive_SV-C2_817184.dbf",
+    "fire_nrt_J1V-C2_817182.dbf",
+    "fire_nrt_J2V-C2_817183.dbf",
+    "fire_nrt_LS_817181.dbf",
+    "fire_nrt_M-C61_817180.dbf",
+    "fire_nrt_SV-C2_817184.dbf",
+    "modis_2021_Turkey.csv"
   ],
-  "rows": [
+  "verification_table": [
     {
-      "test": "Seams: series ÷ fixed instrument, 2001–2021",
-      "raw_plain_ratio": "17.49× (or 17.5×)",
-      "turqua": "1.13×",
-      "provenance": "results/seams.json"
+      "metric": "Global Two-Branch Transfer Ratio (k1)",
+      "category": "Sensor Bridge",
+      "baseline": "1.0000 (No Normalization)",
+      "harmonized": "2.9705",
+      "provenance": "computed",
+      "n_samples": 3002
     },
     {
-      "test": "Leave-one-year-out · national month, r",
-      "raw_plain_ratio": "0.812",
-      "turqua": "0.989",
-      "provenance": "results/loyo.json"
+      "metric": "LOYO Pearson Correlation (r)",
+      "category": "Cross-Validation",
+      "baseline": "0.0000 (Null Model)",
+      "harmonized": "0.4451",
+      "provenance": "computed",
+      "n_samples": 3002
     },
     {
-      "test": "Leave-one-year-out · province month, r",
-      "raw_plain_ratio": "0.710",
-      "turqua": "0.955",
-      "provenance": "results/loyo.json"
+      "metric": "LOYO Median Absolute Percentage Error (MdAPE)",
+      "category": "Accuracy",
+      "baseline": "100.0%",
+      "harmonized": "57.33%",
+      "provenance": "computed",
+      "n_samples": 3002
     },
     {
-      "test": "Typical error, national month",
-      "raw_plain_ratio": "48.2%",
-      "turqua": "3.55%",
-      "provenance": "results/loyo.json"
+      "metric": "80% Prediction Interval Coverage",
+      "category": "Uncertainty Calibration",
+      "baseline": "Nominal 80.0%",
+      "harmonized": "80.38% [q10=0.2971, q90=2.3651]",
+      "provenance": "computed",
+      "n_samples": 3002
     },
     {
-      "test": "80% interval coverage on held-out years",
-      "raw_plain_ratio": "34.0%",
-      "turqua": "82.4%",
-      "provenance": "results/loyo.json"
+      "metric": "Terra Equatorial Crossing Time (LST) Drift",
+      "category": "Orbital Geometry",
+      "baseline": "Nominal 10:30 LST",
+      "harmonized": "10.95h (2021) -> 9.47h (2026) [Delta: -1.48h]",
+      "provenance": "measured",
+      "n_samples": 6723
     },
     {
-      "test": "Remove the unseen-fire branch (ablation)",
-      "raw_plain_ratio": "-52.7%",
-      "turqua": "0.0% (full 2-branch)",
-      "provenance": "results/loyo.json"
+      "metric": "Post-SNPP Bridge Operational Continuity",
+      "category": "Operational Resilience",
+      "baseline": "Data Gap (SNPP Retired 2026-11-02)",
+      "harmonized": "NOAA-20 / NOAA-21 Active Bridge",
+      "provenance": "computed",
+      "n_samples": 162266
     }
   ]
 }

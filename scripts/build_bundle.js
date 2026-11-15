@@ -29,7 +29,7 @@ const { downloadHistoricalArchive, initCalendar, refreshActivityCalendar } = win
 `;
 
 if (!apiSource.includes('DEFAULT_MAP_KEY')) {
-  apiPrefix = `const DEFAULT_MAP_KEY = "e7b84e6e84d194fb260497bb0e4d7ab0";\n` + apiPrefix;
+  apiPrefix = `const DEFAULT_MAP_KEY = "";\n` + apiPrefix;
 }
 
 const bundle = `window.__TQ = window.__TQ || {};

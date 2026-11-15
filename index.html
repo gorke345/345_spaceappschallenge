@@ -48,7 +48,7 @@
 <main class="workspace">
   <section class="globe-wrap">
     <div id="globe"></div>
-    <div class="hero-banner" id="heroBanner"><b>25 years of fire, one consistent scale.</b> Raw archive inflates ×17.5; TURQUA harmonizes to ×1.13 (r = 0.989).</div>
+    <div class="hero-banner" id="heroBanner"><b>25 years of fire, one consistent scale.</b> Multi-satellite Burning Day grid (162,266 in-situ FIRMS records, k₁ = 2.97).</div>
 
     <div class="hud hud-bl">
       <span id="hudCam">lon -98.50 / lat 42.00 / z 3.50</span>
@@ -151,7 +151,7 @@
       <h3>SENSOR RESOLUTION BRIDGE (MODIS / VIIRS)</h3>
       <div class="metric-readout">
         <span>SNPP-EQUIVALENT INDEX</span><b id="sensorAdjustedIndex">0</b>
-        <span>RAW SENSING INFLATION</span><b id="sensorCorrection">×17.49 → ×1.13</b>
+        <span>EMPIRICAL TRANSFER RATIO</span><b id="sensorCorrection">k₁ = 2.97</b>
       </div>
       <p id="sensorBridgeNote">Weighted by sub-pixel active fire radiance and scan angle geometry.</p>
     </section>
@@ -267,7 +267,7 @@
     <h2>NASA FIRMS API KEY &amp; DATA SOURCE</h2>
     <p>Optional: Enter your NASA Earthdata MAP_KEY to fetch live near-real-time observations. You can generate a free key at <a href="https://firms.modaps.eosdis.nasa.gov/api/" target="_blank" rel="noopener noreferrer">NASA FIRMS API Portal</a>.</p>
     <label class="dialog-label" for="mapKey">NASA FIRMS MAP_KEY:
-      <input type="password" id="mapKey" class="txt" autocomplete="off" placeholder="32-character key" value="e7b84e6e84d194fb260497bb0e4d7ab0" />
+      <input type="password" id="mapKey" class="txt" autocomplete="off" placeholder="Paste your own FIRMS MAP_KEY (not stored)" value="" />
     </label>
     <div class="mode-actions">
       <button type="button" id="saveKey" class="btn">USE KEY</button>
@@ -303,53 +303,53 @@
       <div class="proof-card">
         <h4>04 · RECONSTRUCT + INTERVAL</h4>
         <p>2001–Jan 2012 rebuilt from MODIS, hatched in the calendar, with an uncertainty interval taken from held-out-year errors (80% CI: [q₁₀, q₉₀]).</p>
-        <code class="proof-eq">LOYO Cross-Validation: r = 0.989 | Median Annual Error = 3.55%</code>
+        <code class="proof-eq">LOYO Cross-Validation: r = 0.4451 | Median Error = 57.33% | Coverage = 80.38%</code>
       </div>
     </div>
 
-    <!-- TABLE: HOW WE TRY TO BREAK IT (PAGE 5) -->
+    <!-- TABLE: EMPIRICAL VERIFICATION -->
     <div style="margin-top:14px;background:rgba(255,255,255,0.02);padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.08);">
       <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--amber);margin-bottom:8px;font-weight:600;">
-        EMPIRICAL PROOF: HOW WE TRY TO BREAK IT (All numbers from results/*.json)
+        EMPIRICAL PROOF &amp; REPRODUCIBILITY (All figures directly computed from in-situ FIRMS files)
       </div>
       <table style="width:100%;border-collapse:collapse;font-family:'IBM Plex Mono',monospace;font-size:11.5px;">
         <thead>
           <tr style="background:rgba(255,255,255,0.05);color:var(--turqua);">
             <th style="padding:6px 8px;border:1px solid rgba(255,255,255,0.1);text-align:left;">TEST ON TÜRKIYE</th>
-            <th style="padding:6px 8px;border:1px solid rgba(255,255,255,0.1);text-align:center;">RAW / PLAIN RATIO</th>
-            <th style="padding:6px 8px;border:1px solid rgba(255,255,255,0.1);text-align:center;color:var(--ok);font-weight:700;">TURQUA</th>
+            <th style="padding:6px 8px;border:1px solid rgba(255,255,255,0.1);text-align:center;">BASELINE / NULL</th>
+            <th style="padding:6px 8px;border:1px solid rgba(255,255,255,0.1);text-align:center;color:var(--ok);font-weight:700;">EMPIRICAL TURQUA</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td style="padding:5px 8px;border:1px solid rgba(255,255,255,0.06);">Seams: series ÷ fixed instrument, 2001–2021</td>
-            <td style="padding:5px 8px;border:1px solid rgba(255,255,255,0.06);text-align:center;">17.49× (or 17.5×)</td>
-            <td style="padding:5px 8px;border:1px solid rgba(255,255,255,0.06);text-align:center;font-weight:700;color:var(--ok);">1.13×</td>
+            <td style="padding:5px 8px;border:1px solid rgba(255,255,255,0.06);">Global Two-Branch Transfer Ratio (k₁)</td>
+            <td style="padding:5px 8px;border:1px solid rgba(255,255,255,0.06);text-align:center;">1.0000</td>
+            <td style="padding:5px 8px;border:1px solid rgba(255,255,255,0.06);text-align:center;font-weight:700;color:var(--ok);">2.9705</td>
           </tr>
           <tr>
-            <td style="padding:5px 8px;border:1px solid rgba(255,255,255,0.06);">Leave-one-year-out · national month, r</td>
-            <td style="padding:5px 8px;border:1px solid rgba(255,255,255,0.06);text-align:center;">0.812</td>
-            <td style="padding:5px 8px;border:1px solid rgba(255,255,255,0.06);text-align:center;font-weight:700;color:var(--ok);">0.989</td>
+            <td style="padding:5px 8px;border:1px solid rgba(255,255,255,0.06);">Leave-One-Year-Out Correlation (r)</td>
+            <td style="padding:5px 8px;border:1px solid rgba(255,255,255,0.06);text-align:center;">0.0000</td>
+            <td style="padding:5px 8px;border:1px solid rgba(255,255,255,0.06);text-align:center;font-weight:700;color:var(--ok);">0.4451</td>
           </tr>
           <tr>
-            <td style="padding:5px 8px;border:1px solid rgba(255,255,255,0.06);">Leave-one-year-out · province month, r</td>
-            <td style="padding:5px 8px;border:1px solid rgba(255,255,255,0.06);text-align:center;">0.710</td>
-            <td style="padding:5px 8px;border:1px solid rgba(255,255,255,0.06);text-align:center;font-weight:700;color:var(--ok);">0.955</td>
+            <td style="padding:5px 8px;border:1px solid rgba(255,255,255,0.06);">LOYO Typical Error (Median APE)</td>
+            <td style="padding:5px 8px;border:1px solid rgba(255,255,255,0.06);text-align:center;">100.0%</td>
+            <td style="padding:5px 8px;border:1px solid rgba(255,255,255,0.06);text-align:center;font-weight:700;color:var(--ok);">57.33%</td>
           </tr>
           <tr>
-            <td style="padding:5px 8px;border:1px solid rgba(255,255,255,0.06);">Typical error, national month</td>
-            <td style="padding:5px 8px;border:1px solid rgba(255,255,255,0.06);text-align:center;">48.2%</td>
-            <td style="padding:5px 8px;border:1px solid rgba(255,255,255,0.06);text-align:center;font-weight:700;color:var(--ok);">3.55%</td>
+            <td style="padding:5px 8px;border:1px solid rgba(255,255,255,0.06);">80% Prediction Interval Coverage</td>
+            <td style="padding:5px 8px;border:1px solid rgba(255,255,255,0.06);text-align:center;">80.0%</td>
+            <td style="padding:5px 8px;border:1px solid rgba(255,255,255,0.06);text-align:center;font-weight:700;color:var(--ok);">80.38% [q₁₀=0.297, q₉₀=2.365]</td>
           </tr>
           <tr>
-            <td style="padding:5px 8px;border:1px solid rgba(255,255,255,0.06);">80% interval coverage on held-out years</td>
-            <td style="padding:5px 8px;border:1px solid rgba(255,255,255,0.06);text-align:center;">34.0%</td>
-            <td style="padding:5px 8px;border:1px solid rgba(255,255,255,0.06);text-align:center;font-weight:700;color:var(--ok);">82.4%</td>
+            <td style="padding:5px 8px;border:1px solid rgba(255,255,255,0.06);">Terra Orbit Drift (2021 -> 2026)</td>
+            <td style="padding:5px 8px;border:1px solid rgba(255,255,255,0.06);text-align:center;">10:30 LST</td>
+            <td style="padding:5px 8px;border:1px solid rgba(255,255,255,0.06);text-align:center;font-weight:700;color:var(--ok);">10.95h -> 9.47h (-1.48h)</td>
           </tr>
           <tr>
-            <td style="padding:5px 8px;border:1px solid rgba(255,255,255,0.06);">Remove the unseen-fire branch (ablation)</td>
-            <td style="padding:5px 8px;border:1px solid rgba(255,255,255,0.06);text-align:center;">-52.7%</td>
-            <td style="padding:5px 8px;border:1px solid rgba(255,255,255,0.06);text-align:center;font-weight:700;color:var(--ok);">0.0% (full 2-branch)</td>
+            <td style="padding:5px 8px;border:1px solid rgba(255,255,255,0.06);">Post-SNPP Operational Continuity</td>
+            <td style="padding:5px 8px;border:1px solid rgba(255,255,255,0.06);text-align:center;">Data Gap</td>
+            <td style="padding:5px 8px;border:1px solid rgba(255,255,255,0.06);text-align:center;font-weight:700;color:var(--ok);">NOAA-20 / 21 Active Bridge</td>
           </tr>
         </tbody>
       </table>
@@ -377,7 +377,7 @@
     <h3>MISSION AND PURPOSE</h3>
     <p>This workspace harmonizes MODIS and VIIRS active hotspot records across user-defined areas of interest and timeframes. The calendar provides scientific context to evaluate long-term fire regimes without sensor discontinuities. Per NASA FIRMS documentation, each detection represents the center of a pixel that contains one or more active fires or thermal anomalies, rather than the exact fire boundary.</p>
     <h3>SATELLITE CONTINUITY &amp; HARMONIZATION</h3>
-    <p>MODIS and VIIRS are distinct sensors with nominal footprints of ~1 km (MODIS) and ~375 m (VIIRS). When newer satellites joined orbit (2012 Suomi-NPP, 2018/2020 NOAA-20, 2024 NOAA-21), raw hotspot counts increased artificially by ×17.49 due to increased observation frequency and finer spatial resolution. TURQUA harmonizes detections onto a common 0.1° Burning Day scale, stabilizing the cross-era ratio to ×1.13 and removing 98% of artificial sensor inflation (Leave-One-Year-Out validation r = 0.989).</p>
+    <p>MODIS and VIIRS are distinct sensors with nominal footprints of ~1 km (MODIS) and ~375 m (VIIRS). When newer satellites joined orbit (2012 Suomi-NPP, 2018/2020 NOAA-20, 2024 NOAA-21), raw hotspot counts increased artificially due to higher spatial resolution and frequent revisits. TURQUA harmonizes multi-satellite detections onto a common 0.1° Burning Day grid with a measured two-branch transfer ratio k₁ = 2.9705, restoring observational continuity across sensor generations.</p>
     <h3>NASA GIBS SATELLITE IMAGERY</h3>
     <p>Imagery layers are provided by NASA GIBS (Global Imagery Browse Services), part of the Earth Science Data and Information System (ESDIS). True Color, false-color thermal (M11-I2-I1), and MODIS MCD12Q1 annual land cover products provide visual and environmental context.</p>
     <h3>STATIC THERMAL ANOMALIES (STA)</h3>

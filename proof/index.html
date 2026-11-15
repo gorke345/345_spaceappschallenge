@@ -71,40 +71,40 @@
           </thead>
           <tbody>
             <tr>
-              <td>Seams: series ÷ fixed instrument, 2001–2021</td>
-              <td style="text-align:center;">17.49× (or 17.5×)</td>
-              <td style="text-align:center;color:var(--ok);font-weight:700;">1.13×</td>
-              <td><code>results/seams.json</code></td>
+              <td>Global Two-Branch Transfer Ratio (k₁)</td>
+              <td style="text-align:center;">1.0000</td>
+              <td style="text-align:center;color:var(--ok);font-weight:700;">2.9705</td>
+              <td><code>results/transfer.json</code></td>
             </tr>
             <tr>
-              <td>Leave-one-year-out · national month, r</td>
-              <td style="text-align:center;">0.812</td>
-              <td style="text-align:center;color:var(--ok);font-weight:700;">0.989</td>
+              <td>Leave-one-year-out · Correlation (r)</td>
+              <td style="text-align:center;">0.0000</td>
+              <td style="text-align:center;color:var(--ok);font-weight:700;">0.4451</td>
               <td><code>results/loyo.json</code></td>
             </tr>
             <tr>
-              <td>Leave-one-year-out · province month, r</td>
-              <td style="text-align:center;">0.710</td>
-              <td style="text-align:center;color:var(--ok);font-weight:700;">0.955</td>
+              <td>Typical error (Median APE)</td>
+              <td style="text-align:center;">100.0%</td>
+              <td style="text-align:center;color:var(--ok);font-weight:700;">57.33%</td>
               <td><code>results/loyo.json</code></td>
             </tr>
             <tr>
-              <td>Typical error, national month</td>
-              <td style="text-align:center;">48.2%</td>
-              <td style="text-align:center;color:var(--ok);font-weight:700;">3.55%</td>
+              <td>80% interval coverage on held-out data</td>
+              <td style="text-align:center;">80.0% (Nominal)</td>
+              <td style="text-align:center;color:var(--ok);font-weight:700;">80.38% [q₁₀=0.297, q₉₀=2.365]</td>
               <td><code>results/loyo.json</code></td>
             </tr>
             <tr>
-              <td>80% interval coverage on held-out years</td>
-              <td style="text-align:center;">34.0%</td>
-              <td style="text-align:center;color:var(--ok);font-weight:700;">82.4%</td>
-              <td><code>results/loyo.json</code></td>
+              <td>Terra Orbit Drift (2021 -> 2026)</td>
+              <td style="text-align:center;">10:30 LST</td>
+              <td style="text-align:center;color:var(--ok);font-weight:700;">10.95h -> 9.47h (-1.48h)</td>
+              <td><code>results/drift.json</code></td>
             </tr>
             <tr>
-              <td>Remove the unseen-fire branch (ablation)</td>
-              <td style="text-align:center;">-52.7%</td>
-              <td style="text-align:center;color:var(--ok);font-weight:700;">0.0% (full 2-branch)</td>
-              <td><code>results/loyo.json</code></td>
+              <td>Post-SNPP Operational Continuity</td>
+              <td style="text-align:center;">Data Gap</td>
+              <td style="text-align:center;color:var(--ok);font-weight:700;">NOAA-20 / 21 Active Bridge</td>
+              <td><code>results/table_page5.json</code></td>
             </tr>
           </tbody>
         </table>
@@ -126,7 +126,7 @@
       <!-- PANEL 2 -->
       <section class="panel">
         <h2>PANEL 2 · NON-CIRCULAR INVARIANCE TEST (Q = SERIES / TERRA)</h2>
-        <p>Dividing by unchanged Terra MODIS across 1→5 satellites: raw detections inflate <b>×17.49</b> (raw burning days ×9.25), while TURQUA stays flat at <b>×1.13</b> (98% inflation removed).</p>
+        <p>Dividing multi-satellite detections by unchanged Terra MODIS: raw detections show artificial constellation jumps, while TURQUA 0.1° Burning Days stabilizes observational continuity.</p>
         <table id="tInvariance"></table>
         <div class="repro">Reproduce: <code>python pipeline/harmonize_and_validate.py</code> → <code>data/proof.json#panel2_invariance</code></div>
       </section>
@@ -134,7 +134,7 @@
       <!-- PANEL 3 -->
       <section class="panel">
         <h2>PANEL 3 · LEAVE-ONE-YEAR-OUT (LOYO) &amp; HOLD-OUT BACK-TEST</h2>
-        <p>Trained on 2016–2021 and tested on unseen years: Pearson <b>r = 0.989</b>, median annual error <b>3.55%</b>, hold-out bias <b>+7.7%</b>, 80% CI multiplier <code>[0.918, 1.084]</code>. Removing branch k₂ loses <b>-52.7%</b> of burning days.</p>
+        <p>Leave-One-Year-Out cross-validation across held-out observation subsets: Pearson <b>r = 0.4451</b>, median error <b>57.33%</b>, 80% CI multiplier <code>[0.2971, 2.3651]</code> with <b>80.38%</b> empirical coverage.</p>
         <canvas id="cLoyo"></canvas>
         <div class="repro">Reproduce: <code>python pipeline/harmonize_and_validate.py</code> → <code>data/proof.json#panel3_holdout</code></div>
       </section>
@@ -258,7 +258,7 @@
         ctx.fillText(String(p.year).slice(2) + "'", x, h - 6);
       });
       ctx.fillStyle = "#94A3B8"; ctx.font = "11px IBM Plex Mono";
-      ctx.fillText("Teal: Actual SNPP BD | Gold: Hold-Out Predicted BD (r = 0.989)", padL, 13);
+      ctx.fillText("Teal: Actual SNPP BD | Gold: Hold-Out Predicted BD (r = 0.4451)", padL, 13);
     }
 
     function drawDriftChart(series) {

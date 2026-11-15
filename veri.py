@@ -8,7 +8,7 @@ BBOX_TURKEY = "25.6,35.8,44.8,42.1"
 DAYS = 3  # Son kaç günün verisi çekilsin (1 ile 10 arası)
 
 def fetch_sensor_data(sensor_name, bbox=BBOX_TURKEY, days=DAYS):
-    map_key = os.environ.get("NASA_FIRMS_MAP_KEY", "e7b84e6e84d194fb260497bb0e4d7ab0").strip()
+    map_key = os.environ.get("NASA_FIRMS_MAP_KEY", "").strip()
     if not map_key:
         raise RuntimeError("NASA_FIRMS_MAP_KEY ortam değişkeni tanımlı değil.")
     url = f"https://firms.modaps.eosdis.nasa.gov/api/area/csv/{map_key}/{sensor_name}/{bbox}/{days}"

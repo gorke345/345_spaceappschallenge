@@ -1,75 +1,61 @@
 {
-  "title": "Orbital Drift Measured from FIRMS Timestamps (Local Solar Time)",
-  "pdf_reference": "NASA Space Apps 2026 Presentation Page 6/7",
-  "formula": "LST = UTC + longitude / 15.0",
-  "findings": {
-    "terra": {
-      "start_lst": "10:55",
-      "end_lst": "09:19",
-      "capture_rate_change_pct": -10.8,
-      "note": "Drifted earlier into morning before peak diurnal burning"
-    },
-    "aqua": {
-      "start_lst": "13:09",
-      "end_lst": "15:02",
-      "capture_rate_change_pct": 15.9,
-      "note": "Drifted later into afternoon toward diurnal peak burning"
-    }
-  },
-  "series": [
+  "generated_by": "pipeline/run_all.py",
+  "computed_at_utc": "2026-11-15T19:30:39.395850+00:00",
+  "provenance": "measured",
+  "n_records": 162266,
+  "input_files": [
+    "fire_archive_J1V-C2_817182.dbf",
+    "fire_archive_M-C61_817180.dbf",
+    "fire_archive_SV-C2_817184.dbf",
+    "fire_nrt_J1V-C2_817182.dbf",
+    "fire_nrt_J2V-C2_817183.dbf",
+    "fire_nrt_LS_817181.dbf",
+    "fire_nrt_M-C61_817180.dbf",
+    "fire_nrt_SV-C2_817184.dbf",
+    "modis_2021_Turkey.csv"
+  ],
+  "orbital_drift_records": [
     {
-      "year": 2013,
-      "terra_lst": 10.92,
-      "aqua_lst": 13.15,
-      "terra_snpp_ratio": 0.207
-    },
-    {
-      "year": 2015,
-      "terra_lst": 10.9,
-      "aqua_lst": 13.18,
-      "terra_snpp_ratio": 0.207
+      "satellite": "Terra",
+      "year": "2021",
+      "n_daytime_obs": 3220,
+      "median_lst_hours": 10.95,
+      "std_lst_hours": 0.36
     },
     {
-      "year": 2017,
-      "terra_lst": 10.88,
-      "aqua_lst": 13.21,
-      "terra_snpp_ratio": 0.207
+      "satellite": "Terra",
+      "year": "2025",
+      "n_daytime_obs": 486,
+      "median_lst_hours": 9.82,
+      "std_lst_hours": 0.22
     },
     {
-      "year": 2019,
-      "terra_lst": 10.85,
-      "aqua_lst": 13.25,
-      "terra_snpp_ratio": 0.206
+      "satellite": "Terra",
+      "year": "2026",
+      "n_daytime_obs": 3017,
+      "median_lst_hours": 9.47,
+      "std_lst_hours": 0.26
     },
     {
-      "year": 2021,
-      "terra_lst": 10.72,
-      "aqua_lst": 13.42,
-      "terra_snpp_ratio": 0.206
+      "satellite": "Aqua",
+      "year": "2021",
+      "n_daytime_obs": 3793,
+      "median_lst_hours": 13.1,
+      "std_lst_hours": 0.34
     },
     {
-      "year": 2022,
-      "terra_lst": 10.48,
-      "aqua_lst": 13.78,
-      "terra_snpp_ratio": 0.179
+      "satellite": "Aqua",
+      "year": "2025",
+      "n_daytime_obs": 1797,
+      "median_lst_hours": 14.46,
+      "std_lst_hours": 0.29
     },
     {
-      "year": 2023,
-      "terra_lst": 10.12,
-      "aqua_lst": 14.15,
-      "terra_snpp_ratio": 0.178
-    },
-    {
-      "year": 2024,
-      "terra_lst": 9.75,
-      "aqua_lst": 14.58,
-      "terra_snpp_ratio": 0.177
-    },
-    {
-      "year": 2025,
-      "terra_lst": 9.32,
-      "aqua_lst": 15.04,
-      "terra_snpp_ratio": 0.176
+      "satellite": "Aqua",
+      "year": "2026",
+      "n_daytime_obs": 3561,
+      "median_lst_hours": 14.9,
+      "std_lst_hours": 0.34
     }
   ]
 }

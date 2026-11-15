@@ -1,79 +1,26 @@
 {
-  "title": "Leave-One-Year-Out (LOYO) Cross-Validation & Ablation",
-  "pdf_reference": "NASA Space Apps 2026 Presentation Page 4/7 & Page 5/7",
-  "national_month_pearson_r": 0.989,
-  "province_month_pearson_r": 0.955,
-  "typical_error_national_month_pct": 3.55,
-  "holdout_bias_pct": 7.7,
-  "coverage_80pct_interval_held_out": 82.4,
-  "q10_multiplier": 0.918,
-  "q90_multiplier": 1.084,
-  "unseen_fire_ablation_loss_pct": -52.7,
-  "two_branch_formulas": {
-    "modis_detected": "V ≈ k1[s] * M_cell",
-    "modis_unseen": "V ≈ k2[s] * M_neighbourhood",
-    "strata": "s = land_cover * calendar_month (with empirical Bayes shrinkage)"
-  },
-  "pairs": [
-    {
-      "year": 2012,
-      "actual": 9280,
-      "predicted": 9373,
-      "error_pct": 1
-    },
-    {
-      "year": 2013,
-      "actual": 10340,
-      "predicted": 10505,
-      "error_pct": 1.6
-    },
-    {
-      "year": 2014,
-      "actual": 9140,
-      "predicted": 9852,
-      "error_pct": 7.8
-    },
-    {
-      "year": 2015,
-      "actual": 10920,
-      "predicted": 12088,
-      "error_pct": 10.7
-    },
-    {
-      "year": 2016,
-      "actual": 11540,
-      "predicted": 11120,
-      "error_pct": -3.6
-    },
-    {
-      "year": 2017,
-      "actual": 10520,
-      "predicted": 10890,
-      "error_pct": 3.5
-    },
-    {
-      "year": 2018,
-      "actual": 9860,
-      "predicted": 9540,
-      "error_pct": -3.2
-    },
-    {
-      "year": 2019,
-      "actual": 10680,
-      "predicted": 10310,
-      "error_pct": -3.5
-    },
-    {
-      "year": 2020,
-      "actual": 12460,
-      "predicted": 12910,
-      "error_pct": 3.6
-    },
-    {
-      "year": 2021,
-      "actual": 15420,
-      "predicted": 14880,
-      "error_pct": -3.5
-    }
-  ]
+  "generated_by": "pipeline/run_all.py",
+  "computed_at_utc": "2026-11-15T19:30:39.395850+00:00",
+  "provenance": "computed",
+  "n_records": 162266,
+  "input_files": [
+    "fire_archive_J1V-C2_817182.dbf",
+    "fire_archive_M-C61_817180.dbf",
+    "fire_archive_SV-C2_817184.dbf",
+    "fire_nrt_J1V-C2_817182.dbf",
+    "fire_nrt_J2V-C2_817183.dbf",
+    "fire_nrt_LS_817181.dbf",
+    "fire_nrt_M-C61_817180.dbf",
+    "fire_nrt_SV-C2_817184.dbf",
+    "modis_2021_Turkey.csv"
+  ],
+  "metrics": {
+    "pearson_r": 0.4451,
+    "median_ape_pct": 57.33,
+    "mean_bias": -0.0003,
+    "n_samples": 3002,
+    "coverage_80_pct": 80.38,
+    "q10": 0.2971,
+    "q90": 2.3651
+  }
 }

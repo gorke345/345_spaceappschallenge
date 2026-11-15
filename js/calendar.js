@@ -811,7 +811,7 @@ export async function downloadHistoricalArchive({ includeRecords = false } = {})
         ? cache.flatMap(entry => Array.isArray(entry.records) ? entry.records : [])
         : [];
     }
-    const key = (document.getElementById("mapKey")?.value.trim()) || "e7b84e6e84d194fb260497bb0e4d7ab0";
+    const key = document.getElementById("mapKey")?.value.trim() || "";
     if (!key) {
       document.getElementById("settingsDialog").showModal();
       throw new Error("Enter NASA FIRMS MAP_KEY in settings for historical archive queries");
