@@ -5,7 +5,7 @@
 // 2) 2023 Çanakkale / Hatay Wildfires (2023-07 / 2023-08)
 // 3) Payas / İskenderun STA (Static Thermal Anomaly: Isdemir Integrated Steelworks, 36.71N, 36.20E)
 
-export const CASE_STUDIES_OFFLINE = {
+const CASE_STUDIES_OFFLINE = {
   "mediterranean-2021": [
   {
     "latitude": 36.8812,
@@ -2972,5 +2972,6 @@ if (typeof window !== "undefined") {
   window.CASE_STUDIES_OFFLINE = CASE_STUDIES_OFFLINE;
   window.TURQUA_CASE_STUDIES_OFFLINE = CASE_STUDIES_OFFLINE;
 }
-
-export default CASE_STUDIES_OFFLINE;
+if (typeof module !== "undefined" && module.exports) {
+  module.exports = { CASE_STUDIES_OFFLINE };
+}

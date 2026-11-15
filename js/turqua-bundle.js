@@ -234,7 +234,7 @@ const map = new maplibregl.Map({
         id: "world-imagery",
         type: "raster",
         source: "arcgis-world-imagery",
-        minzoom: 0,
+        minzoom: 6,
         paint: { "raster-opacity": 1 },
       },
       {
@@ -2261,7 +2261,7 @@ function updateQuery({ redraw = true } = {}) {
   if (!startMonth || !endMonth || startMonth > endMonth) {
     throw new Error("Başlangıç ayı bitiş ayından önce veya aynı olmalı");
   }
-  const bounds = document.getElementById("globalMode").checked ? null : readBoundsFromInputs();
+  const bounds = document.getElementById("globalMode")?.checked ? null : readBoundsFromInputs();
   applyDataQuery({ bounds, startMonth, endMonth, epsKm: state.epsKm });
   updateAOI(bounds);
   focusAOI(bounds);
@@ -3083,16 +3083,17 @@ function exportResultsCSV() {
 }
 
 function applyPreset(name) {
+  const gm = document.getElementById("globalMode");
   if (name === "global") {
-    document.getElementById("globalMode").checked = true;
+    if (gm) gm.checked = true;
     updateQuery();
     return;
   }
-  document.getElementById("globalMode").checked = false;
+  if (gm) gm.checked = false;
   const bounds = PRESETS[name];
   for (const [key, value] of Object.entries(bounds)) {
     const input = document.getElementById(key);
-    input.value = value;
+    if (input) input.value = value;
   }
   updateQuery();
 }
@@ -3130,7 +3131,8 @@ function initCalendar(setLogger) {
         log("AOI dikdörtgeni en az 0.1 derece olmalı", "warn");
         return;
       }
-      document.getElementById("globalMode").checked = false;
+      const gm = document.getElementById("globalMode");
+      if (gm) gm.checked = false;
       document.getElementById("minLat").value = bounds.minLat.toFixed(2);
       document.getElementById("maxLat").value = bounds.maxLat.toFixed(2);
       document.getElementById("minLon").value = bounds.minLon.toFixed(2);
@@ -3151,7 +3153,7 @@ function initCalendar(setLogger) {
       }
     });
   }
-  document.getElementById("globalMode").addEventListener("change", event => {
+  document.getElementById("globalMode")?.addEventListener("change", event => {
     if (!event.target.checked) {
       try {
         updateQuery();
@@ -3703,7 +3705,11 @@ async function loadLocalJSON() {
       const response = await fetch("harmonized_fires.json", { cache: "no-store" });
       records = readJSONRecords(await response.json());
     }
-    document.getElementById("globalMode").checked = true; state.bounds = null; updateAOI(null); const result = processRecords(records, "YEREL / JSON", { epsKm: currentEpsilon() });
+    const gm = document.getElementById("globalMode");
+    if (gm) gm.checked = true;
+    state.bounds = null;
+    updateAOI(null);
+    const result = processRecords(records, "YEREL / JSON", { epsKm: currentEpsilon() });
     setGibsDateFromLatestData();
     selectLargestCluster();
     void refreshActivityCalendar({ focusLatestLocalMonth: true });
@@ -3732,7 +3738,8 @@ async function applyCaseStudy(id, { offerArchive = true } = {}) {
   })) {
     document.getElementById(field).value = String(value);
   }
-  document.getElementById("globalMode").checked = false;
+  const gm = document.getElementById("globalMode");
+  if (gm) gm.checked = false;
   applyDataQuery({
     bounds,
     startMonth: study.startMonth,
@@ -3785,7 +3792,8 @@ async function fetchProduct(product, area, key) {
 async function loadLiveFIRMS(globalMode) {
   const key = document.getElementById("mapKey").value.trim() || DEFAULT_MAP_KEY;
   if (!key) {
-    document.getElementById("globalMode").checked = false;
+    const gm = document.getElementById("globalMode");
+  if (gm) gm.checked = false;
     document.getElementById("settingsDialog").showModal();
     log("CANLI VERİ İÇİN AYARLARA NASA FIRMS MAP_KEY GİRİN", "warn");
     return;
@@ -3830,7 +3838,8 @@ async function loadLiveFIRMS(globalMode) {
     state.startMonth = startMonth;
     state.endMonth = endMonth;
   }
-  document.getElementById("globalMode").checked = globalMode;
+  const gmLive = document.getElementById("globalMode");
+  if (gmLive) gmLive.checked = globalMode;
   applyDataQuery({
     bounds,
     startMonth: state.startMonth,
@@ -4362,43 +4371,51 @@ function loadFile(file) {
 
 function chooseLiveMode() {
   const dialog = document.getElementById("liveModeDialog");
-  dialog.returnValue = "";
-  dialog.showModal();
+  if (dialog) {
+    dialog.returnValue = "";
+    dialog.showModal();
+  } else {
+    loadLiveFIRMS(false);
+  }
 }
 
-document.getElementById("btnLocal").addEventListener("click", loadLocalJSON);
-document.getElementById("btnLive").addEventListener("click", chooseLiveMode);
+document.getElementById("btnLocal")?.addEventListener("click", loadLocalJSON);
+document.getElementById("btnLive")?.addEventListener("click", chooseLiveMode);
 document.querySelectorAll("[data-case-study]").forEach(button => {
   button.addEventListener("click", () => applyCaseStudy(button.dataset.caseStudy));
 });
-document.getElementById("fileInput").addEventListener("change", event => {
+document.getElementById("fileInput")?.addEventListener("change", event => {
   const file = event.target.files?.[0];
   if (file) loadFile(file);
   event.target.value = "";
 });
 
-document.getElementById("liveModeDialog").addEventListener("click", event => {
-  const button = event.target.closest("[data-live-mode]");
-  if (!button) return;
-  const globalMode = button.dataset.liveMode === "global";
-  document.getElementById("globalMode").checked = globalMode;
-  event.currentTarget.returnValue = "selected";
-  document.getElementById("liveModeDialog").close();
-  loadLiveFIRMS(globalMode);
-});
-document.getElementById("liveModeDialog").addEventListener("close", () => {
-  if (document.getElementById("liveModeDialog").returnValue === "selected") return;
-  if (!document.getElementById("globalMode").checked) return;
-  document.getElementById("globalMode").checked = false;
-});
-document.getElementById("globalMode").addEventListener("change", event => {
+const liveDialog = document.getElementById("liveModeDialog");
+if (liveDialog) {
+  liveDialog.addEventListener("click", event => {
+    const button = event.target.closest("[data-live-mode]");
+    if (!button) return;
+    const globalMode = button.dataset.liveMode === "global";
+    const gm = document.getElementById("globalMode");
+    if (gm) gm.checked = globalMode;
+    event.currentTarget.returnValue = "selected";
+    liveDialog.close();
+    loadLiveFIRMS(globalMode);
+  });
+  liveDialog.addEventListener("close", () => {
+    if (liveDialog.returnValue === "selected") return;
+    const gm = document.getElementById("globalMode");
+    if (gm && gm.checked) gm.checked = false;
+  });
+}
+document.getElementById("globalMode")?.addEventListener("change", event => {
   if (event.target.checked) {
     chooseLiveMode();
   }
 });
 
-document.getElementById("saveKey").addEventListener("click", () => {
-  const key = document.getElementById("mapKey").value.trim() || DEFAULT_MAP_KEY;
+document.getElementById("saveKey")?.addEventListener("click", () => {
+  const key = document.getElementById("mapKey")?.value.trim() || DEFAULT_MAP_KEY;
   try {
     if (key) sessionStorage.setItem("turqua_firms_map_key", key);
     else sessionStorage.removeItem("turqua_firms_map_key");
@@ -4407,11 +4424,11 @@ document.getElementById("saveKey").addEventListener("click", () => {
     log(`FIRMS ANAHTARI OTURUMDA SAKLANAMADI: ${error.message}`, "err");
   }
 });
-document.getElementById("settingsButton").addEventListener("click", () =>
-  document.getElementById("settingsDialog").showModal()
+document.getElementById("settingsButton")?.addEventListener("click", () =>
+  document.getElementById("settingsDialog")?.showModal()
 );
-document.getElementById("settingsLive").addEventListener("click", () => {
-  document.getElementById("settingsDialog").close();
+document.getElementById("settingsLive")?.addEventListener("click", () => {
+  document.getElementById("settingsDialog")?.close();
   chooseLiveMode();
 });
 document.getElementById("toggleAoi").addEventListener("click", event => {

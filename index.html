@@ -4,7 +4,8 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>TURQUA // FIRE HARMONY — Continuous Multi-Satellite Wildfire Intelligence</title>
-<link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" />
+<link rel="icon" type="image/svg+xml" href="assets/flame.svg" />
+<link rel="stylesheet" href="https://unpkg.com/maplibre-gl@5.6.0/dist/maplibre-gl.css" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -240,16 +241,32 @@
   </div>
 </section>
 
+<!-- GLOBAL MODE & LIVE FIRMS SELECTION -->
+<input type="checkbox" id="globalMode" hidden />
+
+<dialog id="liveModeDialog" class="mode-dialog">
+  <form method="dialog">
+    <h2>LIVE NASA FIRMS QUERY MODE</h2>
+    <p>Select target area for real-time satellite query.</p>
+    <div class="mode-actions">
+      <button type="button" class="btn" data-live-mode="turkey">REGIONAL (TURKEY / AOI)</button>
+      <button type="button" class="btn" data-live-mode="global">GLOBAL / WORLDWIDE</button>
+      <button type="submit" class="btn btn-cancel">CANCEL</button>
+    </div>
+  </form>
+</dialog>
+
 <!-- API KEY AYARLARI -->
 <dialog id="settingsDialog" class="mode-dialog">
   <form method="dialog">
-    <h2>NASA FIRMS API KEY</h2>
+    <h2>NASA FIRMS API KEY &amp; DATA SOURCE</h2>
     <p>Optional: Enter your NASA Earthdata MAP_KEY to fetch live near-real-time observations. You can generate a free key at <a href="https://firms.modaps.eosdis.nasa.gov/api/" target="_blank" rel="noopener noreferrer">NASA FIRMS API Portal</a>.</p>
-    <label>MAP_KEY:
-      <input type="password" id="inputApiKey" class="txt" autocomplete="off" placeholder="32-character key" />
+    <label class="dialog-label" for="mapKey">NASA FIRMS MAP_KEY:
+      <input type="password" id="mapKey" class="txt" autocomplete="off" placeholder="32-character key" />
     </label>
-    <div class="modal-buttons">
-      <button type="button" id="saveApiKey" class="btn">SAVE KEY</button>
+    <div class="mode-actions">
+      <button type="button" id="saveKey" class="btn">USE KEY</button>
+      <button type="button" id="settingsLive" class="btn">LOAD LIVE DATA</button>
       <button type="submit" class="btn btn-cancel">CLOSE</button>
     </div>
     <p class="settings-note">Key is held only in memory during this browser session; never saved to disk or repository.</p>
@@ -331,9 +348,9 @@
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/satellite.js@6.0.1/dist/satellite.min.js"></script>
-<script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+<script src="https://unpkg.com/maplibre-gl@5.6.0/dist/maplibre-gl.js"></script>
 <script src="data/preloaded-data.js"></script>
-<script type="module" src="data/case-studies-offline.js"></script>
+<script src="data/case-studies-offline.js"></script>
 <script src="js/turqua-bundle.js"></script>
 </body>
 </html>
