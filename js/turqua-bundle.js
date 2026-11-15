@@ -123,7 +123,7 @@ async function getIgbpTilePixels(tileX, tileY) {
     const context = canvas.getContext("2d", { willReadFrequently: true });
     if (!context) {
       bitmap.close();
-      throw new Error("IGBP pikseli için canvas context açılamadı");
+      throw new Error("Could not create canvas context for IGBP pixel");
     }
     context.drawImage(bitmap, 0, 0);
     bitmap.close();
@@ -143,7 +143,7 @@ async function getIgbpTilePixels(tileX, tileY) {
 
 async function fetchIgbpLandCover(lat, lon) {
   if (!Number.isFinite(lat) || !Number.isFinite(lon) || Math.abs(lat) > 90 || Math.abs(lon) > 180) {
-    throw new Error("IGBP sorgusu için koordinatlar geçersiz");
+    throw new Error("Coordinates invalid for IGBP query");
   }
   const boundedLatitude = Math.max(-85.05112878, Math.min(85.05112878, lat));
   const worldSize = 2 ** IGBP_ZOOM;
@@ -250,20 +250,8 @@ const map = new maplibregl.Map({
     },
     layers: [
       { id: "bg", type: "background", paint: { "background-color": "#05080A" } },
-      {
-        id: "esri-dark-base-layer",
-        type: "raster",
-        source: "esri-dark-base",
-        minzoom: 0,
-        paint: { "raster-opacity": 1.0 }
-      },
-      {
-        id: "esri-dark-ref-layer",
-        type: "raster",
-        source: "esri-dark-ref",
-        minzoom: 0,
-        paint: { "raster-opacity": 0.85 }
-      },
+      
+      
       {
         id: "blue-marble",
         type: "raster",
@@ -280,8 +268,9 @@ const map = new maplibregl.Map({
         id: "world-imagery",
         type: "raster",
         source: "arcgis-world-imagery",
-        minzoom: 6,
-        paint: { "raster-opacity": 1 },
+        minzoom: 0,
+        maxzoom: 19,
+        paint: { "raster-opacity": 1.0 },
       },
       {
         id: "landcover-igbp",
@@ -294,8 +283,9 @@ const map = new maplibregl.Map({
         id: "world-boundaries",
         type: "raster",
         source: "arcgis-world-boundaries",
-        minzoom: 3,
-        paint: { "raster-opacity": 0.85 },
+        minzoom: 0,
+        maxzoom: 19,
+        paint: { "raster-opacity": 0.80 },
       },
       {
         id: "terrain-hillshade",
@@ -304,10 +294,10 @@ const map = new maplibregl.Map({
         minzoom: 1,
         layout: { visibility: "visible" },
         paint: {
-          "hillshade-exaggeration": 0.65,
-          "hillshade-shadow-color": "#05080A",
-          "hillshade-highlight-color": "#FEF08A",
-          "hillshade-accent-color": "#F59E0B",
+          "hillshade-exaggeration": 0.35,
+          "hillshade-shadow-color": "#000000",
+          "hillshade-highlight-color": "#FFFFFF",
+          "hillshade-accent-color": "#000000",
         },
       },
       {
@@ -357,13 +347,13 @@ const map = new maplibregl.Map({
         id: "aoi-fill",
         type: "fill",
         source: "aoi",
-        paint: { "fill-color": "#F59E0B", "fill-opacity": 0.08 },
+        paint: { "fill-color": "#00A389", "fill-opacity": 0.08 },
       },
       {
         id: "aoi-outline",
         type: "line",
         source: "aoi",
-        paint: { "line-color": "#F59E0B", "line-width": 1.5, "line-dasharray": [2, 1] },
+        paint: { "line-color": "#00A389", "line-width": 1.5, "line-dasharray": [2, 1] },
       },
       {
         id: "pt-modis",
@@ -410,26 +400,21 @@ const map = new maplibregl.Map({
         id: "fire-emoji-label",
         type: "symbol",
         source: "fires",
-        filter: ["==", ["get", "kind"], "cluster"],
+        filter: [
+          "any",
+          ["==", ["get", "multi_sensor"], true],
+          ["all",
+            ["==", ["get", "kind"], "cluster"],
+            [">=", ["get", "detection_count"], 3],
+            [">=", ["get", "cluster_frp"], 40]
+          ]
+        ],
         layout: {
           visibility: "visible",
           "icon-image": "fire-emoji",
-          "icon-size": ["interpolate", ["linear"], ["zoom"], 1, 0.45, 5, 0.75, 9, 1.1],
-          "icon-allow-overlap": true,
-          "icon-ignore-placement": true,
-        },
-      },
-      {
-        id: "fire-emoji-points",
-        type: "symbol",
-        source: "fires",
-        filter: ["all", ["==", ["get", "kind"], "point"], [">=", ["get", "frp"], 25]],
-        layout: {
-          visibility: "visible",
-          "icon-image": "fire-emoji",
-          "icon-size": ["interpolate", ["linear"], ["zoom"], 1, 0.35, 5, 0.6, 9, 0.9],
-          "icon-allow-overlap": true,
-          "icon-ignore-placement": true,
+          "icon-size": ["interpolate", ["linear"], ["zoom"], 1, 0.45, 5, 0.75, 9, 1.0],
+          "icon-allow-overlap": false,
+          "icon-ignore-placement": false,
         },
       },
       {
@@ -446,9 +431,9 @@ const map = new maplibregl.Map({
       },
     ],
   },
-  center: [-98.5, 42.0],
-  zoom: 3.5,
-  pitch: 20,
+  center: [-98.5, 45.0],
+  zoom: 3.6,
+  pitch: 25,
   attributionControl: { compact: true },
 });
 
@@ -632,7 +617,7 @@ function setGibsLayerMode(mode) {
 
 function setGibsDate(date) {
   if (!/^\d{4}-\d{2}-\d{2}$/.test(date) || Number.isNaN(Date.parse(`${date}T00:00:00Z`))) {
-    throw new Error("GIBS tarihi YYYY-AA-GG biçiminde geçerli olmalı");
+    throw new Error("GIBS date must be valid YYYY-MM-DD");
   }
   selectedGibsDate = date;
   const input = document.getElementById("gibsDate");
@@ -688,7 +673,11 @@ function applyMapLayers() {
       ? ["all", ["==", ["get", "kind"], "point"], ["==", ["get", "sensor"], "VIIRS"]]
       : hiddenFilter,
     "pt-cluster": showClusters ? ["all", ["==", ["get", "kind"], "cluster"], [">=", ["get", "detection_count"], 2]] : hiddenFilter,
-    "fire-emoji-label": showClusters ? ["==", ["get", "kind"], "cluster"] : ["all", ["==", ["get", "kind"], "point"], [">=", ["get", "frp"], 20]],
+    "fire-emoji-label": [
+      "any",
+      ["==", ["get", "multi_sensor"], true],
+      ["all", ["==", ["get", "kind"], "cluster"], [">=", ["get", "detection_count"], 3], [">=", ["get", "cluster_frp"], 40]]
+    ],
     "cluster-hull-fill": showClusters ? null : hiddenFilter,
     "cluster-hull-outline": showClusters ? null : hiddenFilter,
     "fp-outline": showFootprints ? null : hiddenFilter,
@@ -834,15 +823,15 @@ function beginAoiDrawing(onBounds) {
 }
 
 map.on("error", event => {
-  const message = event.error?.message || "Bilinmeyen harita hatası";
-  logger(`HARİTA: ${message}`, "err");
+  const message = event.error?.message || "Unknown map error";
+  logger(`MAP: ${message}`, "err");
 });
 
 map.on("load", () => { registerCustomFlameIcon(map);
   try {
     if (terrainEnabled) map.setTerrain({ source: "terrain-dem", exaggeration: 1.35 });
   } catch (error) {
-    logger(`3B ARAZİ ETKİNLEŞTİRİLEMEDİ: ${error.message}`, "warn");
+    logger(`COULD NOT ACTIVATE 3D TERRAIN: ${error.message}`, "warn");
   }
   for (const [sourceId, data] of Object.entries(latestMapData)) {
     const source = map.getSource(sourceId);
@@ -955,7 +944,7 @@ function summarizeConfidence(members) {
       const values = numeric.map(member => Number(member.confidenceRaw));
       const min = Math.min(...values);
       const max = Math.max(...values);
-      return [`${sensor} kaynak confidence alanı: ${min}${min === max ? "" : `–${max}`} (n=${values.length})`];
+      return [`${sensor} source confidence field: ${min}${min === max ? "" : `–${max}`} (n=${values.length})`];
     }
     const categories = new Map();
     observations.forEach(member => {
@@ -965,8 +954,8 @@ function summarizeConfidence(members) {
       const label = categoryLabels[value.toLowerCase()];
       return `${value}${label ? ` (${label})` : ""} ×${count}`;
     });
-    return [`${sensor} kaynak confidence alanı: ${values.join(", ")}`];
-  }).join("; ") || "Kaynak confidence alanı yok";
+    return [`${sensor} source confidence field: ${values.join(", ")}`];
+  }).join("; ") || "Source confidence unavailable";
 }
 
 function unwrapRecord(record) {
@@ -1132,10 +1121,10 @@ function classifyError(members) {
   const sensors = new Set(members.map(member => member.sensor));
   const totalArea = members.reduce((sum, member) => sum + member.scan_km * member.track_km, 0);
   if (sensors.size === 1 && sensors.has("VIIRS") && totalArea < 0.5) {
-    flags.push({ code: "OMISSION", text: "SUB-PIXEL DETECTION (MODIS Omission Yakalandı)", cls: "warn" });
+    flags.push({ code: "OMISSION", text: "SUB-PIXEL DETECTION (MODIS Omission Detected)", cls: "warn" });
   }
   if (members.length === 1 && members[0].daynight === "D" && members[0].delta_t < 12) {
-    flags.push({ code: "COMMISSION", text: "LOW THERMAL ANOMALY / GLINT RISK (Commission Uyarısı)", cls: "err" });
+    flags.push({ code: "COMMISSION", text: "LOW THERMAL ANOMALY / GLINT RISK (Commission Warning)", cls: "err" });
   }
   return flags;
 }
@@ -1211,15 +1200,15 @@ function classifyRegime(members, spreadAreaKm2) {
   const isDaytimeCluster = members.every(member => member.daynight === "D");
   const averageFrp = members.reduce((sum, member) => sum + member.frp, 0) / members.length;
   if (totalFrp >= 40 || (hasNightDetection && maxDT >= 25)) {
-    return "ORMAN / DOĞAL ÖRTÜ YANGINI";
+    return "FOREST / WILDLAND FIRE";
   }
   if (isDaytimeCluster && members.length >= 2 && averageFrp < 25) {
-    return "TARIMSAL ANIZ / ARAZİ YAKMA";
+    return "AGRICULTURAL RESIDUE / STUBBLE BURNING";
   }
   if (members.length === 1 || (spreadAreaKm2 < 0.35 && maxDT < 18)) {
-    return "ENDÜSTRİYEL / STATİK TERMAL ANOMALİ";
+    return "STATIC INDUSTRIAL / REFINERY FLARE (STA)";
   }
-  return "KARIŞIK / SINIFLANDIRILMAMIŞ";
+  return "MIXED / UNCLASSIFIED";
 }
 
 function footprintPolygon(point) {
@@ -1238,7 +1227,7 @@ function footprintPolygon(point) {
 
 function popupPoint(point) {
   const tag = point.delta_t < 12 && point.daynight === "D"
-    ? `<div class="tag err">GLINT RİSK</div>`
+    ? `<div class="tag err">GLINT RISK</div>`
     : "";
   const confidenceCategoryLabel = { l: "low", n: "nominal", h: "high" }[point.confidenceCategory];
   const confidenceDisplay = confidenceCategoryLabel
@@ -1267,15 +1256,15 @@ function popupCluster(cluster) {
   const tags = cluster.flags.map(flag => `<div class="tag ${flag.cls}">${flag.text}</div>`).join("");
   const primary = cluster.intelligence.rankedScores[0];
   return `
-    <div class="ph">BİRLEŞİK KÜME #${String(cluster.id).padStart(3, "0")}</div>
-    <div class="pr"><span>TESPİT DESTEĞİ</span><b>${cluster.members.length} tespit / ${cluster.sources.length} sensör</b></div>
-    <div class="pr"><span>SENSÖR</span><b>${cluster.sources.join(" + ")}</b></div>
-    <div class="pr"><span>ÜYE</span><b>${cluster.members.length}</b></div>
-    <div class="pr"><span>YANGIN REJİMİ</span><b>${escapeHTML(cluster.regime)}</b></div>
-    <div class="pr"><span>GÖRELİ HEURİSTİK SKOR (OLASILIK DEĞİL)</span><b>${primary.relativeScore}/100 ${escapeHTML(primary.label)}</b></div>
-    <div class="pr"><span>ARAZİ / BİTKİ</span><b>${escapeHTML(cluster.biome.label)}</b></div>
+    <div class="ph">HARMONIZED CLUSTER #${String(cluster.id).padStart(3, "0")}</div>
+    <div class="pr"><span>DETECTION SUPPORT</span><b>${cluster.members.length} detections / ${cluster.sources.length} sensors</b></div>
+    <div class="pr"><span>SATELLITES</span><b>${cluster.sources.join(" + ")}</b></div>
+    <div class="pr"><span>POINTS</span><b>${cluster.members.length}</b></div>
+    <div class="pr"><span>FIRE REGIME</span><b>${escapeHTML(cluster.regime)}</b></div>
+    <div class="pr"><span>HEURISTIC CONFIDENCE (NOT PROBABILITY)</span><b>${primary.relativeScore}/100 ${escapeHTML(primary.label)}</b></div>
+    <div class="pr"><span>LAND COVER / BIOME</span><b>${escapeHTML(cluster.biome.label)}</b></div>
     <div class="pr"><span>MODIS / VIIRS</span><b>${cluster.sensorCounts.MODIS} / ${cluster.sensorCounts.VIIRS}</b></div>
-    <div class="pr"><span>10 KM TEKERRÜR</span><b>${cluster.intelligence.recurrenceCount} kayıt</b></div>
+    <div class="pr"><span>10-KM RECURRENCE</span><b>${cluster.intelligence.recurrenceCount} records</b></div>
     <div class="pr"><span>MAKS ΔT</span><b>${cluster.maxDT.toFixed(1)} K</b></div>
     <div class="pr"><span>FRP TOPLAM</span><b>${cluster.members.reduce((sum, member) => sum + member.frp, 0).toFixed(1)} MW</b></div>
     ${tags}
@@ -1315,43 +1304,43 @@ function clusterProperties(cluster) {
   };
 }
 
-const MONTH_LABELS = ["OCAK", "ŞUBAT", "MART", "NİSAN", "MAYIS", "HAZİRAN", "TEMMUZ", "AĞUSTOS", "EYLÜL", "EKİM", "KASIM", "ARALIK"];
+const MONTH_LABELS = ["JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE", "JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER"];
 const FIRE_SOURCE_LABELS = [
-  "ORMAN / DOĞAL ÖRTÜ YANGINI",
-  "TARIMSAL ANIZ / ARAZİ YAKMA",
-  "ENDÜSTRİYEL TESİS / LİMAN / GAZ BACASI (STA)",
-  "KIRSAL / YERLEŞİM ARA YÜZÜ (WUI)",
-  "ATIK / TERMAL ANOMALİ",
-  "BOZKIR / ÇAYIR YANGINI",
+  "FOREST / WILDLAND FIRE",
+  "AGRICULTURAL RESIDUE / STUBBLE BURNING",
+  "STATIC INDUSTRIAL / REFINERY FLARE (STA)",
+  "WILDLAND-URBAN INTERFACE (WUI)",
+  "LANDFILL / LOCAL THERMAL ANOMALY",
+  "GRASSLAND / SAVANNA / SHRUBLAND",
 ];
 const FIRE_SOURCE_CATEGORIES = [
   "forest", "agriculture", "industrial", "human", "waste", "grassland",
 ];
 const STA_REGIONS = [
   {
-    name: "İskenderun / Payas / Dörtyol liman ve demir-çelik hattı",
+    name: "Iskenderun / Payas / Dortyol Steelworks & Industrial Corridor",
     minLat: 36.55, maxLat: 36.90, minLon: 36.10, maxLon: 36.32,
   },
   {
-    name: "Aliağa rafineri ve gemi söküm sahası",
+    name: "Aliaga Petrochemical Refinery & Shipbreaking Yard",
     minLat: 38.75, maxLat: 38.88, minLon: 26.88, maxLon: 27.02,
   },
   {
-    name: "İzmit / Dilovası / Tüpraş sanayi sahası",
+    name: "Izmit / Dilovasi / Tupras Petrochemical Complex",
     minLat: 40.72, maxLat: 40.82, minLon: 29.50, maxLon: 29.80,
   },
   {
-    name: "Zonguldak / Ereğli ağır sanayi sahası",
+    name: "Zonguldak / Eregli Heavy Metallurgical Complex",
     minLat: 41.15, maxLat: 41.32, minLon: 31.38, maxLon: 32.68,
   },
   {
-    name: "Ceyhan / Yumurtalık terminal sahası",
+    name: "Ceyhan / Yumurtalik Oil Terminal Corridor",
     minLat: 36.75, maxLat: 36.92, minLon: 35.80, maxLon: 36.00,
   },
-  { name: "Basra Körfezi petrol ve gaz havzası", minLat: 24, maxLat: 30, minLon: 48, maxLon: 57 },
-  { name: "Kuzey Denizi petrol ve gaz havzası", minLat: 51, maxLat: 62, minLon: -4, maxLon: 8 },
-  { name: "Meksika Körfezi petrol ve gaz havzası", minLat: 18, maxLat: 30, minLon: -98, maxLon: -80 },
-  { name: "Batı Sibirya petrol ve gaz havzası", minLat: 55, maxLat: 72, minLon: 60, maxLon: 90 },
+  { name: "Persian Gulf Oil & Gas Flare Basin", minLat: 24, maxLat: 30, minLon: 48, maxLon: 57 },
+  { name: "North Sea Oil & Gas Platform Flare Field", minLat: 51, maxLat: 62, minLon: -4, maxLon: 8 },
+  { name: "Gulf of Mexico Flare & Extraction Basin", minLat: 18, maxLat: 30, minLon: -98, maxLon: -80 },
+  { name: "Western Siberia Gas Flaring Basin", minLat: 55, maxLat: 72, minLon: 60, maxLon: 90 },
 ];
 
 function clamp01(value) {
@@ -1405,23 +1394,23 @@ function biomeRecord(code, label, vegetation, fuelLoad, source, extra = {}) {
 
 function classifyIgbpBiome(classCode) {
   const classNames = {
-    1: "İğne yapraklı herdem yeşil orman",
-    2: "Geniş yapraklı herdem yeşil orman",
-    3: "Yaprak döken iğne yapraklı orman",
-    4: "Yaprak döken geniş yapraklı orman",
-    5: "Karışık orman",
-    6: "Kapalı çalılık",
-    7: "Açık çalılık",
-    8: "Ağaçlı savan",
-    9: "Savan",
-    10: "Çayır",
-    11: "Kalıcı sulak alan",
-    12: "Ekili tarım alanı",
-    13: "Kentsel / yapılaşmış alan",
-    14: "Tarım-doğal bitki örtüsü mozaiği",
-    15: "Kalıcı kar ve buz",
-    16: "Çıplak / seyrek bitkili arazi",
-    17: "Su kütlesi",
+    1: "Evergreen Needleleaf Forest",
+    2: "Evergreen Broadleaf Forest",
+    3: "Deciduous Needleleaf Forest",
+    4: "Deciduous Broadleaf Forest",
+    5: "Mixed Forest",
+    6: "Closed Shrublands",
+    7: "Open Shrublands",
+    8: "Woody Savannas",
+    9: "Savannas",
+    10: "Grasslands",
+    11: "Permanent Wetlands",
+    12: "Croplands",
+    13: "Urban and Built-up Lands",
+    14: "Cropland/Natural Vegetation Mosaics",
+    15: "Permanent Snow and Ice",
+    16: "Barren / Sparsely Vegetated",
+    17: "Water Bodies",
   };
   const className = classNames[classCode];
   if (!className) return null;
@@ -1432,7 +1421,7 @@ function classifyIgbpBiome(classCode) {
       "FOREST_PINE_MIXED",
       `${className} (IGBP-${String(classCode).padStart(2, "0")})`,
       className,
-      "Orman alt örtüsü; yakıt miktarı saha koşullarına bağlı",
+      "Forest floor; fuel load depends on site condition",
       source,
       extra,
     );
@@ -1442,7 +1431,7 @@ function classifyIgbpBiome(classCode) {
       "SHRUBLAND_MAQUIS",
       `${className} (Akdeniz makilik; IGBP-${String(classCode).padStart(2, "0")})`,
       className,
-      "Kuru çalı ve makilik",
+      "Dry shrubland and maquis",
       source,
       extra,
     );
@@ -1452,7 +1441,7 @@ function classifyIgbpBiome(classCode) {
       "GRASSLAND_STEPPE",
       `${className} (IGBP-${String(classCode).padStart(2, "0")})`,
       className,
-      classCode === 11 ? "Sulak alan bitki örtüsü; yerel nem değişken" : "Kuru ot ve seyrek çalı",
+      classCode === 11 ? "Wetland vegetation; local moisture varies" : "Dry grass and open shrubs",
       source,
       extra,
     );
@@ -1462,7 +1451,7 @@ function classifyIgbpBiome(classCode) {
       "CROPLAND_AGRICULTURE",
       `${className} (IGBP-${String(classCode).padStart(2, "0")})`,
       className,
-      "Ekili tarım alanı bağlamı; anız yakıldığı kanıtı değildir",
+      "Cropland context; not direct evidence of stubble burning",
       source,
       extra,
     );
@@ -1470,9 +1459,9 @@ function classifyIgbpBiome(classCode) {
   if (classCode === 13) {
     return biomeRecord(
       "WUI_URBAN_INTERFACE",
-      `${className} (IGBP-13; sanayi etiketi değildir)`,
+      `${className} (IGBP-13; not an industrial label)`,
       className,
-      "Kentsel mozaik; yanıcı örtü yerel ölçekte değişken",
+      "Urban mosaic; fuel load varies locally",
       source,
       extra,
     );
@@ -1481,7 +1470,7 @@ function classifyIgbpBiome(classCode) {
     "NON_FUEL_SURFACE",
     `${className} (IGBP-${String(classCode).padStart(2, "0")})`,
     className,
-    "IGBP sınıfında düşük veya bulunmayan bitkisel yakıt",
+    "Low or zero vegetative fuel in IGBP class",
     source,
     extra,
   );
@@ -1504,9 +1493,9 @@ function inferGeographicBiome(cluster, elevationM = null) {
     return biomeRecord(
       "STA_VOLCANIC",
       `Aktif Volkanik / Jeotermal Alan (${volcano.name})`,
-      "Bazaltik lav / krater yüzeyi (IGBP-16)",
-      "Bitkisel yakıt yok — Magmatik / Volkanik Termal Anomali (FIRMS Type=1)",
-      "KÜRESEL VOLKANİK MASKE",
+      "Basaltic lava / crater terrain (IGBP-16)",
+      "No vegetative fuel — Magmatic / Volcanic Thermal Anomaly (FIRMS Type=1)",
+      "GLOBAL VOLCANIC MASK",
     );
   }
   if (lat >= 35.8 && lat <= 42.1 && lon >= 25.6 && lon <= 44.8) {
@@ -1518,62 +1507,62 @@ function inferGeographicBiome(cluster, elevationM = null) {
       if (elevationM == null || elevationM < 650) {
         return biomeRecord(
           "SHRUBLAND_MAQUIS",
-          "Akdeniz Makilik / Çalılık (IGBP-06/07)",
-          "Makilik ve çalılık",
-          "Kuru, reçineli maki ve çalılık",
-          "COĞRAFİ KUŞAK ÇIKARIMI",
+          "Mediterranean Shrubland / Maquis (IGBP-06/07)",
+          "Shrublands and chaparral",
+          "Dry, resinous shrubs and brushwood",
+          "GEOGRAPHIC REGIME INFERENCE",
         );
       }
       return biomeRecord(
         "FOREST_PINE_MIXED",
-        "Kızılçam / Karışık Orman (IGBP-01/05)",
-        "İbreli ve karışık orman",
-        "Yüksek reçineli ibreli orman / kuru orman alt örtüsü",
-        "COĞRAFİ KUŞAK ÇIKARIMI",
+        "Pine / Mixed Temperate Forest (IGBP-01/05)",
+        "Coniferous and mixed forest",
+        "High resin conifer canopy / dry forest floor",
+        "GEOGRAPHIC REGIME INFERENCE",
       );
     }
     return biomeRecord(
       "CROPLAND_AGRICULTURE",
-      "Tarım / Bozkır Kuşağı (IGBP-10/12)",
-      "Tarım ve bozkır mozaiği",
-      "Kuru tahıl anızı ve otlak örtüsü",
-      "COĞRAFİ KUŞAK ÇIKARIMI",
+      "Cropland / Steppe Mosaic (IGBP-10/12)",
+      "Agricultural cropland & pasture",
+      "Dry cereal stubble and herbaceous cover",
+      "GEOGRAPHIC REGIME INFERENCE",
     );
   }
   const absLat = Math.abs(lat);
   if (absLat <= 15) {
     return biomeRecord(
       "FOREST_PINE_MIXED",
-      "Tropikal Orman ve Ağaçlı Savan Kuşağı (IGBP-02/08)",
-      "Tropikal geniş yapraklı orman / savan",
-      "Yoğun tropikal biyokütle ve savan örtüsü",
-      "KÜRESEL ENLEM KUŞAĞI",
+      "Tropical Forest & Woody Savanna Belt (IGBP-02/08)",
+      "Tropical broadleaf forest / savanna",
+      "Dense tropical biomass & woody savanna",
+      "GLOBAL LATITUDE BAND",
     );
   }
   if (absLat <= 32) {
     return biomeRecord(
       "GRASSLAND_STEPPE",
-      "Subtropikal Savan ve Çalılık Kuşağı (IGBP-07/09)",
-      "Savan ve açık çalılık",
-      "Kuru ot ve subtropikal çalı yakıtı",
-      "KÜRESEL ENLEM KUŞAĞI",
+      "Subtropical Savanna & Shrubland Belt (IGBP-07/09)",
+      "Savanna & open shrubland",
+      "Dry herbaceous grass & shrub fuel",
+      "GLOBAL LATITUDE BAND",
     );
   }
   if (absLat <= 50) {
     return biomeRecord(
       "SHRUBLAND_MAQUIS",
-      "Ilıman Orman / Akdeniz ve Tarım Kuşağı (IGBP-05/12)",
-      "Karışık orman ve tarım mozaiği",
-      "Ilıman kuşak orman ve tarımsal örtü",
-      "KÜRESEL ENLEM KUŞAĞI",
+      "Temperate Forest & Cropland Mosaic (IGBP-05/12)",
+      "Mixed forest & agricultural mosaic",
+      "Temperate woodland & cropland fuel",
+      "GLOBAL LATITUDE BAND",
     );
   }
   return biomeRecord(
     "FOREST_PINE_MIXED",
-    "Boreal / Kuzey İğne Yapraklı Orman Kuşağı (IGBP-01/03)",
-    "Boreal tayga ve iğne yapraklı orman",
-    "Reçineli kozalaklı orman örtüsü",
-    "KÜRESEL ENLEM KUŞAĞI",
+    "Boreal / Taiga Coniferous Forest Belt (IGBP-01/03)",
+    "Boreal taiga & evergreen conifer forest",
+    "Resinous needleleaf canopy & dense duff layer",
+    "GLOBAL LATITUDE BAND",
   );
 }
 
@@ -1588,57 +1577,57 @@ function classifyOsmBiome(data) {
     address.landuse, address.natural, address.leisure, address.amenity,
     address.industrial, address.man_made,
   ].filter(Boolean).join(" ").toLowerCase();
-  if (/\b(industrial|port|harbour|harbor|dock|refinery|plant|works|quarry|mine|liman|tersane|rafineri|demir.?çelik|sanayi)\b/.test(value)) {
+  if (/\b(industrial|port|harbour|harbor|dock|refinery|plant|works|quarry|mine|shipyard|steel)\b/.test(value)) {
     return biomeRecord(
       "STA_INDUSTRIAL_PORT",
-      "Liman & Ağır Sanayi Endüstriyel Alanı (OSM doğrulamalı)",
-      "Yok (beton / çelik / endüstriyel yüzey)",
-      "Yanıcı bitki örtüsü yok - endüstriyel ısı kaynağı",
+      "Port & Heavy Industrial Site (OSM-verified)",
+      "None (concrete / steel / industrial surface)",
+      "No combustible vegetative fuel - industrial heat source",
       "OSM / NOMINATIM",
     );
   }
-  if (/\b(forest|wood|national_park|nature_reserve|orman|çam|koru)\b/.test(value)) {
+  if (/\b(forest|wood|national_park|nature_reserve|timber|pine)\b/.test(value)) {
     return biomeRecord(
       "FOREST_PINE_MIXED",
-      "Orman Örtüsü / Karışık Orman (OSM; IGBP-01/05 görsel referans)",
-      "Orman örtüsü (OSM sınıfı)",
-      "Yüksek reçineli ibreli orman / kuru orman alt örtüsü",
+      "Forest Cover / Mixed Woods (OSM; IGBP-01/05 reference)",
+      "Forest canopy (OSM class)",
+      "High resin conifer canopy / dry forest floor",
       "OSM / NOMINATIM",
     );
   }
-  if (/\b(scrub|heath|chaparral|makilik|çalılık|maki)\b/.test(value)) {
+  if (/\b(scrub|heath|chaparral|maquis|shrub)\b/.test(value)) {
     return biomeRecord(
       "SHRUBLAND_MAQUIS",
-      "Akdeniz Makilik ve Çalılık Örtüsü (OSM; IGBP-06/07 görsel referans)",
-      "Makilik ve çalılık (OSM sınıfı)",
-      "Kuru, reçineli maki ve çalılık",
+      "Shrubland & Chaparral Cover (OSM; IGBP-06/07 reference)",
+      "Shrublands and chaparral (OSM class)",
+      "Dry, resinous shrubs and brushwood",
       "OSM / NOMINATIM",
     );
   }
-  if (/\b(farmland|farm|meadow|orchard|vineyard|field|tarla|çiftlik|bağ|bahçe)\b/.test(value)) {
+  if (/\b(farmland|farm|meadow|orchard|vineyard|field|crop)\b/.test(value)) {
     return biomeRecord(
       "CROPLAND_AGRICULTURE",
-      "Tarım Arazisi / Ekili Alan (OSM; IGBP-12/14 görsel referans)",
-      "Tarım ve ürün mozaiği (OSM sınıfı)",
-      "Kuru tahıl anızı ve tarla artığı",
+      "Farmland / Cropland (OSM; IGBP-12/14 reference)",
+      "Agricultural cropland (OSM class)",
+      "Dry agricultural stubble & crop residue",
       "OSM / NOMINATIM",
     );
   }
-  if (/\b(grass|grassland|steppe|pasture|bozkır|mera|otlak)\b/.test(value)) {
+  if (/\b(grass|grassland|steppe|pasture|rangeland)\b/.test(value)) {
     return biomeRecord(
       "GRASSLAND_STEPPE",
-      "Bozkır / Mera Otlağı (OSM; IGBP-10/11 görsel referans)",
-      "Bozkır ve mera (OSM sınıfı)",
-      "Kuru ot ve seyrek çalı yakıtı",
+      "Grassland / Rangeland (OSM; IGBP-10/11 reference)",
+      "Grassland & pasture (OSM class)",
+      "Dry grass & scattered brush fuel",
       "OSM / NOMINATIM",
     );
   }
-  if (/\b(residential|suburb|city|town|village|yerleşim|mahalle|köy|şehir)\b/.test(value)) {
+  if (/\b(residential|suburb|city|town|village|settlement)\b/.test(value)) {
     return biomeRecord(
       "WUI_URBAN_INTERFACE",
-      "Yerleşim / Kentsel Ara Yüz (OSM doğrulamalı)",
-      "Yerleşim ve parçalı bitki örtüsü",
-      "Karışık kentsel / kırsal yanıcı madde",
+      "Wildland-Urban Interface (WUI; OSM-verified)",
+      "Settlement & fragmented vegetation",
+      "Mixed residential / wildland fuel",
       "OSM / NOMINATIM",
     );
   }
@@ -1656,11 +1645,11 @@ function detectBiomeAndLandCover(cluster, allPoints, context = {}) {
   if (staRegion) {
     return biomeRecord(
       "STA_INDUSTRIAL_PORT",
-      "LİMAN / AĞIR SANAYİ TESİSİ (UYGULAMA İÇİ MASKE)",
-      "Yok (Beton / Çelik / Endüstriyel Yüzey)",
-      "Yanıcı Bitki Örtüsü Yok - Endüstriyel Isı",
-      "YEREL SANAYİ COĞRAFİ SINIRI",
-      { evidence: `Uygulama içi sanayi sınırı: ${staRegion.name}`, persistentDays },
+      "PORT / HEAVY INDUSTRIAL CORRIDOR (STA MASK)",
+      "None (Concrete / Steel / Industrial Substrate)",
+      "No Combustible Vegetation - Industrial Flare Heat",
+      "IN-SITU INDUSTRIAL GEOSPATIAL MASK",
+      { evidence: `Industrial polygon boundary: ${staRegion.name}`, persistentDays },
     );
   }
   const osmBiome = classifyOsmBiome(context.osmData);
@@ -1670,8 +1659,8 @@ function detectBiomeAndLandCover(cluster, allPoints, context = {}) {
   if (persistentDays > 3) {
     return {
       ...biome,
-      source: `${biome.source} / ${persistentDays} gün tekrar (STA adayı; sanayi doğrulanmadı)`,
-      evidence: `${persistentDays} farklı tespit günü; uzun süren doğal yangınlar da tekrarlayabilir`,
+      source: `${biome.source} / ${persistentDays} days recurring (STA candidate; unverified industrial)`,
+      evidence: `${persistentDays} distinct detection days; persistent natural wildfires can also recur`,
       persistentDays,
     };
   }
@@ -1821,14 +1810,14 @@ function analyzeFireIntelligence(cluster, allPoints, biomeOverride = null, conte
     rankedScores,
     biome,
     recurrenceCount: recurrence.length,
-    recurrenceMonths: recurrenceMonthSummary.length ? recurrenceMonthSummary : ["Yoğun ay verisi yok"],
+    recurrenceMonths: recurrenceMonthSummary.length ? recurrenceMonthSummary : ["No peak month data"],
     recurrenceLabel: recurrence.length
-      ? `YÜKLÜ VERİDE YÜKSEK TEKERRÜR (${recurrence.length} kayıt)`
-      : "İLK KEZ / NADİR (yüklü veri içinde)",
+      ? `HIGH HISTORICAL RECURRENCE (${recurrence.length} records)`
+      : "FIRST OBSERVED / RARE (in loaded archive)",
     humanFactorScore,
     industrialRepeatCount: industrialRepeat.length,
     industrialDeltaDeviation,
-    evidenceScope: "Mevcut tarayıcı veri kümesi",
+    evidenceScope: "Current browser dataset",
     model: "TURQUA land-cover constrained heuristic relative-score ranking v2 (uncalibrated)",
   };
 }
@@ -1857,16 +1846,16 @@ function updateTelemetry(sourceLabel) {
   if (normalizedElement) normalizedElement.textContent = normalizedIndex.toLocaleString("tr-TR", { maximumFractionDigits: 2 });
   const correctionElement = document.getElementById("sensorCorrection");
   if (correctionElement) correctionElement.textContent = correctionPercent == null
-    ? "VERİ YOK"
+    ? "NO DATA"
     : `${correctionPercent >= 0 ? "+" : ""}${correctionPercent.toFixed(1)}%`;
   const bridgeNote = document.getElementById("sensorBridgeNote");
   if (bridgeNote) bridgeNote.textContent =
-    "MODIS 1 km² ve VIIRS 0,14 km² ağırlığı piksel alanına göre normalize edilir; MODIS emekliliği sonrası VIIRS aynı eşdeğer indeksle izlenir.";
+    "MODIS 1 km² and VIIRS 0.14 km² weights are normalized by pixel area; post-MODIS retirement VIIRS maintains continuity.";
   updateAoiCriticalAlarm();
   const badge = document.getElementById("sourceStatus");
   if (badge) {
     const source = sourceLabel.toUpperCase().includes("FIRMS") ? "NASA FIRMS" : sourceLabel;
-    badge.textContent = `${source} AKTİF / ${points.length.toLocaleString("tr-TR")} TESPİT`;
+    badge.textContent = `${source} ACTIVE / ${points.length.toLocaleString("en-US")} DETECTIONS`;
     badge.className = "source-status ok";
   }
 }
@@ -1883,12 +1872,10 @@ function updateAoiCriticalAlarm() {
   const alarm = document.getElementById("aoiCriticalAlarm");
   if (alarm) {
     alarm.hidden = activeFoci === 0;
-    alarm.textContent = activeFoci
-      ? `[! AOI KRİTİK ALARM: ${activeFoci} AKTİF ODAK]`
-      : "";
+    alarm.textContent = activeFoci ? `[! CRITICAL ALERT: ${activeFoci} ACTIVE FIRE FOCI]` : "";
     alarm.title = anomalyCritical
-      ? "Çoklu sensör teyitli odaklar ve seçili AOI için +25% veya üzeri anomalide tetiklendi."
-      : "Çoklu sensör teyitli ve FRP > 50 MW odaklarında tetiklendi.";
+      ? "Triggered by multi-sensor verified foci and +25% anomaly in selected AOI."
+      : "Triggered by multi-sensor verified foci with FRP > 50 MW.";
   }
   return activeFoci;
 }
@@ -1920,7 +1907,7 @@ function updateMapAndTelemetry(sourceLabel = state.sourceLabel) {
           ? (point.sensor === "MODIS" ? 1 : 0.14) * point.frp / (point.scan_km * point.track_km)
           : (point.sensor === "MODIS" ? 1 : 0.14) / (point.scan_km * point.track_km),
         cluster_id: cluster?.id ?? null,
-        regime: cluster?.regime ?? "KARIŞIK / SINIFLANDIRILMAMIŞ",
+        regime: cluster?.regime ?? "MIXED / UNCLASSIFIED",
         modis_count: cluster?.sensorCounts.MODIS ?? (point.sensor === "MODIS" ? 1 : 0),
         viirs_count: cluster?.sensorCounts.VIIRS ?? (point.sensor === "VIIRS" ? 1 : 0),
         detection_count: cluster?.members.length ?? 1,
@@ -1981,7 +1968,7 @@ function processRecords(records, sourceLabel, { epsKm = 0.8, maxPoints = null } 
   if (records.length > 0 && state.allPoints.length === 0) {
     const badge = document.getElementById("sourceStatus");
     if (badge) {
-      badge.textContent = "VERİ ŞEMASI HATASI";
+      badge.textContent = "DATA SCHEMA ERROR";
       badge.className = "source-status err";
     }
   }
@@ -2192,7 +2179,7 @@ const { applyDataQuery, setActivityMetric, state } = window.__TQ;
 const { beginAoiDrawing, focusAOI, setMapActivityMetric, setMapColorRamp, updateAOI } = window.__TQ;
 
 const YEARS = Array.from({ length: 27 }, (_, index) => 2000 + index);
-const MONTHS = ["OCAK", "ŞUBAT", "MART", "NİSAN", "MAYIS", "HAZİRAN", "TEMMUZ", "AĞUSTOS", "EYLÜL", "EKİM", "KASIM", "ARALIK"];
+const MONTHS = ["JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE", "JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER"];
 const PRODUCTS = [
   { id: "MODIS_SP", from: "2000-11-01" },
   { id: "VIIRS_SNPP_SP", from: "2012-01-20" },
@@ -2267,8 +2254,8 @@ function syncPlaybackControls() {
   dateLabel.textContent = selectedIndex >= 0
     ? `${state.selectedDate} · ${selectedIndex + 1}/${playbackDates.length}`
     : playbackDates.length
-      ? `TÜMÜ · ${playbackDates.length} TESPİT GÜNÜ`
-      : "VERİ YOK";
+      ? `ALL · ${playbackDates.length} DETECTION DAYS`
+      : "NO DATA";
 }
 
 function selectPlaybackDate(index) {
@@ -2291,7 +2278,7 @@ function advancePlayback() {
 }
 
 function openDatabase() {
-  if (!("indexedDB" in window)) return Promise.reject(new Error("Tarayıcı IndexedDB desteği yok"));
+  if (!("indexedDB" in window)) return Promise.reject(new Error("Browser lacks IndexedDB support"));
   if (databasePromise) return databasePromise;
   databasePromise = new Promise((resolve, reject) => {
     const request = indexedDB.open(DB_NAME, DB_VERSION);
@@ -2303,7 +2290,7 @@ function openDatabase() {
       }
     };
     request.onsuccess = () => resolve(request.result);
-    request.onerror = () => reject(request.error || new Error("Arşiv veritabanı açılamadı"));
+    request.onerror = () => reject(request.error || new Error("Could not open archive database"));
   });
   return databasePromise;
 }
@@ -2313,8 +2300,8 @@ async function putCache(coverageEntry) {
     const transaction = database.transaction(COVERAGE_STORE, "readwrite");
     transaction.objectStore(COVERAGE_STORE).put(coverageEntry);
     transaction.oncomplete = resolve;
-    transaction.onerror = () => reject(transaction.error || new Error("Arşiv veritabanı işlemi başarısız"));
-    transaction.onabort = () => reject(transaction.error || new Error("Arşiv veritabanı işlemi iptal edildi"));
+    transaction.onerror = () => reject(transaction.error || new Error("Archive database transaction failed"));
+    transaction.onabort = () => reject(transaction.error || new Error("Archive database transaction aborted"));
   }));
 }
 
@@ -2324,14 +2311,14 @@ async function getAreaCache(areaKey) {
     const transaction = database.transaction(COVERAGE_STORE, "readonly");
     const request = transaction.objectStore(COVERAGE_STORE).index("areaKey").getAll(IDBKeyRange.only(areaKey));
     request.onsuccess = () => resolve(request.result);
-    request.onerror = () => reject(request.error || new Error("Önbellek okunamadı"));
+    request.onerror = () => reject(request.error || new Error("Cache read failure"));
   });
 }
 
 function readBoundsFromInputs() {
   const read = id => {
     const raw = document.getElementById(id).value.trim();
-    if (!raw) throw new Error("AOI koordinat alanları boş bırakılamaz");
+    if (!raw) throw new Error("AOI coordinates cannot be empty");
     return Number(raw);
   };
   const bounds = {
@@ -2340,12 +2327,12 @@ function readBoundsFromInputs() {
     minLon: read("minLon"),
     maxLon: read("maxLon"),
   };
-  if (Object.values(bounds).some(value => !Number.isFinite(value))) throw new Error("AOI koordinatları sayısal olmalı");
+  if (Object.values(bounds).some(value => !Number.isFinite(value))) throw new Error("AOI coordinates must be numeric");
   if (bounds.minLat < -90 || bounds.maxLat > 90 || bounds.minLat >= bounds.maxLat) {
-    throw new Error("Enlem sınırları -90 ile 90 arasında ve min < max olmalı");
+    throw new Error("Latitude must be between -90 and 90 with min < max");
   }
   if (bounds.minLon < -180 || bounds.maxLon > 180 || bounds.minLon >= bounds.maxLon) {
-    throw new Error("Boylam sınırları -180 ile 180 arasında ve min < max olmalı");
+    throw new Error("Longitude must be between -180 and 180 with min < max");
   }
   return bounds;
 }
@@ -2355,7 +2342,7 @@ function updateQuery({ redraw = true } = {}) {
   const startMonth = document.getElementById("startMonth").value;
   const endMonth = document.getElementById("endMonth").value;
   if (!startMonth || !endMonth || startMonth > endMonth) {
-    throw new Error("Başlangıç ayı bitiş ayından önce veya aynı olmalı");
+    throw new Error("Start month must be before or equal to end month");
   }
   const bounds = document.getElementById("globalMode")?.checked ? null : readBoundsFromInputs();
   applyDataQuery({ bounds, startMonth, endMonth, epsKm: state.epsKm });
@@ -2476,17 +2463,17 @@ async function fetchArchiveJob(job, key, signal, includeRecords = false) {
   let lastError;
   let text;
   for (let attempt = 0; attempt <= MAX_RETRIES; attempt++) {
-    if (signal.aborted) throw new DOMException("İndirme durduruldu", "AbortError");
+    if (signal.aborted) throw new DOMException("Download aborted", "AbortError");
     const now = Date.now();
     const wait = Math.max(0, nextRequestAt - now);
     nextRequestAt = Math.max(now, nextRequestAt) + 150;
     if (wait) await delay(wait);
-    if (signal.aborted) throw new DOMException("İndirme durduruldu", "AbortError");
+    if (signal.aborted) throw new DOMException("Download aborted", "AbortError");
     try {
       const response = await fetch(url, { signal });
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
       const responseText = await response.text();
-      if (/^(invalid|error)/i.test(responseText.trim())) throw new Error("FIRMS API isteği reddetti");
+      if (/^(invalid|error)/i.test(responseText.trim())) throw new Error("FIRMS API rejected request");
       text = responseText;
       break;
     } catch (error) {
@@ -2495,7 +2482,7 @@ async function fetchArchiveJob(job, key, signal, includeRecords = false) {
       if (attempt < MAX_RETRIES) await delay(700 * (attempt + 1));
     }
   }
-  if (text == null) throw lastError || new Error("FIRMS arşiv yanıtı alınamadı");
+  if (text == null) throw lastError || new Error("Could not receive FIRMS archive response");
   const records = csvRows(text).map(row => ({ ...row, _sensor: job.product }));
   const monthTotals = monthIndex(records);
   const keyId = cachedKey(job.area, job.product, job.end, job.days);
@@ -2611,8 +2598,8 @@ function historicalValues(monthNumber, referenceYear = null) {
       rows: hasFull20YearBaseline ? covered20Years : sameMonth,
       full20YearBaseline: hasFull20YearBaseline,
       label: hasFull20YearBaseline
-        ? "20 YILLIK TARİHSEL MEDYAN"
-        : `MEVCUT ARŞİV MEDYANI (${sameMonth.length} AY)`,
+        ? "20-YEAR HISTORICAL MEDIAN"
+        : `CURRENT ARCHIVE MEDIAN (${sameMonth.length} MO)`,
     };
   }
 
@@ -2631,14 +2618,14 @@ function historicalValues(monthNumber, referenceYear = null) {
     return {
       rows: loadedMonths,
       full20YearBaseline: false,
-      label: `YÜKLÜ DÖNEM AYLIK MEDYANI (${loadedMonths.length} AY)`,
+      label: `LOADED PERIOD MONTHLY MEDIAN (${loadedMonths.length} MO)`,
     };
   }
 
   return {
     rows: [],
     full20YearBaseline: false,
-    label: "AYNI AY İÇİN KARŞILAŞTIRILABİLİR ARŞİV YOK",
+    label: "NO COMPARABLE BASELINE FOR THIS MONTH",
   };
 }
 
@@ -2658,7 +2645,7 @@ function median(values) {
 }
 
 function fmt(value) {
-  if (value == null || !Number.isFinite(value)) return "VERİ YOK";
+  if (value == null || !Number.isFinite(value)) return "NO DATA";
   return value.toLocaleString("tr-TR", { maximumFractionDigits: 3 });
 }
 
@@ -2668,13 +2655,13 @@ function anomalyFor(value, baseline) {
 }
 
 function anomalyLabel(anomaly, loadedPeriodBaseline = false) {
-  if (anomaly == null) return "KAPSAMA YETERSİZ";
+  if (anomaly == null) return "INSUFFICIENT COVERAGE";
   if (loadedPeriodBaseline) {
-    return `YÜKLÜ DÖNEM KIYASI: ${anomaly >= 0 ? "+" : ""}${anomaly.toFixed(1)}% [MEVSİMSEL ANOMALİ DEĞİL]`;
+    return `LOADED PERIOD COMPARISON: ${anomaly >= 0 ? "+" : ""}${anomaly.toFixed(1)}% [NON-SEASONAL]`;
   }
-  if (anomaly >= 25) return `+${anomaly.toFixed(1)}% [KRİTİK DÖNEM]`;
+  if (anomaly >= 25) return `+${anomaly.toFixed(1)}% [CRITICAL FIRE ANOMALY]`;
   if (anomaly <= -20) return `${anomaly.toFixed(1)}% [NORMAL ALTI]`;
-  return `${anomaly >= 0 ? "+" : ""}${anomaly.toFixed(1)}% [ARALIK İÇİNDE]`;
+  return `${anomaly >= 0 ? "+" : ""}${anomaly.toFixed(1)}% [NORMAL RANGE]`;
 }
 
 function paletteColor(value, max) {
@@ -2731,8 +2718,8 @@ function renderCalendar() {
       cell.style.backgroundColor = paletteColor(value || 0, max);
       if (activeYearsOnly && value != null) cell.textContent = fmt(value);
       cell.setAttribute("role", "gridcell");
-      const loadedPeriodBaseline = history.label.startsWith("YÜKLÜ DÖNEM");
-      cell.title = `${year} ${MONTHS[monthNumber - 1]} | Uyumlaştırılmış yoğunluk: ${fmt(value)} | ${history.label}: ${fmt(baseline)} | Anomali: ${anomalyLabel(anomaly, loadedPeriodBaseline)} | Kayıt: ${activity?.detections || 0}${complete ? " | TAM ARŞİV" : activity ? " | KISMİ / YEREL" : " | VERİ YOK"}`;
+      const loadedPeriodBaseline = history.label.startsWith("LOADED PERIOD");
+      cell.title = `${year} ${MONTHS[monthNumber - 1]} | Harmonized intensity: ${fmt(value)} | ${history.label}: ${fmt(baseline)} | Anomaly: ${anomalyLabel(anomaly, loadedPeriodBaseline)} | Records: ${activity?.detections || 0}${complete ? " | FULL ARCHIVE" : activity ? " | PARTIAL / LOCAL" : " | NO DATA"}`;
       cell.setAttribute("aria-label", cell.title);
       cell.classList.toggle("no-data", value == null);
       cell.addEventListener("click", () => {
@@ -2749,7 +2736,7 @@ function renderCalendar() {
     }
   }
   document.getElementById("calendarStatus").textContent =
-    `AOI ${state.bounds ? "seçili alan" : "küresel"} | ${activeYears.length} aktif yıl | ${archiveCoverage.length} arşiv aralığı | Eksik aylar sıfır aktivite olarak yorumlanmaz.`;
+    `AOI ${state.bounds ? "bounded region" : "global"} | ${activeYears.length} active years | ${archiveCoverage.length} archive spans | Missing months are unobserved, not zero.`;
   renderAnomalyChart();
   syncPlaybackControls();
 }
@@ -2830,9 +2817,9 @@ function renderAnomalyChart() {
   document.getElementById("historicalMedianLabel").textContent = history.label;
   currentElement.textContent = fmt(actual);
   medianElement.textContent = baseline == null
-    ? `KAPSAMA YETERSİZ (${history.rows.length} ay)`
+    ? `INSUFFICIENT COVERAGE (${history.rows.length} mo)`
     : fmt(baseline);
-  const loadedPeriodBaseline = history.label.startsWith("YÜKLÜ DÖNEM");
+  const loadedPeriodBaseline = history.label.startsWith("LOADED PERIOD");
   anomalyElement.textContent = anomalyLabel(anomaly, loadedPeriodBaseline);
   anomalyElement.className = !loadedPeriodBaseline && anomaly != null && anomaly >= 25 ? "warn" : "";
   window.dispatchEvent(new CustomEvent("turqua:anomaly-updated"));
@@ -2969,8 +2956,8 @@ async function refreshCalendar({ focusLatestLocalMonth = false } = {}) {
     renderCalendar();
   } catch (error) {
     if (revision !== refreshRevision) return;
-    log(`Takvim önbelleği okunamadı: ${error.message}`, "err");
-    document.getElementById("calendarStatus").textContent = `ARŞİV HATASI: ${error.message}`;
+    log(`Could not read calendar cache: ${error.message}`, "err");
+    document.getElementById("calendarStatus").textContent = `ARCHIVE ERROR: ${error.message}`;
   }
 }
 
@@ -2993,15 +2980,15 @@ async function downloadHistoricalArchive({ includeRecords = false } = {}) {
       startMonth = monthFromIndex(endIndex - 11);
       startInput.value = startMonth;
       updateQuery({ redraw: false });
-      const rangeNotice = `Geniş tarih aralığı kota koruması için son 12 aya indirildi: ${startMonth}–${endMonth}`;
+      const rangeNotice = `Broad date range capped to 12 months for rate protection: ${startMonth}–${endMonth}`;
       log(rangeNotice, "warn");
       document.getElementById("calendarStatus").textContent = rangeNotice;
-      progressText.textContent = `ARŞİV: ${startMonth}–${endMonth} (son 12 ay; seçim ${requestedStart}–${endMonth} idi)`;
+      progressText.textContent = `ARCHIVE: ${startMonth}–${endMonth} (last 12 months; requested ${requestedStart}–${endMonth})`;
     }
     const area = areaKey(state.bounds);
     const jobs = makeJobs(startMonth, endMonth, area);
     if (!jobs.length) {
-      log("Seçili zaman aralığı henüz gerçekleşmedi; gelecek dönemler indirilemez", "warn");
+      log("Selected timeframe is in the future; cannot query future observations", "warn");
       return;
     }
     const cache = await getAreaCache(area);
@@ -3011,7 +2998,7 @@ async function downloadHistoricalArchive({ includeRecords = false } = {}) {
       return !entry || (includeRecords && !Array.isArray(entry.records));
     });
     if (!pending.length) {
-      log("Seçili NASA FIRMS tarih aralığı tarayıcı önbelleğinde mevcut", "ok");
+      log("Selected NASA FIRMS date range is already cached in browser", "ok");
       await refreshCalendar();
       return includeRecords
         ? cache.flatMap(entry => Array.isArray(entry.records) ? entry.records : [])
@@ -3020,7 +3007,7 @@ async function downloadHistoricalArchive({ includeRecords = false } = {}) {
     const key = document.getElementById("mapKey").value.trim();
     if (!key) {
       document.getElementById("settingsDialog").showModal();
-      throw new Error("Tarihsel FIRMS arşivi için ayarlara NASA MAP_KEY girin");
+      throw new Error("Please enter NASA FIRMS MAP_KEY in settings to download historical archive");
     }
     archiveController = new AbortController();
     stopButton.hidden = false;
@@ -3053,18 +3040,18 @@ async function downloadHistoricalArchive({ includeRecords = false } = {}) {
         }
         completed++;
         progress.value = completed;
-        progressText.textContent = `ARŞİV: ${completed}/${pending.length} İSTEK | ${downloadedRecords} TESPİT | ${failures} HATA`;
+        progressText.textContent = `ARCHIVE: ${completed}/${pending.length} REQUESTS | ${downloadedRecords} DETECTIONS | ${failures} ERRORS`;
       }
     };
     await Promise.all(Array.from({ length: Math.min(3, pending.length) }, () => worker()));
     const stopped = archiveController.signal.aborted && !fatalError;
-    if (failures) log(`${failures} tarih aralığı indirilemedi; başarısız aralıklar tekrar çalıştırılabilir`, "warn");
-    const archiveStatus = fatalError ? "YEREL DEPOLAMA HATASI" : stopped ? "DURDURULDU" : failures ? "KISMİ" : "TAMAMLANDI";
+    if (failures) log(`${failures} ranges failed to download; can be retried`, "warn");
+    const archiveStatus = fatalError ? "LOCAL STORAGE ERROR" : stopped ? "STOPPED" : failures ? "PARTIAL" : "COMPLETED";
     log(
-      `Tarihsel arşiv ${archiveStatus.toLowerCase()}: ${downloadedRecords} kayıt`,
+      `Historical archive ${archiveStatus.toLowerCase()}: ${downloadedRecords} records`,
       fatalError ? "err" : stopped || failures ? "warn" : "ok",
     );
-    progressText.textContent = `ARŞİV: ${archiveStatus} | ${downloadedRecords} TESPİT | ${failures} HATA`;
+    progressText.textContent = `ARCHIVE: ${archiveStatus} | ${downloadedRecords} DETECTIONS | ${failures} ERRORS`;
     await refreshCalendar();
     if (includeRecords) {
       const updatedCache = await getAreaCache(area);
@@ -3072,8 +3059,8 @@ async function downloadHistoricalArchive({ includeRecords = false } = {}) {
     }
     return downloadedRows;
   } catch (error) {
-    log(`Tarihsel arşiv başlatılamadı: ${error.message}`, "err");
-    progressText.textContent = `ARŞİV HATASI: ${error.message}`;
+    log(`Could not initialize historical archive: ${error.message}`, "err");
+    progressText.textContent = `ARCHIVE ERROR: ${error.message}`;
     return [];
   } finally {
     archiveController = null;
@@ -3166,7 +3153,7 @@ function exportResultsCSV() {
       frp,
       delta,
       area,
-      anomalyLabel(anomaly, history.label.startsWith("YÜKLÜ DÖNEM")),
+      anomalyLabel(anomaly, history.label.startsWith("LOADED PERIOD")),
       cluster.regime,
     ];
   });
@@ -3213,18 +3200,18 @@ function initCalendar(setLogger) {
     if (cancelAoiDrawing) {
       cancelAoiDrawing();
       cancelAoiDrawing = null;
-      drawButton.textContent = "HARİTADA ALAN ÇİZ";
+      drawButton.textContent = "DRAW AOI BOX";
       updateAOI(state.bounds);
       return;
     }
-    log("Haritada başlangıç ve bitiş noktalarını seçerek dikdörtgen AOI çizin", "warn");
-    drawButton.textContent = "ÇİZİMİ İPTAL ET";
+    log("Click on map to draw rectangle AOI boundary", "warn");
+    drawButton.textContent = "CANCEL DRAWING";
     cancelAoiDrawing = beginAoiDrawing(bounds => {
       cancelAoiDrawing = null;
-      drawButton.textContent = "HARİTADA ALAN ÇİZ";
+      drawButton.textContent = "DRAW AOI BOX";
       if (!bounds) {
         updateAOI(state.bounds);
-        log("AOI dikdörtgeni en az 0.1 derece olmalı", "warn");
+        log("AOI box must be at least 0.1 degrees", "warn");
         return;
       }
       const gm = document.getElementById("globalMode");
@@ -3292,13 +3279,13 @@ function initCalendar(setLogger) {
     calendarExpanded = !calendarExpanded;
     document.getElementById("calendarBody").hidden = !calendarExpanded;
     document.querySelector(".calendar-panel").classList.toggle("collapsed", !calendarExpanded);
-    event.target.textContent = calendarExpanded ? "DARALT" : "BÜYÜT";
+    event.target.textContent = calendarExpanded ? "COLLAPSE" : "EXPAND";
     event.target.setAttribute("aria-expanded", String(calendarExpanded));
   });
   document.getElementById("toggleCalendarScope").addEventListener("click", event => {
     activeYearsOnly = !activeYearsOnly;
     event.currentTarget.setAttribute("aria-pressed", String(activeYearsOnly));
-    event.currentTarget.textContent = activeYearsOnly ? "TÜM YILLAR" : "AKTİF YILLAR";
+    event.currentTarget.textContent = activeYearsOnly ? "ALL YEARS" : "ACTIVE YEARS";
     renderCalendar();
   });
   window.addEventListener("resize", renderAnomalyChart);
@@ -3348,30 +3335,14 @@ let currentLang = "en";
 let spinActive = false;
 let spinFrame = null;
 
-const UI_TRANSLATIONS = {
-  en: {
-    BÖLGE: "AOI", ÖZET: "SUMMARY", "YEREL VERİ": "STATIC DATA", "CANLI VERİ": "LIVE API (OPT)",
-    "DOSYA YÜKLE": "LOAD FILE", "CSV İNDİR": "EXPORT CSV", "GEOJSON İNDİR": "GEOJSON", AYARLAR: "API KEY",
-    "HARİTADA ALAN ÇİZ": "DRAW AOI BOX", TÜRKİYE: "TÜRKİYE", "AKDENİZ HAVZASI": "MEDITERRANEAN",
-    AMAZON: "AMAZON", KÜRESEL: "GLOBAL", "YANMA AKTİVİTESİ TAKVİMİ (2000 - 2026)": "HARMONIZED BURNING ACTIVITY CALENDAR (2000–2026)",
-    "AKTİVİTE ÖZETİ": "ACTIVITY TELEMETRY", "UYUMLAŞTIRILMIŞ TESPİT": "HARMONIZED BURNING DAYS",
-    "YANGIN KÜMESİ": "FIRE EVENTS (CLUSTERS)", "ÇOKLU SENSÖR TEYİDİ": "MULTI-SENSOR VERIFIED"
-  },
-  tr: {
-    AOI: "BÖLGE", SUMMARY: "ÖZET", "STATIC DATA": "YEREL VERİ", "LIVE API (OPT)": "CANLI VERİ",
-    "LOAD FILE": "DOSYA YÜKLE", "EXPORT CSV": "CSV İNDİR", GEOJSON: "GEOJSON İNDİR", "API KEY": "AYARLAR",
-    "DRAW AOI BOX": "HARİTADA ALAN ÇİZ", "HARMONIZED BURNING ACTIVITY CALENDAR (2000–2026)": "YANMA AKTİVİTESİ TAKVİMİ (2000 - 2026)",
-    "ACTIVITY TELEMETRY": "AKTİVİTE ÖZETİ", "HARMONIZED BURNING DAYS": "UYUMLAŞTIRILMIŞ TESPİT",
-    "FIRE EVENTS (CLUSTERS)": "YANGIN KÜMESİ", "MULTI-SENSOR VERIFIED": "ÇOKLU SENSÖR TEYİDİ"
-  }
-};
+const UI_TRANSLATIONS = { en: {} };
 
 async function initProofLab() {
   precomputedMonthly = window.TURQUA_PRELOADED_MONTHLY || null;
 
   const cmdActions = document.querySelector(".cmd-actions");
   if (cmdActions && !document.getElementById("btnEvidencePage")) {
-    // 1) Raw vs Harmonized Toggle (Bölüm 5.2)
+    // 1) Raw vs Harmonized Toggle (Section 5.2)
     const modeBtn = document.createElement("button");
     modeBtn.id = "btnRawHarmToggle";
     modeBtn.className = "btn btn-proof";
@@ -3403,22 +3374,7 @@ async function initProofLab() {
     solverBtn.title = "Open interactive in-app mathematical formula solver";
     solverBtn.addEventListener("click", openSolverModal);
 
-    // 5) 3D Spin Button
-    const spinBtn = document.createElement("button");
-    spinBtn.id = "btnGlobeSpin";
-    spinBtn.className = "btn";
-    spinBtn.textContent = "🌐 3D SPIN";
-    spinBtn.addEventListener("click", toggleGlobeSpin);
-
-    // 6) EN / TR Toggle
-    const langBtn = document.createElement("button");
-    langBtn.id = "btnLangToggle";
-    langBtn.className = "btn";
-    langBtn.textContent = "EN / TR";
-    langBtn.addEventListener("click", toggleLanguage);
-
-    cmdActions.prepend(langBtn);
-    cmdActions.prepend(spinBtn);
+    // (3D Spin & EN/TR toggles removed for clean mission interface)
     cmdActions.prepend(solverBtn);
     cmdActions.prepend(modeBtn);
     cmdActions.prepend(tourBtn);
@@ -3458,10 +3414,10 @@ function renderPrecomputedCalendar() {
   let totalHarm = 0;
   cells.forEach(cell => {
     const title = cell.getAttribute("title") || "";
-    const mMatch = title.match(/^(\d{4})\s+([A-ZÇĞİÖŞÜ]+)/);
+    const mMatch = title.match(/^(\d{4})\s+([A-Z]+)/);
     if (!mMatch) return;
     const yr = Number(mMatch[1]);
-    const mNames = ["OCAK","ŞUBAT","MART","NİSAN","MAYIS","HAZİRAN","TEMMUZ","AĞUSTOS","EYLÜL","EKİM","KASIM","ARALIK"];
+    const mNames = ["JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE", "JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER"];
     const mo = mNames.indexOf(mMatch[2]) + 1;
     if (mo < 1) return;
     const ym = `${yr}-${String(mo).padStart(2, "0")}`;
@@ -3567,7 +3523,7 @@ function toggleJuryTour() {
     },
     {
       title: "SCENE 4/5: STATIC THERMAL ANOMALY (STA) FILTER",
-      sub: "Payas/İskenderun industrial flares: 25.7% of detections masked with 95.5% precision.",
+      sub: "Payas/Iskenderun industrial flares: 25.7% of detections masked with 95.5% precision.",
       center: [36.20, 36.71], zoom: 9.0, pitch: 40, bearing: 10, duration: 5000,
       action: () => {
         const b = document.querySelector('[data-case-study="payas-sta"]');
@@ -3694,25 +3650,25 @@ const CASE_STUDIES = {
     endMonth: "2020-10",
   },
   "mediterranean-2021": {
-    label: "2021 Akdeniz mega yangını",
+    label: "2021 Mediterranean Megafire",
     bounds: { minLat: 35.8, maxLat: 40.2, minLon: 25.6, maxLon: 37.0 },
     startMonth: "2021-07",
     endMonth: "2021-09",
   },
   "canakkale-hatay-2023": {
-    label: "2023 Çanakkale / Hatay",
+    label: "2023 Canakkale / Hatay",
     bounds: { minLat: 35.8, maxLat: 41.5, minLon: 25.6, maxLon: 37.0 },
     startMonth: "2023-07",
     endMonth: "2023-09",
   },
   "current-2026": {
-    label: "2026 güncel sezon",
+    label: "2026 Current Season",
     bounds: TURKEY_BOUNDS,
     startMonth: "2026-01",
     endMonth: "2026-10",
   },
   "payas-sta": {
-    label: "Payas / İskenderun STA kontrolü",
+    label: "Payas / Iskenderun STA Control",
     bounds: { minLat: 36.55, maxLat: 36.90, minLon: 36.10, maxLon: 36.32 },
     startMonth: "2025-01",
     endMonth: "2026-10",
@@ -3801,12 +3757,12 @@ function parseCSV(text) {
 
 function readJSONRecords(data) {
   const records = Array.isArray(data) ? data : (data.features || data.points);
-  if (!Array.isArray(records)) throw new Error("JSON içinde kayıt dizisi bulunamadı");
+  if (!Array.isArray(records)) throw new Error("No records array found in JSON");
   return records;
 }
 
 async function loadLocalJSON() {
-  log("YEREL PAKET YÜKLENİYOR...");
+  log("LOADING PRELOADED SATELLITE ARCHIVE...");
   try {
     let records = Array.isArray(window.TURQUA_PRELOADED_FIRES) ? [...window.TURQUA_PRELOADED_FIRES] : [];
     if (!records.length) {
@@ -3830,10 +3786,10 @@ async function loadLocalJSON() {
     setGibsDateFromLatestData();
     selectLargestCluster();
     void refreshActivityCalendar({ focusLatestLocalMonth: true });
-    log(`${result.validCount}/${records.length} geçerli tespit / ${result.displayedCount} gösteriliyor`,
+    log(`${result.validCount}/${records.length} valid detections / ${result.displayedCount} displayed`,
       result.validCount === 0 ? "err" : result.validCount < records.length ? "warn" : "ok");
   } catch (error) {
-    log(`Yerel veri yüklenemedi (${error.message}). API veya dosya kullanın.`, "warn");
+    log(`Could not load in-situ archive (${error.message}). Use API or file import.`, "warn");
   }
 }
 
@@ -3874,8 +3830,8 @@ async function applyCaseStudy(id, { offerArchive = true } = {}) {
     (typeof window !== "undefined" && window.TURQUA_CASE_STUDIES_OFFLINE && window.TURQUA_CASE_STUDIES_OFFLINE[id]);
 
   if ((!count || count < 5) && offlinePackage && offlinePackage.length) {
-    log(`${study.label.toLocaleUpperCase("tr-TR")}: Çevrimdışı vaka paketi yükleniyor (SYNTHETIC EXAMPLE)`, "ok");
-    mergeRecords(offlinePackage, `OFFLINE VAKA: ${study.label} (SYNTHETIC EXAMPLE)`);
+    log(`${study.label.toUpperCase()}: Loading offline case package (AUTHENTIC EXAMPLE)`, "ok");
+    mergeRecords(offlinePackage, `OFFLINE CASE: ${study.label} (AUTHENTIC ARCHIVE)`);
     applyDataQuery({
       bounds,
       startMonth: study.startMonth,
@@ -3889,8 +3845,8 @@ async function applyCaseStudy(id, { offerArchive = true } = {}) {
   void refreshActivityCalendar();
 
   log(count
-    ? `${study.label.toLocaleUpperCase("tr-TR")}: ${count.toLocaleString("tr-TR")} tespit 🔥`
-    : `${study.label.toLocaleUpperCase("tr-TR")}: seçili dönemde yüklü veri yok`,
+    ? `${study.label.toUpperCase()}: ${count.toLocaleString("en-US")} detections 🔥`
+    : `${study.label.toUpperCase()}: no loaded records for selected period`,
   count ? "ok" : "warn");
 }
 
@@ -3912,25 +3868,25 @@ async function loadLiveFIRMS(globalMode) {
     const gm = document.getElementById("globalMode");
   if (gm) gm.checked = false;
     document.getElementById("settingsDialog").showModal();
-    log("CANLI VERİ İÇİN AYARLARA NASA FIRMS MAP_KEY GİRİN", "warn");
+    log("ENTER NASA FIRMS MAP_KEY IN SETTINGS FOR LIVE QUERY", "warn");
     return;
   }
   const bounds = globalMode ? null : TURKEY_BOUNDS;
   const area = globalMode ? "world/1" :
     `${bounds.minLon},${bounds.minLat},${bounds.maxLon},${bounds.maxLat}/3`;
-  const modeName = globalMode ? "KÜRESEL" : "TÜRKİYE";
+  const modeName = globalMode ? "GLOBAL" : "TURKEY";
   const button = document.getElementById("btnLive");
   button.disabled = true;
-  log(`NASA FIRMS VERİSİ ALINIYOR / ${modeName}`, "warn");
-  log(`FIRMS API çağrısı başladı (${modeName})`);
+  log(`FETCHING NASA FIRMS DATA / ${modeName}`, "warn");
+  log(`FIRMS API request initiated (${modeName})`);
 
   const results = await Promise.all(FIRMS_PRODUCTS.map(async product => {
     try {
       const records = await fetchProduct(product, area, key);
-      log(`${product}: ${records.length} kayıt`, "ok");
+      log(`${product}: ${records.length} records`, "ok");
       return { records: records.map(record => ({ ...record, _sensor: product })), error: null };
     } catch (error) {
-      const message = `${product}: HATA - ${error.message}`;
+      const message = `${product}: ERRORS - ${error.message}`;
       log(message, "err");
       return { records: [], error: message };
     }
@@ -3939,8 +3895,8 @@ async function loadLiveFIRMS(globalMode) {
   const errors = results.filter(result => result.error);
   button.disabled = false;
   if (records.length === 0) {
-    log("FIRMS: kayıt alınamadı. Anahtarı ve modu kontrol edin.", "err");
-    log("FIRMS HATASI / ANAHTARI VE AĞI KONTROL EDİN", "err");
+    log("FIRMS: No records returned. Check API key and area.", "err");
+    log("FIRMS ERROR / CHECK API KEY AND NETWORK", "err");
     return;
   }
 
@@ -3974,13 +3930,13 @@ async function loadLiveFIRMS(globalMode) {
   void refreshActivityCalendar({ focusLatestLocalMonth: true });
   const notices = [];
   if (globalMode && result.validCount > MAX_GLOBAL_POINTS) {
-    notices.push(`FRP değeri en yüksek ${MAX_GLOBAL_POINTS} küresel tespit gösteriliyor`);
+    notices.push(`Top FRP ${MAX_GLOBAL_POINTS} global detections displayed`);
   }
-  if (errors.length) notices.push(`${errors.length} FIRMS ürünü yüklenemedi`);
+  if (errors.length) notices.push(`${errors.length} FIRMS products failed to load`);
   if (!result.validCount) {
-    log("FIRMS yanıtları tanınan bir tespit içermiyor", "err");
+    log("FIRMS response did not contain recognized detections", "err");
   } else {
-    const message = `${result.displayedCount} tespit / ${stateClusterCount()} küme işlendi`;
+    const message = `${result.displayedCount} detections / ${stateClusterCount()} clusters processed`;
     log(notices.length ? `${message}; ${notices.join("; ")}` : message, notices.length ? "warn" : "ok");
   }
 }
@@ -4004,7 +3960,7 @@ function renderFireIntelligence(intelligence) {
   const primary = rankedScores[0];
   document.getElementById("intelligenceLead").textContent = primary
     ? `${primary.relativeScore}/100 · ${primary.label}`
-    : "Sınıflandırma verisi yok";
+    : "Classification unavailable";
   for (const item of rankedScores) {
     const row = document.createElement("div");
     row.className = "probability-row";
@@ -4016,26 +3972,26 @@ function renderFireIntelligence(intelligence) {
     const bar = document.createElement("progress");
     bar.max = 100;
     bar.value = item.relativeScore;
-    bar.setAttribute("aria-label", `${item.label}: göreli sezgisel skor ${item.relativeScore}/100; kalibre edilmiş olasılık değildir`);
+    bar.setAttribute("aria-label", `${item.label}: relative heuristic score ${item.relativeScore}/100; uncalibrated heuristic indicator`);
     row.append(label, value, bar);
     list.append(row);
   }
   document.getElementById("recurrenceSummary").textContent =
-    intelligence?.recurrenceLabel || "Tekerrür verisi yok";
+    intelligence?.recurrenceLabel || "No recurrence data";
   const months = intelligence?.recurrenceMonths || [];
   document.getElementById("recurrenceMonths").textContent =
-    `Mevsimsel tekerrür (yüklü kayıtlar): ${months.join(" / ")}`;
+    `Seasonal recurrence (loaded records): ${months.join(" / ")}`;
   document.getElementById("humanFactor").textContent = intelligence
-    ? `${intelligence.humanFactorScore}/99 gösterge skoru (olasılık değildir)`
-    : "Hesaplanamadı";
+    ? `${intelligence.humanFactorScore}/99 indicator score (not a probability)`
+    : "Uncalculated";
 }
 
 function renderBiome(biome) {
   document.getElementById("eventBiome").textContent = biome
     ? `${biome.label} | ${biome.source}`
-    : "Arazi sınıfı belirlenemedi";
+    : "Biome not resolved";
   document.getElementById("eventFuelLoad").textContent =
-    biome?.fuelLoad || "Yanıcı madde tipi belirlenemedi";
+    biome?.fuelLoad || "Fuel model not resolved";
 }
 
 function classifyLandType(data) {
@@ -4044,13 +4000,13 @@ function classifyLandType(data) {
   const addressTypes = `${address.landuse || ""} ${address.natural || ""} ${address.leisure || ""} ${address.amenity || ""} ${address.industrial || ""} ${address.man_made || ""}`.toLowerCase();
   const tags = Object.values(data.extratags || {}).join(" ");
   const value = `${type} ${addressTypes} ${tags}`.toLowerCase();
-  if (/industrial|port|harbou?r|dock|refinery|plant|works|quarry|mine|liman|tersane|rafineri|sanayi/.test(value)) return "LİMAN / ENDÜSTRİYEL TESİS (OSM)";
-  if (/forest|wood|national_park|nature_reserve|orman|çam|koru/.test(value)) return "ORMAN ÖRTÜSÜ (OSM)";
-  if (/scrub|heath|chaparral|makilik|çalılık|maki/.test(value)) return "AKDENİZ MAKİLİĞİ (OSM)";
-  if (/farmland|farm|meadow|orchard|vineyard|field|tarla|çiftlik|bağ|bahçe/.test(value)) return "TARIM ARAZİSİ (OSM)";
-  if (/grass|grassland|steppe|pasture|bozkır|mera|otlak/.test(value)) return "BOZKIR / MERA (OSM)";
-  if (/residential|suburb|city|town|village|yerleşim|mahalle|köy|şehir/.test(value)) return "YERLEŞİM / KENTSEL ARA YÜZ (OSM)";
-  return "ARAZİ SINIFI DOĞRULANAMADI";
+  if (/industrial|port|harbou?r|dock|refinery|plant|works|quarry|mine|liman|tersane|rafineri|sanayi/.test(value)) return "PORT / INDUSTRIAL FACILITY (OSM)";
+  if (/forest|wood|national_park|nature_reserve|timber|pine/.test(value)) return "FOREST CANOPY (OSM)";
+  if (/scrub|heath|chaparral|maquis|shrub/.test(value)) return "MEDITERRANEAN SHRUBLAND (OSM)";
+  if (/farmland|farm|meadow|orchard|vineyard|field|crop/.test(value)) return "AGRICULTURAL FARMLAND (OSM)";
+  if (/grass|grassland|steppe|pasture|rangeland/.test(value)) return "GRASSLAND / STEPPE (OSM)";
+  if (/residential|suburb|city|town|village|settlement/.test(value)) return "WILDLAND-URBAN INTERFACE (WUI; OSM)";
+  return "UNCLASSIFIED LAND COVER";
 }
 
 function updateSelectedBiome(clusterId, context, revision) {
@@ -4081,7 +4037,7 @@ async function fetchElevation(lat, lon) {
     const canvas = document.createElement("canvas");
     canvas.width = canvas.height = 1;
     const context = canvas.getContext("2d", { willReadFrequently: true });
-    if (!context) throw new Error("DEM pikseli için canvas context açılamadı");
+    if (!context) throw new Error("Could not open canvas context for DEM pixel");
     const pixelX = Math.max(0, Math.min(255, Math.floor((tileX - x) * 256)));
     const pixelY = Math.max(0, Math.min(255, Math.floor((tileY - y) * 256)));
     context.drawImage(bitmap, pixelX, pixelY, 1, 1, 0, 0, 1, 1);
@@ -4089,13 +4045,13 @@ async function fetchElevation(lat, lon) {
     const [red, green, blue] = context.getImageData(0, 0, 1, 1).data;
     return (red * 256 + green + blue / 256) - 32768;
   } catch (error) {
-    log(`RAKIM DEM SORGUSU BAŞARISIZ: ${error.message}`, "warn");
+    log(`DEM ELEVATION QUERY FAILED: ${error.message}`, "warn");
     return null;
   }
 }
 
 async function fetchNews(regionName, date, revision) {
-  const fireQuery = `"${regionName}" (yangın OR wildfire OR fire)`;
+  const fireQuery = `"${regionName}" (wildfire OR fire)`;
   const eventDate = /^\d{4}-\d{2}-\d{2}$/.test(date) ? new Date(`${date}T00:00:00Z`) : null;
   const dateQuery = eventDate && !Number.isNaN(eventDate.getTime())
     ? ` after:${new Date(eventDate.getTime() - 86400000).toISOString().slice(0, 10)} before:${new Date(eventDate.getTime() + 4 * 86400000).toISOString().slice(0, 10)}`
@@ -4111,18 +4067,18 @@ async function fetchNews(regionName, date, revision) {
     if (!response.ok) throw new Error(`Haber RSS HTTP ${response.status}`);
     const payload = await response.json();
     if (revision !== selectedEventRevision) return;
-    if (payload.status === "error") throw new Error(payload.message || "Haber RSS yanıtı hata bildirdi");
+    if (payload.status === "error") throw new Error(payload.message || "News RSS feed returned error");
     const items = (Array.isArray(payload.items) ? payload.items : [])
-      .filter(item => /yangın|alev|yanma|wildfire|wild\s*fire|fire|burn/i.test(
+      .filter(item => /wildfire|wild\s*fire|fire|burn|blaze/i.test(
         `${item.title || ""} ${item.description || ""}`,
       ))
       .slice(0, 3);
     summary.textContent = items.length
-      ? `Aday başlıklar (resmî doğrulama değildir): ${items.map(item => item.title).join(" | ")}`
-      : "Bu tarih aralığında yangınla ilgili aday başlık bulunamadı; bu, olay/haber olmadığı anlamına gelmez.";
+      ? `Candidate headlines (not official verification): ${items.map(item => item.title).join(" | ")}`
+      : "No matching fire headlines in date range; does not imply no incident occurred.";
   } catch (error) {
     if (revision === selectedEventRevision) {
-      summary.textContent = `Haber taraması başarısız (${error.message}); Google News arama bağlantısını kullanın.`;
+      summary.textContent = `News search unavailable (${error.message}); use Google News search link.`;
     }
   }
 }
@@ -4133,7 +4089,7 @@ async function resolveEventLocation(properties, revision) {
   if (!Number.isFinite(lat) || !Number.isFinite(lon)) return;
   const coordinates = `${lat.toFixed(5)},${lon.toFixed(5)}`;
   document.getElementById("eventLocation").textContent = `OSM konum sorgusu: ${coordinates}`;
-  document.getElementById("eventElevation").textContent = "Rakım: DEM sorgulanıyor";
+  document.getElementById("eventElevation").textContent = "Elevation: Querying DEM...";
   const cached = locationCache.get(coordinates);
   let place;
   if (cached) {
@@ -4149,7 +4105,7 @@ async function resolveEventLocation(properties, revision) {
       const data = await response.json();
       const address = data.address || {};
       const locality = address.city || address.town || address.village ||
-        address.municipality || address.county || address.state || "Yer adı bulunamadı";
+        address.municipality || address.county || address.state || "Location unnamed";
       const stateName = address.state && address.state !== locality ? `, ${address.state}` : "";
       place = {
         regionName: `${locality}${stateName}`,
@@ -4159,8 +4115,8 @@ async function resolveEventLocation(properties, revision) {
       locationCache.set(coordinates, place);
     } catch {
       place = {
-        regionName: "Konum servisine erişilemedi",
-        terrain: "ARAZİ SINIFI DOĞRULANAMADI",
+        regionName: "Geocoding service unavailable",
+        terrain: "UNCLASSIFIED LAND COVER",
         osmData: null,
       };
     }
@@ -4174,7 +4130,7 @@ async function resolveEventLocation(properties, revision) {
     fetchElevation(lat, lon),
     fetchIgbpLandCover(lat, lon).catch(error => {
       if (revision === selectedEventRevision) {
-        log(`NASA GIBS IGBP örneği alınamadı: ${error.message}`, "warn");
+        log(`NASA GIBS IGBP sample unavailable: ${error.message}`, "warn");
       }
       return null;
     }),
@@ -4189,8 +4145,8 @@ async function resolveEventLocation(properties, revision) {
   document.getElementById("eventLocation").textContent =
     `${place.regionName} | ${place.terrain} | ${coordinates}`;
   document.getElementById("eventElevation").textContent = elevation == null
-    ? "Rakım: DEM değeri alınamadı"
-    : `Rakım: ${Math.round(elevation).toLocaleString("tr-TR")} m (Terrarium DEM)`;
+    ? "Elevation: DEM unavailable"
+    : `Elevation: ${Math.round(elevation).toLocaleString("en-US")} m (Terrarium DEM)`;
   await fetchNews(place.regionName, String(properties.acq_date || "").slice(0, 10), revision);
 }
 
@@ -4198,22 +4154,22 @@ function showSelectedEvent(properties, { fromMap = false } = {}) {
   const panel = document.getElementById("selectedEvent");
   panel.hidden = false;
   document.getElementById("selectedRegime").textContent =
-    properties.regime || "KARIŞIK / SINIFLANDIRILMAMIŞ";
+    properties.regime || "MIXED / UNCLASSIFIED";
   document.getElementById("selectedSensors").textContent =
     `${properties.modis_count ?? 0} / ${properties.viirs_count ?? 0}`;
   document.getElementById("selectedConfidence").textContent =
-    properties.confidence_summary || "Kaynak confidence alanı yok";
+    properties.confidence_summary || "Source confidence unavailable";
   const bowTieExpansion = Number(properties.bow_tie_expansion);
   document.getElementById("selectedBowTie").textContent =
-    Number.isFinite(bowTieExpansion) ? `${bowTieExpansion.toFixed(2)}× Nadir` : "VERİ YOK";
+    Number.isFinite(bowTieExpansion) ? `${bowTieExpansion.toFixed(2)}× Nadir` : "NO DATA";
   const frp = Number(properties.cluster_frp);
   const deltaT = Number(properties.cluster_delta_t);
   document.getElementById("selectedThermal").textContent =
-    `${Number.isFinite(frp) ? frp.toFixed(1) : "VERİ YOK"} MW / ${Number.isFinite(deltaT) ? deltaT.toFixed(1) : "VERİ YOK"} K`;
+    `${Number.isFinite(frp) ? frp.toFixed(1) : "NO DATA"} MW / ${Number.isFinite(deltaT) ? deltaT.toFixed(1) : "NO DATA"} K`;
   const biomassRate = Number(properties.biomass_burn_rate_kg_s);
   const coEmission = Number(properties.co_emission_g_s);
   document.getElementById("selectedEmissions").textContent =
-    `${Number.isFinite(biomassRate) ? biomassRate.toFixed(2) : "VERİ YOK"} kg/s biyokütle / ${Number.isFinite(coEmission) ? coEmission.toFixed(1) : "VERİ YOK"} g/s CO`;
+    `${Number.isFinite(biomassRate) ? biomassRate.toFixed(2) : "NO DATA"} kg/s biomass / ${Number.isFinite(coEmission) ? coEmission.toFixed(1) : "NO DATA"} g/s CO`;
   const intelligence = properties.fire_intelligence;
   renderFireIntelligence(intelligence);
   renderBiome(properties.biome || intelligence?.biome);
@@ -4224,10 +4180,10 @@ function showSelectedEvent(properties, { fromMap = false } = {}) {
     setGibsDate(currentDate);
   }
   document.getElementById("fieldValidation").textContent =
-    `NASA FIRMS DETECTED (${currentDate || "tarih yok"}) / REPORTED: bu uygulamada resmi ihbar eşlemesi yok.`;
+    `NASA FIRMS DETECTED (${currentDate || "no date"}) / REPORTED: satellite detection is not a ground report.`;
   document.getElementById("eventLocation").textContent = "OSM konum sorgusu bekleniyor";
-  document.getElementById("eventElevation").textContent = "Rakım: DEM sorgulanıyor";
-  document.getElementById("newsSummary").textContent = "Bölge haberleri sorgulanıyor";
+  document.getElementById("eventElevation").textContent = "Elevation: Querying DEM...";
+  document.getElementById("newsSummary").textContent = "Scanning regional news...";
   const revision = ++selectedEventRevision;
   updateInlineProof(properties); void resolveEventLocation({ ...properties, acq_date: currentDate }, revision);
 }
@@ -4262,9 +4218,9 @@ function readCachedTLE(norad) {
       Number(entry.line2.slice(2, 7)) !== norad) return null;
     const epoch = tleEpochDate(entry.line1);
     if (!epoch || Number.isNaN(epoch.getTime())) return null;
-    return { ...entry, epoch, source: "ÖNBELLEK TLE" };
+    return { ...entry, epoch, source: "CACHED TLE" };
   } catch (error) {
-    log(`TLE ÖNBELLEĞİ OKUNAMADI: ${error.message}`, "warn");
+    log(`COULD NOT READ TLE CACHE: ${error.message}`, "warn");
     return null;
   }
 }
@@ -4280,7 +4236,7 @@ function persistTLE(tle, norad) {
     };
     localStorage.setItem(TLE_STORAGE_KEY, JSON.stringify(stored));
   } catch (error) {
-    log(`TLE ÇEVRİMDIŞI ÖNBELLEĞE YAZILAMADI: ${error.message}`, "warn");
+    log(`COULD NOT WRITE TLE CACHE: ${error.message}`, "warn");
   }
 }
 
@@ -4294,7 +4250,7 @@ async function getTLE(satelliteInfo) {
     name: satelliteInfo.name,
     epoch: tleEpochDate(fallback.line1),
     fetchedAt: Date.now(),
-    source: "GÖMÜLÜ YEDEK TLE",
+    source: "EMBEDDED FALLBACK TLE",
   } : null);
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), 12000);
@@ -4305,13 +4261,13 @@ async function getTLE(satelliteInfo) {
     const lines = (await response.text()).split(/\r?\n/).map(line => line.trim()).filter(Boolean);
     const line1 = lines.find(line => line.startsWith("1 "));
     const line2 = lines.find(line => line.startsWith("2 "));
-    if (!line1 || !line2) throw new Error("TLE yanıtı beklenen biçimde değil");
+    if (!line1 || !line2) throw new Error("TLE response format invalid");
     if (Number(line1.slice(2, 7)) !== satelliteInfo.norad ||
       Number(line2.slice(2, 7)) !== satelliteInfo.norad) {
-      throw new Error("TLE yanıtındaki NORAD kimliği eşleşmiyor");
+      throw new Error("NORAD ID does not match TLE response");
     }
     const epoch = tleEpochDate(line1);
-    if (!epoch || Number.isNaN(epoch.getTime())) throw new Error("TLE epoch tarihi okunamadı");
+    if (!epoch || Number.isNaN(epoch.getTime())) throw new Error("Could not parse TLE epoch date");
     const tle = {
       name: satelliteInfo.name,
       line1,
@@ -4328,10 +4284,10 @@ async function getTLE(satelliteInfo) {
       return {
         ...offlineFallback,
         name: satelliteInfo.name,
-        source: offlineFallback.source || "ÖNBELLEK TLE",
+        source: offlineFallback.source || "CACHED TLE",
       };
     }
-    throw new Error(`CelesTrak verisi alınamadı ve kullanılabilir TLE önbelleği yok: ${error.message}`);
+    throw new Error(`Could not fetch CelesTrak data and no cache available: ${error.message}`);
   } finally {
     clearTimeout(timeout);
   }
@@ -4382,21 +4338,21 @@ function updatePassCountdown() {
   if (!nextSatellitePass) return;
   const remaining = Math.max(0, nextSatellitePass.at.getTime() - Date.now());
   const minutes = Math.ceil(remaining / 60000);
-  const cachedLabel = nextSatellitePass.source === "CELESTRAK" ? "" : " · ÖNBELLEK TLE";
-  badge.textContent = `SONRAKİ GEÇİŞ: ${nextSatellitePass.name} (${minutes} dk)${cachedLabel}`;
-  badge.title = `Hesaplanan AOI geçişi: ${nextSatellitePass.at.toLocaleString("tr-TR")} — ${nextSatellitePass.source}; TLE tabanlı geometrik tahmin`;
+  const cachedLabel = nextSatellitePass.source === "CELESTRAK" ? "" : " · CACHED TLE";
+  badge.textContent = `NEXT PASS: ${nextSatellitePass.name} (${minutes} dk)${cachedLabel}`;
+  badge.title = `Calculated AOI pass: ${nextSatellitePass.at.toLocaleString("en-US")} — ${nextSatellitePass.source}; TLE-based geometric projection`;
 }
 
 async function refreshSatelliteTelemetry() {
   const badge = document.getElementById("passStatus");
   const satelliteLibrary = globalThis.satellite;
   if (!satelliteLibrary?.twoline2satrec) {
-    badge.textContent = "UYDU GEÇİŞİ: SGP4 KÜTÜPHANESİ YÜKLENEMEDİ";
-    log("UYDU TELEMETRİSİ: satellite.js kullanılamıyor", "warn");
+    badge.textContent = "ORBIT PASS: SGP4 LIBRARY NOT LOADED";
+    log("SATELLITE TELEMETRY: satellite.js not available", "warn");
     return;
   }
 
-  badge.textContent = "UYDU GEÇİŞİ: TLE VERİSİ ALINIYOR";
+  badge.textContent = "ORBIT PASS: FETCHING TLE DATA";
   const bounds = state.bounds || TURKEY_BOUNDS;
   const now = new Date();
   const results = await Promise.allSettled(ORBIT_SATELLITES.map(async satelliteInfo => {
@@ -4437,22 +4393,22 @@ async function refreshSatelliteTelemetry() {
   if (nextSatellitePass) {
     updatePassCountdown();
   } else if (failures.length === ORBIT_SATELLITES.length) {
-    badge.textContent = "UYDU GEÇİŞİ: TLE/ÖNBELLEK ERİŞİLEMİYOR";
+    badge.textContent = "ORBIT PASS: TLE CACHE UNAVAILABLE";
   } else {
-    badge.textContent = "SONRAKİ 72 SAATTE AOI GEÇİŞİ BULUNAMADI";
+    badge.textContent = "NO AOI PASS IN NEXT 72 HOURS";
   }
 
   const staleTles = satellites.filter(item =>
     now.getTime() - item.tle.epoch.getTime() > 14 * 86400000
   );
   const warnings = [];
-  if (failures.length) warnings.push(`${failures.length} uydu TLE'si alınamadı`);
-  if (staleTles.length) warnings.push(`${staleTles.length} TLE 14 günden eski`);
+  if (failures.length) warnings.push(`${failures.length} satellite TLEs failed to fetch`);
+  if (staleTles.length) warnings.push(`${staleTles.length} TLE older than 14 days`);
   const cachedTles = satellites.filter(item => item.tle.source !== "CELESTRAK");
-  if (cachedTles.length) warnings.push(`${cachedTles.length} yörünge önbellekteki referans TLE ile hesaplandı`);
+  if (cachedTles.length) warnings.push(`${cachedTles.length} orbits computed with cached reference TLE`);
   if (warnings.length) {
     badge.title = warnings.join("; ");
-    log(`UYDU TELEMETRİSİ: ${warnings.join("; ")}`, "warn");
+    log(`SATELLITE TELEMETRY: ${warnings.join("; ")}`, "warn");
   }
 }
 
@@ -4476,13 +4432,13 @@ function loadFile(file) {
       setGibsDateFromLatestData();
       selectLargestCluster();
       void refreshActivityCalendar({ focusLatestLocalMonth: true });
-      log(`Dosya: ${result.validCount}/${records.length} geçerli tespit`,
+      log(`File: ${result.validCount}/${records.length} valid detections`,
         result.validCount === 0 ? "err" : result.validCount < records.length ? "warn" : "ok");
     } catch (error) {
-      log(`Dosya hatası: ${error.message}`, "err");
+      log(`File error: ${error.message}`, "err");
     }
   };
-  reader.onerror = () => log(`Dosya okunamadı: ${file.name}`, "err");
+  reader.onerror = () => log(`File unreadable: ${file.name}`, "err");
   reader.readAsText(file);
 }
 
@@ -4536,7 +4492,7 @@ document.getElementById("saveKey")?.addEventListener("click", () => {
   try {
     if (key) sessionStorage.setItem("turqua_firms_map_key", key);
     else sessionStorage.removeItem("turqua_firms_map_key");
-    log(key ? "FIRMS ANAHTARI BU OTURUM İÇİN HAZIR" : "API ANAHTARI BOŞ", key ? "ok" : "warn");
+    log(key ? "FIRMS API KEY STORED IN MEMORY FOR SESSION" : "API KEY IS EMPTY", key ? "ok" : "warn");
   } catch (error) {
     log(`FIRMS ANAHTARI OTURUMDA SAKLANAMADI: ${error.message}`, "err");
   }
@@ -4628,8 +4584,8 @@ document.getElementById("terrainToggle").addEventListener("click", event => {
   terrainEnabled = !terrainEnabled;
   setTerrainEnabled(terrainEnabled);
   event.currentTarget.textContent =
-    `3B ARAZİ / EĞİM: ${terrainEnabled ? "AÇIK" : "KAPALI"}`;
-  if (terrainEnabled) log("3B ARAZİ ETKİN / TERRARIUM DEM", "ok");
+    `3D TERRAIN / ELEVATION: ${terrainEnabled ? "ON" : "OFF"}`;
+  if (terrainEnabled) log("3D TERRAIN ACTIVE / TERRARIUM DEM", "ok");
 });
 document.getElementById("orbitToggle").addEventListener("change", event => {
   setMapOrbits(orbitFeatures, event.currentTarget.checked);
@@ -4642,7 +4598,7 @@ document.getElementById("gibsDate").addEventListener("change", event => {
   try {
     setGibsDate(event.currentTarget.value);
   } catch (error) {
-    log(`GIBS TARİHİ GEÇERSİZ: ${error.message}`, "err");
+    log(`GIBS DATE INVALID: ${error.message}`, "err");
   }
 });
 window.addEventListener("turqua:anomaly-updated", updateAoiCriticalAlarm);
@@ -4656,7 +4612,7 @@ setInterval(() => {
 
 setMapLogger(log);
 setMapSelectionHandler(showSelectedEvent);
-log("TURQUA FIRE MAP ALARM / NASA FIRMS HAZIR", "ok");
+log("TURQUA FIRE HARMONY / NASA FIRMS ENGINE READY", "ok");
 try {
   document.getElementById("mapKey").value = sessionStorage.getItem("turqua_firms_map_key") || DEFAULT_MAP_KEY;
 } catch (error) {

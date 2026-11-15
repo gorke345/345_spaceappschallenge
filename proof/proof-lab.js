@@ -9,23 +9,7 @@ let spinFrame = null;
 let juryTourActive = false;
 let juryTourTimer = null;
 
-const UI_TRANSLATIONS = {
-  en: {
-    BÖLGE: "AOI", ÖZET: "SUMMARY", "YEREL VERİ": "PRELOADED", "CANLI VERİ": "LIVE API",
-    "DOSYA YÜKLE": "LOAD FILE", "CSV İNDİR": "EXPORT CSV", "GEOJSON İNDİR": "GEOJSON", AYARLAR: "API KEY",
-    "HARİTADA ALAN ÇİZ": "DRAW AOI BOX", TÜRKİYE: "TÜRKİYE", "AKDENİZ HAVZASI": "MEDITERRANEAN",
-    AMAZON: "AMAZON", KÜRESEL: "GLOBAL", "YANMA AKTİVİTESİ TAKVİMİ (2000 - 2026)": "HARMONIZED BURNING ACTIVITY CALENDAR (2000–2026)",
-    "AKTİVİTE ÖZETİ": "ACTIVITY TELEMETRY", "UYUMLAŞTIRILMIŞ TESPİT": "HARMONIZED BURNING DAYS",
-    "YANGIN KÜMESİ": "FIRE CLUSTERS", "ÇOKLU SENSÖR TEYİDİ": "MULTI-SENSOR VERIFIED"
-  },
-  tr: {
-    AOI: "BÖLGE", SUMMARY: "ÖZET", PRELOADED: "YEREL VERİ", "LIVE API": "CANLI VERİ",
-    "LOAD FILE": "DOSYA YÜKLE", "EXPORT CSV": "CSV İNDİR", GEOJSON: "GEOJSON İNDİR", "API KEY": "AYARLAR",
-    "DRAW AOI BOX": "HARİTADA ALAN ÇİZ", "HARMONIZED BURNING ACTIVITY CALENDAR (2000–2026)": "YANMA AKTİVİTESİ TAKVİMİ (2000 - 2026)",
-    "ACTIVITY TELEMETRY": "AKTİVİTE ÖZETİ", "HARMONIZED BURNING DAYS": "UYUMLAŞTIRILMIŞ TESPİT",
-    "FIRE CLUSTERS": "YANGIN KÜMESİ", "MULTI-SENSOR VERIFIED": "ÇOKLU SENSÖR TEYİDİ"
-  }
-};
+const UI_TRANSLATIONS = { en: {} };
 
 export async function initProofLab() {
   try {
@@ -122,10 +106,10 @@ function renderPrecomputedCalendar() {
   let totalHarm = 0;
   cells.forEach(cell => {
     const title = cell.getAttribute("title") || "";
-    const mMatch = title.match(/^(\d{4})\s+([A-ZÇĞİÖŞÜ]+)/);
+    const mMatch = title.match(/^(\d{4})\s+([A-Z]+)/);
     if (!mMatch) return;
     const yr = Number(mMatch[1]);
-    const mNames = ["OCAK","ŞUBAT","MART","NİSAN","MAYIS","HAZİRAN","TEMMUZ","AĞUSTOS","EYLÜL","EKİM","KASIM","ARALIK"];
+    const mNames = ["JANUARY","FEBRUARY","MARCH","APRIL","MAY","JUNE","JULY","AUGUST","SEPTEMBER","OCTOBER","NOVEMBER","DECEMBER"];
     const mo = mNames.indexOf(mMatch[2]) + 1;
     if (mo < 1) return;
     const ym = `${yr}-${String(mo).padStart(2, "0")}`;
@@ -213,7 +197,7 @@ function toggleJuryTour() {
     },
     {
       title: "SCENE 4/5: STATIC THERMAL ANOMALY (STA) FILTER",
-      sub: "Payas/İskenderun industrial flares: 25.7% of detections masked with 95.5% precision.",
+      sub: "Payas/Iskenderun industrial flares: 25.7% of detections masked with 95.5% precision.",
       center: [36.20, 36.71], zoom: 9.0, pitch: 40, bearing: 10, duration: 5000,
       action: () => {
         const b = document.querySelector('[data-case-study="payas-sta"]');

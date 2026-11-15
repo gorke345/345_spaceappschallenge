@@ -13,36 +13,32 @@
 </head>
 <body>
 
-<!-- ÜST BAR: komut çubuğu -->
+<!-- TOP COMMAND BAR -->
 <header class="cmdbar">
   <div class="brand">
     <img src="assets/flame.svg" alt="TURQUA Logo" class="brand-logo" onerror="this.hidden=true" />
-    <svg class="brand-mark" viewBox="0 0 24 24" role="img" aria-label="Uydu yörünge ve retikül amblemi">
-      <circle cx="12" cy="12" r="7" fill="none" stroke="#FACC15" stroke-width="1" />
-      <ellipse cx="12" cy="12" rx="10" ry="4" fill="none" stroke="#F59E0B" stroke-width="0.8" transform="rotate(-35 12 12)" />
-      <path d="M12 2v5M12 17v5M2 12h5M17 12h5M9 9l6 6M15 9l-6 6" fill="none" stroke="#E2E8F0" stroke-width="0.7" />
-      <circle cx="18.8" cy="5.3" r="1.3" fill="#F59E0B" />
+    <svg class="brand-mark" viewBox="0 0 24 24" role="img" aria-label="Satellite Orbit Emblem">
+      <circle cx="12" cy="12" r="7" fill="none" stroke="#00A389" stroke-width="1.2" />
+      <ellipse cx="12" cy="12" rx="10" ry="4" fill="none" stroke="#F97316" stroke-width="0.8" transform="rotate(-35 12 12)" />
+      <path d="M12 2v5M12 17v5M2 12h5M17 12h5M9 9l6 6M15 9l-6 6" fill="none" stroke="#CBD5E1" stroke-width="0.7" />
+      <circle cx="18.8" cy="5.3" r="1.3" fill="#F97316" />
     </svg>
     <span class="brand-copy">
       <span class="brand-name" aria-label="TURQUA FIRE HARMONY"><span class="brand-turqua">TURQUA</span> // FIRE HARMONY</span>
-      <span class="brand-sub">MODIS × VIIRS // MULTI-SATELLITE WILDFIRE INTELLIGENCE</span>
+      <span class="brand-sub">MODIS × VIIRS // NASA SPACE APPS 2026</span>
     </span>
   </div>
 
   <div class="cmd-actions">
-    <span id="sourceStatus" class="source-status" role="status">PRELOADED ARCHIVE READY</span>
+    <span id="sourceStatus" class="source-status" role="status">PRELOADED ARCHIVE (N. AMERICA)</span>
     <span id="aoiCriticalAlarm" class="aoi-critical-alarm" role="alert" aria-live="assertive" hidden></span>
-    <span id="passStatus" class="pass-status" role="status">ORBIT PASS: TELEMETRY ACTIVE</span>
-    <button id="toggleAoi" class="btn" aria-expanded="false">AOI</button>
-    <button id="toggleTelemetry" class="btn" aria-expanded="false">SUMMARY</button>
-    <button id="btnLocal" class="btn" title="Load preloaded in-situ dataset">
-      PRELOADED
-    </button>
-    <button id="btnLive" class="btn" title="Query live NASA FIRMS API">
-      LIVE API
-    </button>
+    <span id="passStatus" class="pass-status" role="status">ORBIT PASS: ACTIVE</span>
+    <button id="toggleAoi" class="btn" aria-expanded="false">AOI &amp; LAYERS</button>
+    <button id="toggleTelemetry" class="btn" aria-expanded="false">TELEMETRY</button>
+    <button id="btnLocal" class="btn" title="Load preloaded in-situ dataset">PRELOADED</button>
+    <button id="btnLive" class="btn" title="Query live NASA FIRMS API">LIVE FIRMS</button>
     <label class="btn" title="Upload custom CSV or JSON fire records">
-      LOAD FILE
+      IMPORT
       <input type="file" id="fileInput" accept=".csv,.json" hidden />
     </label>
     <button id="exportResults" class="btn">EXPORT CSV</button>
@@ -51,7 +47,7 @@
   </div>
 </header>
 
-<!-- ANA IZGARA: 3B küre + sağ telemetri cetveli -->
+<!-- MAIN WORKSPACE -->
 <main class="workspace">
   <section class="globe-wrap">
     <div id="globe"></div>
@@ -61,7 +57,7 @@
       <span id="hudCam">lon -98.50 / lat 42.00 / z 3.50</span>
     </div>
 
-    <!-- Sol üst: görünüm kontrolleri -->
+    <!-- Top Left: View & AOI Controls -->
     <div class="hud hud-tl drawer-hidden">
       <div class="hud-header">
         <span>AREA OF INTEREST (AOI) &amp; DATES</span>
@@ -80,7 +76,7 @@
         <button class="btn" data-aoi-preset="usa">USA / CONUS</button>
         <button class="btn" data-aoi-preset="canada">CANADA</button>
         <button class="btn" data-aoi-preset="california">CALIFORNIA</button>
-        <button class="btn" data-aoi-preset="turkey">TÜRKİYE</button>
+        <button class="btn" data-aoi-preset="turkey">TURKEY</button>
         <button class="btn" data-aoi-preset="mediterranean">MEDITERRANEAN</button>
         <button class="btn" data-aoi-preset="amazon">AMAZON</button>
         <button class="btn" data-aoi-preset="global">GLOBAL</button>
@@ -90,8 +86,8 @@
         <button class="btn btn-case" data-case-study="canada-2023">2023 CANADIAN BOREAL MEGAFIRE</button>
         <button class="btn btn-case" data-case-study="california-2020">2020 CALIFORNIA AUGUST COMPLEX</button>
         <button class="btn btn-case" data-case-study="mediterranean-2021">2021 MEDITERRANEAN MEGAFIRE</button>
-        <button class="btn btn-case" data-case-study="canakkale-hatay-2023">2023 ÇANAKKALE / HATAY</button>
-        <button class="btn btn-case" data-case-study="payas-sta">PAYAS / İSKENDERUN STA CONTROL</button>
+        <button class="btn btn-case" data-case-study="canakkale-hatay-2023">2023 CANAKKALE / HATAY</button>
+        <button class="btn btn-case" data-case-study="payas-sta">PAYAS / ISKENDERUN STA CONTROL</button>
       </div>
       <p class="case-study-note">Offline case packages load authentic NASA FIRMS archives instantly without requiring an API key.</p>
       <div class="aoi-grid date-grid">
@@ -336,10 +332,10 @@
   </form>
 </dialog>
 
-<!-- YASAL VE METODOLOJİ BİLGİSİ -->
+<!-- LEGAL & SCIENTIFIC METHODOLOGY -->
 <dialog id="legalDialog" class="mode-dialog legal-dialog">
   <form method="dialog">
-    <h2>TURQUA FIRE MAP ALARM / METHODOLOGY &amp; SCIENTIFIC ATTRIBUTION</h2>
+    <h2>TURQUA FIRE HARMONY / METHODOLOGY &amp; SCIENTIFIC ATTRIBUTION</h2>
     <h3>MISSION AND PURPOSE</h3>
     <p>This workspace harmonizes MODIS and VIIRS active hotspot records across user-defined areas of interest and timeframes. The calendar provides scientific context to evaluate long-term fire regimes without sensor discontinuities. Per NASA FIRMS documentation, each detection represents the center of a pixel that contains one or more active fires or thermal anomalies, rather than the exact fire boundary.</p>
     <h3>SATELLITE CONTINUITY &amp; HARMONIZATION</h3>
@@ -347,7 +343,7 @@
     <h3>NASA GIBS SATELLITE IMAGERY</h3>
     <p>Imagery layers are provided by NASA GIBS (Global Imagery Browse Services), part of the Earth Science Data and Information System (ESDIS). True Color, false-color thermal (M11-I2-I1), and MODIS MCD12Q1 annual land cover products provide visual and environmental context.</p>
     <h3>STATIC THERMAL ANOMALIES (STA)</h3>
-    <p>Permanent industrial flares, steel mills, and port operations are filtered using known geospatial boundaries (e.g. Payas/İskenderun, Aliağa, Dilovası) to prevent industrial heat signatures from contaminating wildland fire regimes.</p>
+    <p>Permanent industrial flares, steel mills, and port operations are filtered using known geospatial boundaries (e.g. Payas/Iskenderun, Aliaga, Dilovasi) to prevent industrial heat signatures from contaminating wildland fire regimes.</p>
     <h3>DATA PRIVACY &amp; SECURITY</h3>
     <p>This application runs entirely client-side. No user queries, API keys, or session identifiers are transmitted to external servers. Preloaded datasets run completely offline.</p>
     <button type="submit" class="btn">CLOSE</button>
