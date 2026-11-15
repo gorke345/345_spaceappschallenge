@@ -1,29 +1,14 @@
-# NASA FIRMS API Keys & Secrets
-.env
+﻿.env
 .env.*
-firms_key.txt
-*map_key*
-
-# Raw Shapefiles & Large Archives (Local Pipeline Only)
+harmonized_fires_backup.json
 *.shp
 *.shx
 *.dbf
 *.prj
 *.cpg
 *.zip
-*.parquet
-*.bin
-
-# Build & Runtime Artifacts
-.vscode/
-__pycache__/
-.pytest_cache/
-.venv/
-venv/
-*.pyc
 *.exe
-*.dll
-tedx_ticari.pdf
-tum_kodlar.txt
+*.pdf
+__pycache__/
 
-harmonized_fires_backup.json
+.vscode/
