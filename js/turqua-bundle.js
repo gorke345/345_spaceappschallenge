@@ -4339,7 +4339,7 @@ function updatePassCountdown() {
   const remaining = Math.max(0, nextSatellitePass.at.getTime() - Date.now());
   const minutes = Math.ceil(remaining / 60000);
   const cachedLabel = nextSatellitePass.source === "CELESTRAK" ? "" : " · CACHED TLE";
-  badge.textContent = `NEXT PASS: ${nextSatellitePass.name} (${minutes} dk)${cachedLabel}`;
+  badge.textContent = `NEXT PASS: ${nextSatellitePass.name} (${minutes} min)${cachedLabel}`;
   badge.title = `Calculated AOI pass: ${nextSatellitePass.at.toLocaleString("en-US")} — ${nextSatellitePass.source}; TLE-based geometric projection`;
 }
 
