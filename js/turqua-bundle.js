@@ -61,10 +61,10 @@ let latestMapData = {
 };
 let latestAOI = emptyFeatureCollection();
 let latestOrbits = emptyFeatureCollection();
-let activeRamp = ["#F2C14E", "#D97724", "#C83E2B"];
+let activeRamp = ["#451A03", "#B45309", "#F59E0B", "#FEF08A"];
 let activeMetric = "count";
 let selectionHandler = () => {};
-let terrainEnabled = false;
+let terrainEnabled = true;
 let terrainRevision = 0;
 let orbitVisible = false;
 let orbitRevision = 0;
@@ -301,12 +301,13 @@ const map = new maplibregl.Map({
         id: "terrain-hillshade",
         type: "hillshade",
         source: "hillshade-dem",
-        minzoom: 4,
+        minzoom: 1,
+        layout: { visibility: "visible" },
         paint: {
-          "hillshade-exaggeration": 0.32,
-          "hillshade-shadow-color": "#070B1E",
-          "hillshade-highlight-color": "#94A3B8",
-          "hillshade-accent-color": "#14B8A6",
+          "hillshade-exaggeration": 0.65,
+          "hillshade-shadow-color": "#05080A",
+          "hillshade-highlight-color": "#FEF08A",
+          "hillshade-accent-color": "#F59E0B",
         },
       },
       {
@@ -314,7 +315,7 @@ const map = new maplibregl.Map({
         type: "line",
         source: "orbits",
         layout: { visibility: "none", "line-cap": "round", "line-join": "round" },
-        paint: { "line-color": "#02D8E1", "line-width": 1, "line-opacity": 0.65 },
+        paint: { "line-color": "#FACC15", "line-width": 1.2, "line-opacity": 0.8 },
       },
       {
         id: "fire-density",
@@ -356,13 +357,13 @@ const map = new maplibregl.Map({
         id: "aoi-fill",
         type: "fill",
         source: "aoi",
-        paint: { "fill-color": "#3B8EA5", "fill-opacity": 0.08 },
+        paint: { "fill-color": "#F59E0B", "fill-opacity": 0.08 },
       },
       {
         id: "aoi-outline",
         type: "line",
         source: "aoi",
-        paint: { "line-color": "#3B8EA5", "line-width": 1.5, "line-dasharray": [2, 1] },
+        paint: { "line-color": "#F59E0B", "line-width": 1.5, "line-dasharray": [2, 1] },
       },
       {
         id: "pt-modis",
@@ -386,7 +387,7 @@ const map = new maplibregl.Map({
         layout: { visibility: "visible" },
         paint: {
           "circle-radius": ["interpolate", ["linear"], ["zoom"], 1, 2.2, 5, 4.5, 9, 8],
-          "circle-color": "#02D8E1",
+          "circle-color": "#FCD34D",
           "circle-opacity": 0.85,
           "circle-stroke-width": 1,
           "circle-stroke-color": "#070B1E",
@@ -462,9 +463,13 @@ if (typeof ResizeObserver !== "undefined") {
 map.on("load", () => {
   map.resize();
   try {
-    map.setProjection({ type: "globe" });
+    // 3D terrain elevation and hillshade reliefs on flat map
+    if (terrainEnabled) {
+      map.setTerrain({ source: "terrain-dem", exaggeration: 1.5 });
+    }
+    map.setPitch(45);
   } catch (e) {
-    console.warn("Globe projection:", e);
+    console.warn("Terrain initialization:", e);
   }
 });
 
@@ -2205,11 +2210,12 @@ const PRESETS = {
   global: { minLat: -60, maxLat: 70, minLon: -170, maxLon: 170 },
 };
 const PALETTES = {
-  petronas: ["#004743", "#00A19B", "#00F5D4", "#E2E8F0"],
-  aerospace: ["#0F172A", "#334155", "#F59E0B", "#F8FAFC"],
+  amber_gold: ["#451A03", "#B45309", "#F59E0B", "#FEF08A"],
+  solar_yellow: ["#1F1608", "#854D0E", "#EAB308", "#FDE047"],
   ylorrd: ["#FACC15", "#F59E0B", "#EF4444", "#991B1B"],
-  viridis: ["#1E3A5F", "#14B8A6", "#00A19B", "#FACC15"],
+  aerospace: ["#0F172A", "#334155", "#F59E0B", "#F8FAFC"],
   inferno: ["#7F1D1D", "#EF4444", "#F59E0B", "#FEF08A"],
+  petronas: ["#004743", "#00A19B", "#00F5D4", "#E2E8F0"],
 };
 const DB_NAME = "fireharmony-historical";
 const COVERAGE_STORE = "coverage";
@@ -2226,7 +2232,7 @@ let refreshRevision = 0;
 let coverageByProduct = new Map();
 let coverageMonthCache = new Map();
 let databasePromise;
-let selectedPalette = "petronas";
+let selectedPalette = "amber_gold";
 let calendarExpanded = true;
 let activeYearsOnly = false;
 let playbackDates = [];
@@ -4617,7 +4623,7 @@ for (const id of layerControlIds) {
   });
 }
 
-let terrainEnabled = false;
+let terrainEnabled = true;
 document.getElementById("terrainToggle").addEventListener("click", event => {
   terrainEnabled = !terrainEnabled;
   setTerrainEnabled(terrainEnabled);

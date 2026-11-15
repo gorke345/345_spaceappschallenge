@@ -8,19 +8,19 @@
   --fg-1: #94A3B8;
   --fg-2: #64748B;
   --modis: #F59E0B;
-  --viirs: #14B8A6;
+  --viirs: #FCD34D;
   --merged: #EF4444;
-  --turqua: #02D8E1;
+  --turqua: #FACC15;
   --brand-fire: #F59E0B;
-  --brand-map: #14B8A6;
+  --brand-map: #F59E0B;
   --brand-alarm: #EF4444;
   --forest: #22C55E;
   --agriculture: #F59E0B;
   --industrial: #CBD5E1;
-  --human: #14B8A6;
+  --human: #EAB308;
   --waste: #A78BFA;
   --grassland: #A3E635;
-  --focus: #67E8F9;
+  --focus: #FACC15;
   --ok: #7EA86B;
   --warn: #C9A227;
   --err: #C85140;
@@ -762,7 +762,7 @@ body { font-size: 13px !important; }
 
 
 /* ==========================================================================
-   TURQUA // PETRONAS TEAL × AEROSPACE TITANIUM MISSION OPERATIONS THEME
+   TURQUA // SATELLITE AMBER × SOLAR GOLD MISSION OPERATIONS THEME
    ========================================================================== */
 :root {
   --bg-0: #05080A !important;
@@ -773,11 +773,11 @@ body { font-size: 13px !important; }
   --fg-0: #F8FAFC !important;
   --fg-1: #94A3B8 !important;
   --fg-2: #64748B !important;
-  --turqua: #00F5D4 !important;
-  --petronas: #00A19B !important;
-  --petronas-bright: #00F5D4 !important;
+  --turqua: #FACC15 !important;
+  --petronas: #EAB308 !important;
+  --petronas-bright: #FDE047 !important;
   --modis: #F59E0B !important;
-  --viirs: #00A19B !important;
+  --viirs: #FCD34D !important;
   --merged: #FF4500 !important;
   --brand-fire: #F59E0B !important;
   --brand-alarm: #EF4444 !important;
@@ -786,8 +786,8 @@ body { font-size: 13px !important; }
 /* Minimalist Aerospace Scrollbar */
 ::-webkit-scrollbar { width: 5px; height: 5px; }
 ::-webkit-scrollbar-track { background: rgba(5, 8, 10, 0.6); }
-::-webkit-scrollbar-thumb { background: rgba(0, 161, 155, 0.35); border-radius: 4px; }
-::-webkit-scrollbar-thumb:hover { background: rgba(0, 245, 212, 0.7); }
+::-webkit-scrollbar-thumb { background: rgba(234, 179, 8, 0.40); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(253, 224, 71, 0.75); }
 
 /* Master Layout - Full Globe Canvas */
 html, body {
@@ -846,7 +846,7 @@ html, body {
   background: rgba(9, 13, 18, 0.88) !important;
   backdrop-filter: blur(16px) !important;
   -webkit-backdrop-filter: blur(16px) !important;
-  border: 1px solid rgba(0, 161, 155, 0.28) !important;
+  border: 1px solid rgba(234, 179, 8, 0.32) !important;
   border-radius: 6px !important;
   box-shadow: 0 12px 36px rgba(0, 0, 0, 0.65) !important;
   padding: 12px !important;
@@ -868,7 +868,7 @@ html, body {
   background: rgba(9, 13, 18, 0.88) !important;
   backdrop-filter: blur(16px) !important;
   -webkit-backdrop-filter: blur(16px) !important;
-  border: 1px solid rgba(0, 161, 155, 0.28) !important;
+  border: 1px solid rgba(234, 179, 8, 0.32) !important;
   border-radius: 6px !important;
   box-shadow: 0 12px 36px rgba(0, 0, 0, 0.65) !important;
   padding: 12px !important;
@@ -949,7 +949,7 @@ html, body {
   background: rgba(9, 13, 18, 0.94) !important;
   backdrop-filter: blur(16px) !important;
   -webkit-backdrop-filter: blur(16px) !important;
-  border-top: 1px solid rgba(0, 161, 155, 0.25) !important;
+  border-top: 1px solid rgba(234, 179, 8, 0.30) !important;
   z-index: 16 !important;
   position: relative !important;
 }
@@ -976,16 +976,16 @@ html, body {
   padding: 6px 16px !important;
   border-radius: 20px !important;
   font: 500 11px "IBM Plex Mono", monospace !important;
-  box-shadow: 0 6px 24px rgba(0, 161, 155, 0.3) !important;
+  box-shadow: 0 6px 24px rgba(234, 179, 8, 0.35) !important;
   cursor: pointer !important;
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
   white-space: nowrap !important;
 }
 
 .floating-calendar-btn:hover {
-  background: rgba(0, 161, 155, 0.2) !important;
+  background: rgba(234, 179, 8, 0.22) !important;
   border-color: var(--petronas-bright) !important;
-  box-shadow: 0 8px 30px rgba(0, 245, 212, 0.45) !important;
+  box-shadow: 0 8px 30px rgba(253, 224, 71, 0.45) !important;
   transform: translateX(-50%) translateY(-2px) !important;
 }
 
@@ -1021,7 +1021,7 @@ body:has(.calendar-panel:not(.calendar-collapsed)) .floating-calendar-btn {
 .btn:hover:not(:disabled) {
   border-color: var(--petronas) !important;
   color: var(--petronas-bright) !important;
-  background: rgba(0, 161, 155, 0.12) !important;
+  background: rgba(234, 179, 8, 0.14) !important;
 }
 
 .txt {

@@ -9,7 +9,7 @@
     :root {
       --bg-0: #05080A; --bg-1: #0A0F14; --bg-2: #111822; --line: rgba(148, 163, 184, 0.18);
       --fg-0: #F8FAFC; --fg-1: #94A3B8; --fg-2: #64748B;
-      --accent: #FF4500; --turqua: #00F5D4; --petronas: #00A19B; --amber: #F59E0B; --ok: #10B981;
+      --accent: #FF4500; --turqua: #FACC15; --petronas: #EAB308; --amber: #F59E0B; --ok: #10B981;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { background: var(--bg-0); color: var(--fg-0); font-family: "IBM Plex Sans", sans-serif; font-size: 14px; line-height: 1.55; }
@@ -176,12 +176,12 @@
       ctx.stroke();
 
       // Harmonized BD (Cyan)
-      ctx.strokeStyle = "#02D8E1"; ctx.lineWidth = 3; ctx.beginPath();
+      ctx.strokeStyle = "#FACC15"; ctx.lineWidth = 3; ctx.beginPath();
       rows.forEach((r, i) => { const x = xOf(i), y = yOf(r.harmonized_bd); if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y); });
       ctx.stroke();
 
       ctx.fillStyle = "#94A3B8"; ctx.font = "11px IBM Plex Mono";
-      ctx.fillText("Red: Raw Hotspots (×17.5 jump) | Cyan: TURQUA Harmonized BD (×1.13)", padL, 13);
+      ctx.fillText("Red: Raw Hotspots (×17.5 jump) | Yellow: TURQUA Harmonized BD (×1.13)", padL, 13);
       rows.forEach((r, i) => { if (r.year % 4 === 1 || r.year === 2012 || r.year === 2026) ctx.fillText(String(r.year), xOf(i) - 12, h - 6); });
     }
 
@@ -194,7 +194,7 @@
         const x = padL + i * gw + 6;
         const hAct = (p.actual / maxY) * ph;
         const hPred = (p.predicted / maxY) * ph;
-        ctx.fillStyle = "#14B8A6"; ctx.fillRect(x, padT + ph - hAct, gw * 0.36, hAct);
+        ctx.fillStyle = "#F59E0B"; ctx.fillRect(x, padT + ph - hAct, gw * 0.36, hAct);
         ctx.fillStyle = "#FACC15"; ctx.fillRect(x + gw * 0.4, padT + ph - hPred, gw * 0.36, hPred);
         ctx.fillStyle = "#94A3B8"; ctx.font = "10px IBM Plex Mono";
         ctx.fillText(String(p.year).slice(2) + "'", x, h - 6);
