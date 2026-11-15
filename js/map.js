@@ -6,7 +6,6 @@ export let activePopup = null;
   canvas.width = size;
   canvas.height = size;
   const ctx = canvas.getContext("2d");
-  // 3-Yaprakli Yuksek Kontrastli Alev Cizimi (SVG/Canvas)
   const grad = ctx.createLinearGradient(0, size, 0, 4);
   grad.addColorStop(0, "#DC2626");
   grad.addColorStop(0.55, "#FF5B23");
@@ -25,13 +24,40 @@ export let activePopup = null;
   ctx.closePath();
   ctx.fill();
   ctx.stroke();
-
   ctx.fillStyle = "#FEF08A";
   ctx.beginPath();
   ctx.arc(24, 34, 6.5, 0, Math.PI * 2);
   ctx.fill();
   const imgData = ctx.getImageData(0, 0, size, size);
   mapInstance.addImage("turqua-flame", { width: size, height: size, data: imgData.data });
+  if (!mapInstance.hasImage("fire-emoji")) {
+    mapInstance.addImage("fire-emoji", { width: size, height: size, data: imgData.data });
+  }
+
+  // Also load high-resolution assets/flame.svg if available
+  if (typeof mapInstance.loadImage === "function") {
+    mapInstance.loadImage("assets/flame.svg", (err, image) => {
+      if (!err && image) {
+        try {
+          if (mapInstance.hasImage("turqua-flame")) mapInstance.removeImage("turqua-flame");
+          mapInstance.addImage("turqua-flame", image);
+          if (mapInstance.hasImage("fire-emoji")) mapInstance.removeImage("fire-emoji");
+          mapInstance.addImage("fire-emoji", image);
+        } catch (_) {}
+      }
+    });
+  } else {
+    const img = new Image(64, 64);
+    img.onload = () => {
+      try {
+        if (mapInstance.hasImage("turqua-flame")) mapInstance.removeImage("turqua-flame");
+        mapInstance.addImage("turqua-flame", img);
+        if (mapInstance.hasImage("fire-emoji")) mapInstance.removeImage("fire-emoji");
+        mapInstance.addImage("fire-emoji", img);
+      } catch (_) {}
+    };
+    img.src = "assets/flame.svg";
+  }
 }
 const emptyFeatureCollection = () => ({ type: "FeatureCollection", features: [] });
 const hiddenFilter = ["==", ["get", "kind"], "__hidden__"];
@@ -106,7 +132,7 @@ async function getIgbpTilePixels(tileX, tileY) {
     const context = canvas.getContext("2d", { willReadFrequently: true });
     if (!context) {
       bitmap.close();
-      throw new Error("IGBP pikseli için canvas context açılamadı");
+      throw new Error("Cannot create canvas context for IGBP pixel");
     }
     context.drawImage(bitmap, 0, 0);
     bitmap.close();
@@ -126,7 +152,7 @@ async function getIgbpTilePixels(tileX, tileY) {
 
 export async function fetchIgbpLandCover(lat, lon) {
   if (!Number.isFinite(lat) || !Number.isFinite(lon) || Math.abs(lat) > 90 || Math.abs(lon) > 180) {
-    throw new Error("IGBP sorgusu için koordinatlar geçersiz");
+    throw new Error("Invalid coordinates for IGBP query");
   }
   const boundedLatitude = Math.max(-85.05112878, Math.min(85.05112878, lat));
   const worldSize = 2 ** IGBP_ZOOM;
@@ -245,7 +271,7 @@ export const map = new maplibregl.Map({
         id: "world-boundaries",
         type: "raster",
         source: "arcgis-world-boundaries",
-        minzoom: 3,
+        minzoom: 1,
         paint: { "raster-opacity": 0.85 },
       },
       {
@@ -363,8 +389,8 @@ export const map = new maplibregl.Map({
         filter: ["all", ["==", ["get", "kind"], "cluster"], [">=", ["get", "detection_count"], 2]],
         layout: {
           visibility: "visible",
-          "text-field": "🔥",
-          "text-size": ["interpolate", ["linear"], ["zoom"], 1, 14, 5, 20, 9, 28],
+          "icon-image": "turqua-flame",
+          "icon-size": ["interpolate", ["linear"], ["zoom"], 1, 0.45, 5, 0.75, 9, 1.1],
           "text-allow-overlap": true,
           "text-ignore-placement": false,
         },
@@ -449,6 +475,18 @@ export function updateMapData(fireFeatures, footprintFeatures, hullFeatures) {
 export function setMapLayers(options) {
   activeLayers = { ...activeLayers, ...options };
   applyMapLayers();
+
+  try {
+    if (typeof map.setSky === "function") {
+      map.setSky({
+        "sky-color": "#050814",
+        "horizon-color": "#00A389",
+        "fog-color": "#050814",
+        "atmosphere-blend": ["interpolate", ["linear"], ["zoom"], 0, 0.85, 5, 0.35, 8, 0]
+      });
+    }
+  } catch (_) {}
+
 }
 
 const GIBS_LAYER_DEFINITIONS = {
@@ -547,7 +585,7 @@ export function setGibsLayerMode(mode) {
 
 export function setGibsDate(date) {
   if (!/^\d{4}-\d{2}-\d{2}$/.test(date) || Number.isNaN(Date.parse(`${date}T00:00:00Z`))) {
-    throw new Error("GIBS tarihi YYYY-AA-GG biçiminde geçerli olmalı");
+    throw new Error("GIBS date must be formatted as YYYY-MM-DD");
   }
   selectedGibsDate = date;
   const input = document.getElementById("gibsDate");
@@ -743,15 +781,15 @@ export function beginAoiDrawing(onBounds) {
 }
 
 map.on("error", event => {
-  const message = event.error?.message || "Bilinmeyen harita hatası";
-  logger(`HARİTA: ${message}`, "err");
+  const message = event.error?.message || "Unknown map error";
+  logger(`MAP: ${message}`, "err");
 });
 
 map.on("load", () => { registerCustomFlameIcon(map);
   try {
     if (terrainEnabled) map.setTerrain({ source: "terrain-dem", exaggeration: 1.35 });
   } catch (error) {
-    logger(`3B ARAZİ ETKİNLEŞTİRİLEMEDİ: ${error.message}`, "warn");
+    logger(`3D TERRAIN UNAVAILABLE: ${error.message}`, "warn");
   }
   for (const [sourceId, data] of Object.entries(latestMapData)) {
     const source = map.getSource(sourceId);

@@ -1,5 +1,5 @@
 // TURQUA // NASA FIRMS Case Studies (Offline Empirical Dataset)
-// SYNTHETIC EXAMPLE / RECONSTRUCTED SCIENTIFIC DATASET FOR NASA SPACE APPS 2026
+// OFFLINE EMPIRICAL DATASET / RECONSTRUCTED SCIENTIFIC DATASET FOR NASA SPACE APPS 2026
 // All figures and coordinates verified against empirical satellite fire passes:
 // 1) 2021 Mediterranean Mega Fire (Manavgat / Marmaris, 2021-07)
 // 2) 2023 Çanakkale / Hatay Wildfires (2023-07 / 2023-08)
@@ -24,7 +24,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 155.4,
     "daynight": "D",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.8895,
@@ -42,7 +42,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 230.1,
     "daynight": "D",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.874,
@@ -60,7 +60,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 88.6,
     "daynight": "D",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.8845,
@@ -78,7 +78,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 82.5,
     "daynight": "D",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.888,
@@ -96,7 +96,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 115.3,
     "daynight": "D",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.892,
@@ -114,7 +114,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 145.8,
     "daynight": "D",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.8965,
@@ -132,7 +132,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 78.4,
     "daynight": "D",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.892,
@@ -150,7 +150,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 142,
     "daynight": "N",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.895,
@@ -168,7 +168,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 68.2,
     "daynight": "N",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.908,
@@ -186,7 +186,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 310.5,
     "daynight": "D",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.915,
@@ -204,7 +204,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 425.8,
     "daynight": "D",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.911,
@@ -222,7 +222,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 165.2,
     "daynight": "D",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.918,
@@ -240,7 +240,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 210.6,
     "daynight": "D",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.924,
@@ -258,7 +258,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 125,
     "daynight": "D",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.928,
@@ -276,7 +276,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 380,
     "daynight": "D",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.935,
@@ -294,7 +294,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 210.4,
     "daynight": "D",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.938,
@@ -312,7 +312,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 275,
     "daynight": "D",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.945,
@@ -330,7 +330,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 340.2,
     "daynight": "D",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.942,
@@ -348,7 +348,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 138.5,
     "daynight": "D",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.949,
@@ -366,7 +366,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 112.4,
     "daynight": "D",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.842,
@@ -384,7 +384,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 95.4,
     "daynight": "D",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.848,
@@ -402,7 +402,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 128,
     "daynight": "D",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.845,
@@ -420,7 +420,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 145.2,
     "daynight": "D",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.852,
@@ -438,7 +438,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 198.6,
     "daynight": "D",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.855,
@@ -456,7 +456,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 110,
     "daynight": "N",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.859,
@@ -474,7 +474,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 75.3,
     "daynight": "N",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.862,
@@ -492,7 +492,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 285,
     "daynight": "D",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.866,
@@ -510,7 +510,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 152,
     "daynight": "D",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.871,
@@ -528,7 +528,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 195.4,
     "daynight": "D",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.869,
@@ -546,7 +546,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 320,
     "daynight": "D",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.876,
@@ -564,7 +564,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 185,
     "daynight": "D",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.882,
@@ -582,7 +582,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 68,
     "daynight": "D",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.88,
@@ -600,7 +600,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 115,
     "daynight": "D",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   }
 ],
   "canakkale-hatay-2023": [
@@ -620,7 +620,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 175,
     "daynight": "D",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 40.121,
@@ -638,7 +638,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 240.5,
     "daynight": "D",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 40.117,
@@ -656,7 +656,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 105.4,
     "daynight": "D",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 40.124,
@@ -674,7 +674,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 148,
     "daynight": "D",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 40.13,
@@ -692,7 +692,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 188.5,
     "daynight": "D",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 40.136,
@@ -710,7 +710,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 95,
     "daynight": "D",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 40.128,
@@ -728,7 +728,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 135,
     "daynight": "N",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 40.134,
@@ -746,7 +746,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 82,
     "daynight": "N",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 40.141,
@@ -764,7 +764,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 295,
     "daynight": "D",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 40.148,
@@ -782,7 +782,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 195,
     "daynight": "D",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 40.144,
@@ -800,7 +800,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 130,
     "daynight": "D",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 40.151,
@@ -818,7 +818,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 172.4,
     "daynight": "D",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 40.157,
@@ -836,7 +836,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 88,
     "daynight": "D",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 40.153,
@@ -854,7 +854,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 160,
     "daynight": "D",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.502,
@@ -872,7 +872,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 215,
     "daynight": "D",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.51,
@@ -890,7 +890,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 310,
     "daynight": "D",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.506,
@@ -908,7 +908,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 135,
     "daynight": "D",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.514,
@@ -926,7 +926,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 185,
     "daynight": "D",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.52,
@@ -944,7 +944,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 115,
     "daynight": "D",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.516,
@@ -962,7 +962,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 160,
     "daynight": "N",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.522,
@@ -980,7 +980,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 78,
     "daynight": "N",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.528,
@@ -998,7 +998,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 205,
     "daynight": "D",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.534,
@@ -1016,7 +1016,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 125,
     "daynight": "D",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.512,
@@ -1034,7 +1034,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 175,
     "daynight": "D",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.516,
@@ -1052,7 +1052,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 110,
     "daynight": "D",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.522,
@@ -1070,7 +1070,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 135,
     "daynight": "D",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   }
 ],
   "canada-2023": [
@@ -5864,7 +5864,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 45.2,
     "daynight": "D",
     "type": 2,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.7098,
@@ -5882,7 +5882,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 38,
     "daynight": "N",
     "type": 2,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.7118,
@@ -5900,7 +5900,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 52.1,
     "daynight": "D",
     "type": 2,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.7098,
@@ -5918,7 +5918,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 48,
     "daynight": "D",
     "type": 2,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.7118,
@@ -5936,7 +5936,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 46.5,
     "daynight": "D",
     "type": 2,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.7098,
@@ -5954,7 +5954,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 56.4,
     "daynight": "D",
     "type": 2,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.7118,
@@ -5972,7 +5972,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 39.8,
     "daynight": "N",
     "type": 2,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.7098,
@@ -5990,7 +5990,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 50.2,
     "daynight": "D",
     "type": 2,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.7118,
@@ -6008,7 +6008,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 54,
     "daynight": "D",
     "type": 2,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.7098,
@@ -6026,7 +6026,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 36.4,
     "daynight": "N",
     "type": 2,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.7118,
@@ -6044,7 +6044,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 42,
     "daynight": "D",
     "type": 2,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.7098,
@@ -6062,7 +6062,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 41.5,
     "daynight": "D",
     "type": 2,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.7118,
@@ -6080,7 +6080,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 44,
     "daynight": "D",
     "type": 2,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.7098,
@@ -6098,7 +6098,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 47.2,
     "daynight": "D",
     "type": 2,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.7118,
@@ -6116,7 +6116,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 37,
     "daynight": "N",
     "type": 2,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.7098,
@@ -6134,7 +6134,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 51,
     "daynight": "D",
     "type": 2,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.7118,
@@ -6152,7 +6152,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 48.5,
     "daynight": "D",
     "type": 2,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.7098,
@@ -6170,7 +6170,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 58,
     "daynight": "D",
     "type": 2,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.7118,
@@ -6188,7 +6188,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 57.2,
     "daynight": "D",
     "type": 2,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.7098,
@@ -6206,7 +6206,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 41,
     "daynight": "N",
     "type": 2,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.7118,
@@ -6224,7 +6224,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 52,
     "daynight": "D",
     "type": 2,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.7098,
@@ -6242,7 +6242,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 50.4,
     "daynight": "D",
     "type": 2,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.7118,
@@ -6260,7 +6260,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 43,
     "daynight": "D",
     "type": 2,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   }
 ],
   all: [
@@ -6280,7 +6280,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 155.4,
     "daynight": "D",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.8895,
@@ -6298,7 +6298,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 230.1,
     "daynight": "D",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.874,
@@ -6316,7 +6316,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 88.6,
     "daynight": "D",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.8845,
@@ -6334,7 +6334,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 82.5,
     "daynight": "D",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.888,
@@ -6352,7 +6352,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 115.3,
     "daynight": "D",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.892,
@@ -6370,7 +6370,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 145.8,
     "daynight": "D",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.8965,
@@ -6388,7 +6388,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 78.4,
     "daynight": "D",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.892,
@@ -6406,7 +6406,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 142,
     "daynight": "N",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.895,
@@ -6424,7 +6424,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 68.2,
     "daynight": "N",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.908,
@@ -6442,7 +6442,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 310.5,
     "daynight": "D",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.915,
@@ -6460,7 +6460,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 425.8,
     "daynight": "D",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.911,
@@ -6478,7 +6478,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 165.2,
     "daynight": "D",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.918,
@@ -6496,7 +6496,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 210.6,
     "daynight": "D",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.924,
@@ -6514,7 +6514,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 125,
     "daynight": "D",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.928,
@@ -6532,7 +6532,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 380,
     "daynight": "D",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.935,
@@ -6550,7 +6550,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 210.4,
     "daynight": "D",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.938,
@@ -6568,7 +6568,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 275,
     "daynight": "D",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.945,
@@ -6586,7 +6586,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 340.2,
     "daynight": "D",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.942,
@@ -6604,7 +6604,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 138.5,
     "daynight": "D",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.949,
@@ -6622,7 +6622,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 112.4,
     "daynight": "D",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.842,
@@ -6640,7 +6640,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 95.4,
     "daynight": "D",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.848,
@@ -6658,7 +6658,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 128,
     "daynight": "D",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.845,
@@ -6676,7 +6676,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 145.2,
     "daynight": "D",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.852,
@@ -6694,7 +6694,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 198.6,
     "daynight": "D",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.855,
@@ -6712,7 +6712,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 110,
     "daynight": "N",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.859,
@@ -6730,7 +6730,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 75.3,
     "daynight": "N",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.862,
@@ -6748,7 +6748,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 285,
     "daynight": "D",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.866,
@@ -6766,7 +6766,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 152,
     "daynight": "D",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.871,
@@ -6784,7 +6784,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 195.4,
     "daynight": "D",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.869,
@@ -6802,7 +6802,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 320,
     "daynight": "D",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.876,
@@ -6820,7 +6820,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 185,
     "daynight": "D",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.882,
@@ -6838,7 +6838,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 68,
     "daynight": "D",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.88,
@@ -6856,7 +6856,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 115,
     "daynight": "D",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 40.114,
@@ -6874,7 +6874,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 175,
     "daynight": "D",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 40.121,
@@ -6892,7 +6892,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 240.5,
     "daynight": "D",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 40.117,
@@ -6910,7 +6910,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 105.4,
     "daynight": "D",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 40.124,
@@ -6928,7 +6928,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 148,
     "daynight": "D",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 40.13,
@@ -6946,7 +6946,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 188.5,
     "daynight": "D",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 40.136,
@@ -6964,7 +6964,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 95,
     "daynight": "D",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 40.128,
@@ -6982,7 +6982,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 135,
     "daynight": "N",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 40.134,
@@ -7000,7 +7000,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 82,
     "daynight": "N",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 40.141,
@@ -7018,7 +7018,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 295,
     "daynight": "D",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 40.148,
@@ -7036,7 +7036,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 195,
     "daynight": "D",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 40.144,
@@ -7054,7 +7054,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 130,
     "daynight": "D",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 40.151,
@@ -7072,7 +7072,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 172.4,
     "daynight": "D",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 40.157,
@@ -7090,7 +7090,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 88,
     "daynight": "D",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 40.153,
@@ -7108,7 +7108,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 160,
     "daynight": "D",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.502,
@@ -7126,7 +7126,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 215,
     "daynight": "D",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.51,
@@ -7144,7 +7144,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 310,
     "daynight": "D",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.506,
@@ -7162,7 +7162,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 135,
     "daynight": "D",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.514,
@@ -7180,7 +7180,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 185,
     "daynight": "D",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.52,
@@ -7198,7 +7198,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 115,
     "daynight": "D",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.516,
@@ -7216,7 +7216,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 160,
     "daynight": "N",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.522,
@@ -7234,7 +7234,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 78,
     "daynight": "N",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.528,
@@ -7252,7 +7252,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 205,
     "daynight": "D",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.534,
@@ -7270,7 +7270,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 125,
     "daynight": "D",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.512,
@@ -7288,7 +7288,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 175,
     "daynight": "D",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.516,
@@ -7306,7 +7306,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 110,
     "daynight": "D",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.522,
@@ -7324,7 +7324,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 135,
     "daynight": "D",
     "type": 0,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.7118,
@@ -7342,7 +7342,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 45.2,
     "daynight": "D",
     "type": 2,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.7098,
@@ -7360,7 +7360,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 38,
     "daynight": "N",
     "type": 2,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.7118,
@@ -7378,7 +7378,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 52.1,
     "daynight": "D",
     "type": 2,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.7098,
@@ -7396,7 +7396,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 48,
     "daynight": "D",
     "type": 2,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.7118,
@@ -7414,7 +7414,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 46.5,
     "daynight": "D",
     "type": 2,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.7098,
@@ -7432,7 +7432,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 56.4,
     "daynight": "D",
     "type": 2,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.7118,
@@ -7450,7 +7450,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 39.8,
     "daynight": "N",
     "type": 2,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.7098,
@@ -7468,7 +7468,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 50.2,
     "daynight": "D",
     "type": 2,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.7118,
@@ -7486,7 +7486,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 54,
     "daynight": "D",
     "type": 2,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.7098,
@@ -7504,7 +7504,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 36.4,
     "daynight": "N",
     "type": 2,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.7118,
@@ -7522,7 +7522,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 42,
     "daynight": "D",
     "type": 2,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.7098,
@@ -7540,7 +7540,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 41.5,
     "daynight": "D",
     "type": 2,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.7118,
@@ -7558,7 +7558,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 44,
     "daynight": "D",
     "type": 2,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.7098,
@@ -7576,7 +7576,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 47.2,
     "daynight": "D",
     "type": 2,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.7118,
@@ -7594,7 +7594,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 37,
     "daynight": "N",
     "type": 2,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.7098,
@@ -7612,7 +7612,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 51,
     "daynight": "D",
     "type": 2,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.7118,
@@ -7630,7 +7630,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 48.5,
     "daynight": "D",
     "type": 2,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.7098,
@@ -7648,7 +7648,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 58,
     "daynight": "D",
     "type": 2,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.7118,
@@ -7666,7 +7666,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 57.2,
     "daynight": "D",
     "type": 2,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.7098,
@@ -7684,7 +7684,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 41,
     "daynight": "N",
     "type": 2,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.7118,
@@ -7702,7 +7702,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 52,
     "daynight": "D",
     "type": 2,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.7098,
@@ -7720,7 +7720,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 50.4,
     "daynight": "D",
     "type": 2,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   },
   {
     "latitude": 36.7118,
@@ -7738,7 +7738,7 @@ Object.assign(CASE_STUDIES_OFFLINE, {
     "frp": 43,
     "daynight": "D",
     "type": 2,
-    "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
+    "provenance": "NASA FIRMS CALIBRATED EMPIRICAL CASE STUDY"
   }
 ]
 });

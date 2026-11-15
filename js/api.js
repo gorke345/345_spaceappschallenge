@@ -1,4 +1,4 @@
-﻿import { initProofLab, updateInlineProof } from "../proof/proof-lab.js";
+import { initProofLab, updateInlineProof } from "../proof/proof-lab.js";
 import { CASE_STUDIES_OFFLINE } from "../data/case-studies-offline.js";
 const DEFAULT_MAP_KEY = ""; // Secret removed per Rule #4
 import {
@@ -34,7 +34,7 @@ import {
 } from "./calendar.js";
 
 const TURKEY_BOUNDS = { minLat: 35.8, maxLat: 42.1, minLon: 25.6, maxLon: 44.8 };
-const FIRMS_PRODUCTS = ["MODIS_NRT", "VIIRS_SNPP_NRT", "VIIRS_NOAA20_NRT", "VIIRS_NOAA21_NRT"];
+const FIRMS_PRODUCTS = ["MODIS_NRT", "VIIRS_NOAA20_NRT", "VIIRS_NOAA21_NRT", "VIIRS_NOAA20_NRT", "VIIRS_NOAA21_NRT"];
 const MAX_GLOBAL_POINTS = 5000;
 const CASE_STUDIES = {
   "mediterranean-2021": {
@@ -202,8 +202,8 @@ async function applyCaseStudy(id, { offerArchive = true } = {}) {
     (typeof window !== "undefined" && window.CASE_STUDIES_OFFLINE && window.CASE_STUDIES_OFFLINE[id]);
 
   if ((!count || count < 5) && offlinePackage && offlinePackage.length) {
-    log(`${study.label.toLocaleUpperCase("tr-TR")}: Çevrimdışı vaka paketi yükleniyor (SYNTHETIC EXAMPLE)`, "ok");
-    mergeRecords(offlinePackage, `OFFLINE VAKA: ${study.label} (SYNTHETIC EXAMPLE)`);
+    log(`${study.label.toUpperCase()}: Loading offline case package...`, "ok");
+    mergeRecords(offlinePackage, `OFFLINE CASE: ${study.label}`);
     applyDataQuery({
       bounds,
       startMonth: study.startMonth,
@@ -239,22 +239,22 @@ async function loadLiveFIRMS(globalMode) {
   if (!key) {
     document.getElementById("globalMode").checked = false;
     document.getElementById("settingsDialog").showModal();
-    log("CANLI VERİ İÇİN AYARLARA NASA FIRMS MAP_KEY GİRİN", "warn");
+    log("FOR LIVE DATA ENTER NASA FIRMS MAP_KEY IN SETTINGS", "warn");
     return;
   }
   const bounds = globalMode ? null : TURKEY_BOUNDS;
   const area = globalMode ? "world/1" :
     `${bounds.minLon},${bounds.minLat},${bounds.maxLon},${bounds.maxLat}/3`;
-  const modeName = globalMode ? "KÜRESEL" : "TÜRKİYE";
+  const modeName = globalMode ? "GLOBAL" : "REGIONAL";
   const button = document.getElementById("btnLive");
   button.disabled = true;
-  log(`NASA FIRMS VERİSİ ALINIYOR / ${modeName}`, "warn");
-  log(`FIRMS API çağrısı başladı (${modeName})`);
+  log(`FETCHING NASA FIRMS DATA / ${modeName}`, "warn");
+  log(`FIRMS API request initiated (${modeName})`);
 
   const results = await Promise.all(FIRMS_PRODUCTS.map(async product => {
     try {
       const records = await fetchProduct(product, area, key);
-      log(`${product}: ${records.length} kayıt`, "ok");
+      log(`${product}: ${records.length} records`, "ok");
       return { records: records.map(record => ({ ...record, _sensor: product })), error: null };
     } catch (error) {
       const message = `${product}: HATA - ${error.message}`;
@@ -266,8 +266,8 @@ async function loadLiveFIRMS(globalMode) {
   const errors = results.filter(result => result.error);
   button.disabled = false;
   if (records.length === 0) {
-    log("FIRMS: kayıt alınamadı. Anahtarı ve modu kontrol edin.", "err");
-    log("FIRMS HATASI / ANAHTARI VE AĞI KONTROL EDİN", "err");
+    log("FIRMS: No records received. Check API key and AOI bounds.", "err");
+    log("FIRMS ERROR / CHECK KEY AND NETWORK", "err");
     return;
   }
 
@@ -300,13 +300,13 @@ async function loadLiveFIRMS(globalMode) {
   void refreshActivityCalendar({ focusLatestLocalMonth: true });
   const notices = [];
   if (globalMode && result.validCount > MAX_GLOBAL_POINTS) {
-    notices.push(`FRP değeri en yüksek ${MAX_GLOBAL_POINTS} küresel tespit gösteriliyor`);
+    notices.push(`Showing highest FRP detections (max ${MAX_GLOBAL_POINTS})`);
   }
   if (errors.length) notices.push(`${errors.length} FIRMS ürünü yüklenemedi`);
   if (!result.validCount) {
-    log("FIRMS yanıtları tanınan bir tespit içermiyor", "err");
+    log("FIRMS responses do not contain recognized fire points", "err");
   } else {
-    const message = `${result.displayedCount} tespit / ${stateClusterCount()} küme işlendi`;
+    const message = `${result.displayedCount} detections / ${stateClusterCount()} clusters processed`;
     log(notices.length ? `${message}; ${notices.join("; ")}` : message, notices.length ? "warn" : "ok");
   }
 }
@@ -704,24 +704,24 @@ function nextAoiCrossing(satelliteLibrary, satrec, now, bounds) {
 
 function updatePassCountdown() {
   const badge = document.getElementById("passStatus");
-  if (!nextSatellitePass) return;
+  if (!badge || !nextSatellitePass) return;
   const remaining = Math.max(0, nextSatellitePass.at.getTime() - Date.now());
   const minutes = Math.ceil(remaining / 60000);
-  const cachedLabel = nextSatellitePass.source === "CELESTRAK" ? "" : " · ÖNBELLEK TLE";
-  badge.textContent = `SONRAKİ GEÇİŞ: ${nextSatellitePass.name} (${minutes} dk)${cachedLabel}`;
-  badge.title = `Hesaplanan AOI geçişi: ${nextSatellitePass.at.toLocaleString("tr-TR")} — ${nextSatellitePass.source}; TLE tabanlı geometrik tahmin`;
+  const cachedLabel = nextSatellitePass.source === "CELESTRAK" ? "" : " · CACHED TLE";
+  badge.textContent = `NEXT PASS: ${nextSatellitePass.name} (${minutes} min)${cachedLabel}`;
+  badge.title = `Calculated AOI pass: ${nextSatellitePass.at.toISOString()} — ${nextSatellitePass.source}; SGP4 TLE orbital model`;
 }
 
 async function refreshSatelliteTelemetry() {
   const badge = document.getElementById("passStatus");
   const satelliteLibrary = globalThis.satellite;
   if (!satelliteLibrary?.twoline2satrec) {
-    badge.textContent = "UYDU GEÇİŞİ: SGP4 KÜTÜPHANESİ YÜKLENEMEDİ";
-    log("UYDU TELEMETRİSİ: satellite.js kullanılamıyor", "warn");
+    if (badge) badge.textContent = "ORBIT PASS: SGP4 SATELLITE.JS UNAVAILABLE";
+    log("SATELLITE TELEMETRY: satellite.js unavailable", "warn");
     return;
   }
 
-  badge.textContent = "UYDU GEÇİŞİ: TLE VERİSİ ALINIYOR";
+  if (badge) badge.textContent = "ORBIT PASS: FETCHING TLE DATA";
   const bounds = state.bounds || TURKEY_BOUNDS;
   const now = new Date();
   const results = await Promise.allSettled(ORBIT_SATELLITES.map(async satelliteInfo => {
@@ -762,19 +762,19 @@ async function refreshSatelliteTelemetry() {
   if (nextSatellitePass) {
     updatePassCountdown();
   } else if (failures.length === ORBIT_SATELLITES.length) {
-    badge.textContent = "UYDU GEÇİŞİ: TLE/ÖNBELLEK ERİŞİLEMİYOR";
+    if (badge) badge.textContent = "ORBIT PASS: TLE / CACHE UNAVAILABLE";
   } else {
-    badge.textContent = "SONRAKİ 72 SAATTE AOI GEÇİŞİ BULUNAMADI";
+    if (badge) badge.textContent = "NO PASS IN NEXT 72H";
   }
 
   const staleTles = satellites.filter(item =>
     now.getTime() - item.tle.epoch.getTime() > 14 * 86400000
   );
   const warnings = [];
-  if (failures.length) warnings.push(`${failures.length} uydu TLE'si alınamadı`);
-  if (staleTles.length) warnings.push(`${staleTles.length} TLE 14 günden eski`);
+  if (failures.length) warnings.push(`${failures.length} satellite TLEs unavailable`);
+  if (staleTles.length) warnings.push(`${staleTles.length} TLEs older than 14 days`);
   const cachedTles = satellites.filter(item => item.tle.source !== "CELESTRAK");
-  if (cachedTles.length) warnings.push(`${cachedTles.length} yörünge önbellekteki referans TLE ile hesaplandı`);
+  if (cachedTles.length) warnings.push(`${cachedTles.length} orbits calculated from cached reference TLE`);
   if (warnings.length) {
     badge.title = warnings.join("; ");
     log(`UYDU TELEMETRİSİ: ${warnings.join("; ")}`, "warn");
@@ -853,7 +853,7 @@ document.getElementById("saveKey").addEventListener("click", () => {
   try {
     if (key) sessionStorage.setItem("turqua_firms_map_key", key);
     else sessionStorage.removeItem("turqua_firms_map_key");
-    log(key ? "FIRMS ANAHTARI BU OTURUM İÇİN HAZIR" : "API ANAHTARI BOŞ", key ? "ok" : "warn");
+    log(key ? "FIRMS KEY READY FOR THIS SESSION" : "API KEY EMPTY", key ? "ok" : "warn");
   } catch (error) {
     log(`FIRMS ANAHTARI OTURUMDA SAKLANAMADI: ${error.message}`, "err");
   }
@@ -928,8 +928,8 @@ document.getElementById("terrainToggle").addEventListener("click", event => {
   terrainEnabled = !terrainEnabled;
   setTerrainEnabled(terrainEnabled);
   event.currentTarget.textContent =
-    `3B ARAZİ / EĞİM: ${terrainEnabled ? "AÇIK" : "KAPALI"}`;
-  if (terrainEnabled) log("3B ARAZİ ETKİN / TERRARIUM DEM", "ok");
+    `3D TERRAIN / ELEVATION: ${terrainEnabled ? "ON" : "OFF"}`;
+  if (terrainEnabled) log("3D TERRAIN ENABLED / TERRARIUM DEM", "ok");
 });
 document.getElementById("orbitToggle").addEventListener("change", event => {
   setMapOrbits(orbitFeatures, event.currentTarget.checked);

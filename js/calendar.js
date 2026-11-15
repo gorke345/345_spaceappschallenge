@@ -2,7 +2,7 @@
 import { beginAoiDrawing, focusAOI, setMapActivityMetric, setMapColorRamp, updateAOI } from "./map.js";
 
 const YEARS = Array.from({ length: 27 }, (_, index) => 2000 + index);
-const MONTHS = ["OCAK", "ŞUBAT", "MART", "NİSAN", "MAYIS", "HAZİRAN", "TEMMUZ", "AĞUSTOS", "EYLÜL", "EKİM", "KASIM", "ARALIK"];
+const MONTHS = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
 const PRODUCTS = [
   { id: "MODIS_SP", from: "2000-11-01" },
   { id: "VIIRS_SNPP_SP", from: "2012-01-20" },
@@ -13,11 +13,19 @@ const PRESETS = {
   turkey: { minLat: 35.8, maxLat: 42.1, minLon: 25.6, maxLon: 44.8 },
   mediterranean: { minLat: 30, maxLat: 47, minLon: -6, maxLon: 37 },
   amazon: { minLat: -18, maxLat: 5, minLon: -75, maxLon: -44 },
+  northamerica: { minLat: 24, maxLat: 60, minLon: -130, maxLon: -65 },
+  usa: { minLat: 24.5, maxLat: 49.4, minLon: -125, maxLon: -66.9 },
+  canada: { minLat: 42, maxLat: 70, minLon: -141, maxLon: -52 },
+  california: { minLat: 32.5, maxLat: 42, minLon: -124.5, maxLon: -114.1 },
+  global: { minLat: -60, maxLat: 75, minLon: -180, maxLon: 180 },
 };
 const PALETTES = {
+  amber_gold: ["#3D2600", "#F59E0B", "#FACC15"],
+  solar_yellow: ["#2D2600", "#D97706", "#FDE047"],
   ylorrd: ["#FACC15", "#F59E0B", "#EF4444"],
-  viridis: ["#1E3A5F", "#14B8A6", "#FACC15"],
+  aerospace: ["#002B36", "#00B4D8", "#00F0FF"],
   inferno: ["#7F1D1D", "#EF4444", "#F59E0B"],
+  viridis: ["#1E3A5F", "#14B8A6", "#FACC15"],
 };
 const DB_NAME = "fireharmony-historical";
 const COVERAGE_STORE = "coverage";
@@ -409,8 +417,8 @@ function historicalValues(monthNumber, referenceYear = null) {
       rows: hasFull20YearBaseline ? covered20Years : sameMonth,
       full20YearBaseline: hasFull20YearBaseline,
       label: hasFull20YearBaseline
-        ? "20 YILLIK TARİHSEL MEDYAN"
-        : `MEVCUT ARŞİV MEDYANI (${sameMonth.length} AY)`,
+        ? "20-YEAR HISTORICAL MEDIAN"
+        : `ARCHIVE MEDIAN (${sameMonth.length} MO)`,
     };
   }
 
@@ -429,14 +437,14 @@ function historicalValues(monthNumber, referenceYear = null) {
     return {
       rows: loadedMonths,
       full20YearBaseline: false,
-      label: `YÜKLÜ DÖNEM AYLIK MEDYANI (${loadedMonths.length} AY)`,
+      label: `LOADED PERIOD MONTHLY MEDIAN (${loadedMonths.length} MO)`,
     };
   }
 
   return {
     rows: [],
     full20YearBaseline: false,
-    label: "AYNI AY İÇİN KARŞILAŞTIRILABİLİR ARŞİV YOK",
+    label: "NO COMPARABLE ARCHIVE FOR SAME MONTH",
   };
 }
 
@@ -456,7 +464,7 @@ function median(values) {
 }
 
 function fmt(value) {
-  if (value == null || !Number.isFinite(value)) return "VERİ YOK";
+  if (value == null || !Number.isFinite(value)) return "NO DATA";
   return value.toLocaleString("tr-TR", { maximumFractionDigits: 3 });
 }
 
@@ -466,18 +474,18 @@ function anomalyFor(value, baseline) {
 }
 
 function anomalyLabel(anomaly, loadedPeriodBaseline = false) {
-  if (anomaly == null) return "KAPSAMA YETERSİZ";
+  if (anomaly == null) return "INSUFFICIENT COVERAGE";
   if (loadedPeriodBaseline) {
-    return `YÜKLÜ DÖNEM KIYASI: ${anomaly >= 0 ? "+" : ""}${anomaly.toFixed(1)}% [MEVSİMSEL ANOMALİ DEĞİL]`;
+    return `LOADED PERIOD: ${anomaly >= 0 ? "+" : ""}${anomaly.toFixed(1)}% [NON-SEASONAL]`;
   }
-  if (anomaly >= 25) return `+${anomaly.toFixed(1)}% [KRİTİK DÖNEM]`;
+  if (anomaly >= 25) return `+${anomaly.toFixed(1)}% [CRITICAL PEAK]`;
   if (anomaly <= -20) return `${anomaly.toFixed(1)}% [NORMAL ALTI]`;
-  return `${anomaly >= 0 ? "+" : ""}${anomaly.toFixed(1)}% [ARALIK İÇİNDE]`;
+  return `${anomaly >= 0 ? "+" : ""}${anomaly.toFixed(1)}% [WITHIN BASELINE]`;
 }
 
 function paletteColor(value, max) {
   if (!max || value <= 0) return "transparent";
-  const colors = PALETTES[selectedPalette];
+  const colors = PALETTES[selectedPalette] || PALETTES.ylorrd;
   const ratio = Math.min(1, value / max);
   const index = Math.min(2, Math.floor(ratio * 3));
   return colors[index];
@@ -529,7 +537,7 @@ function renderCalendar() {
       cell.style.backgroundColor = paletteColor(value || 0, max);
       if (activeYearsOnly && value != null) cell.textContent = fmt(value);
       cell.setAttribute("role", "gridcell");
-      const loadedPeriodBaseline = history.label.startsWith("YÜKLÜ DÖNEM");
+      const loadedPeriodBaseline = history.label.startsWith("LOADED PERIOD");
       cell.title = `${year} ${MONTHS[monthNumber - 1]} | Uyumlaştırılmış yoğunluk: ${fmt(value)} | ${history.label}: ${fmt(baseline)} | Anomali: ${anomalyLabel(anomaly, loadedPeriodBaseline)} | Kayıt: ${activity?.detections || 0}${complete ? " | TAM ARŞİV" : activity ? " | KISMİ / YEREL" : " | VERİ YOK"}`;
       cell.setAttribute("aria-label", cell.title);
       cell.classList.toggle("no-data", value == null);
@@ -547,7 +555,7 @@ function renderCalendar() {
     }
   }
   document.getElementById("calendarStatus").textContent =
-    `AOI ${state.bounds ? "seçili alan" : "küresel"} | ${activeYears.length} aktif yıl | ${archiveCoverage.length} arşiv aralığı | Eksik aylar sıfır aktivite olarak yorumlanmaz.`;
+    `AOI ${state.bounds ? "bounded" : "global"} | ${activeYears.length} active years | ${archiveCoverage.length} archive intervals | Missing months are not zero activity.`;
   renderAnomalyChart();
   syncPlaybackControls();
 }
@@ -592,7 +600,7 @@ function renderAnomalyChart() {
     const barWidth = Math.max(2, groupWidth * 0.28);
     for (const [offset, value, color] of [
       [-barWidth / 2, item.baseline, "#14B8A6"],
-      [barWidth / 2, item.selected, PALETTES[selectedPalette][1]],
+      [barWidth / 2, item.selected, (PALETTES[selectedPalette] || PALETTES.ylorrd)[1]],
     ]) {
       if (value == null || value <= 0) continue;
       const barHeight = Math.max(1, (value / max) * (chartHeight - 4));
@@ -608,8 +616,8 @@ function renderAnomalyChart() {
   context.fillRect(pad, 4, 6, 6);
   context.fillStyle = "#8C959F";
   context.textAlign = "left";
-  context.fillText("MEDYAN", pad + 9, 10);
-  context.fillStyle = PALETTES[selectedPalette][1];
+  context.fillText("MEDIAN", pad + 9, 10);
+  context.fillStyle = (PALETTES[selectedPalette] || PALETTES.ylorrd)[1];
   context.fillRect(pad + 58, 4, 6, 6);
   context.fillStyle = "#8C959F";
   context.fillText(String(selectedYear), pad + 67, 10);
@@ -938,14 +946,14 @@ export function exportResultsCSV() {
     const activity = currentMonths.get(key);
     const currentValue = activity ? selectedMetric(activity) : fullyCoveredMonth(key) ? 0 : null;
     const anomaly = currentValue == null ? null : anomalyFor(currentValue, baseline);
-    const flags = cluster.flags.map(flag => flag.code).join("|");
+    const flags = (cluster.flags || []).map(flag => flag.code).join("|");
     return [
       cluster.id,
       cluster.lat,
       cluster.lon,
       date,
       time,
-      cluster.sources.join("|"),
+      (cluster.sources || []).join("|"),
       members.length,
       cluster.sources.length,
       cluster.confidenceSummary,
@@ -998,18 +1006,18 @@ export function initCalendar(setLogger) {
     if (cancelAoiDrawing) {
       cancelAoiDrawing();
       cancelAoiDrawing = null;
-      drawButton.textContent = "HARİTADA ALAN ÇİZ";
+      drawButton.textContent = "DRAW AOI BOX ON GLOBE";
       updateAOI(state.bounds);
       return;
     }
-    log("Haritada başlangıç ve bitiş noktalarını seçerek dikdörtgen AOI çizin", "warn");
-    drawButton.textContent = "ÇİZİMİ İPTAL ET";
+    log("Select start and end corners on the globe to draw AOI box", "warn");
+    drawButton.textContent = "CANCEL DRAWING";
     cancelAoiDrawing = beginAoiDrawing(bounds => {
       cancelAoiDrawing = null;
-      drawButton.textContent = "HARİTADA ALAN ÇİZ";
+      drawButton.textContent = "DRAW AOI BOX ON GLOBE";
       if (!bounds) {
         updateAOI(state.bounds);
-        log("AOI dikdörtgeni en az 0.1 derece olmalı", "warn");
+        log("AOI rectangle must span at least 0.1 degrees", "warn");
         return;
       }
       document.getElementById("globalMode").checked = false;
@@ -1068,7 +1076,7 @@ export function initCalendar(setLogger) {
   });
   document.getElementById("colorPalette").addEventListener("change", event => {
     selectedPalette = event.target.value;
-    setMapColorRamp(PALETTES[selectedPalette]);
+    setMapColorRamp(PALETTES[selectedPalette] || PALETTES.ylorrd);
     renderCalendar();
     updateColorbars();
   });
@@ -1076,13 +1084,13 @@ export function initCalendar(setLogger) {
     calendarExpanded = !calendarExpanded;
     document.getElementById("calendarBody").hidden = !calendarExpanded;
     document.querySelector(".calendar-panel").classList.toggle("collapsed", !calendarExpanded);
-    event.target.textContent = calendarExpanded ? "DARALT" : "BÜYÜT";
+    event.target.textContent = calendarExpanded ? "COLLAPSE" : "EXPAND";
     event.target.setAttribute("aria-expanded", String(calendarExpanded));
   });
   document.getElementById("toggleCalendarScope").addEventListener("click", event => {
     activeYearsOnly = !activeYearsOnly;
     event.currentTarget.setAttribute("aria-pressed", String(activeYearsOnly));
-    event.currentTarget.textContent = activeYearsOnly ? "TÜM YILLAR" : "AKTİF YILLAR";
+    event.currentTarget.textContent = activeYearsOnly ? "ALL YEARS" : "ACTIVE YEARS";
     renderCalendar();
   });
   window.addEventListener("resize", renderAnomalyChart);
@@ -1096,18 +1104,21 @@ export function initCalendar(setLogger) {
 }
 
 function updateColorbars() {
-  const colors = PALETTES[selectedPalette];
+  const colors = PALETTES[selectedPalette] || PALETTES.ylorrd;
   const gradient = `linear-gradient(to right, ${colors.join(", ")})`;
-  document.getElementById("colorbar").style.background = gradient;
-  document.getElementById("mapColorbar").style.background = gradient;
-  const isFrp = document.getElementById("activityMetric").value === "frp";
-  const mapMaximum = state.filteredPoints.reduce((maximum, point) => {
+  const cb = document.getElementById("colorbar");
+  if (cb) cb.style.background = gradient;
+  const mcb = document.getElementById("mapColorbar");
+  if (mcb) mcb.style.background = gradient;
+  const isFrp = document.getElementById("activityMetric")?.value === "frp";
+  const mapMaximum = (state.filteredPoints || []).reduce((maximum, point) => {
     const weight = point.sensor === "MODIS" ? 1 : 0.14;
-    const pixelArea = point.scan_km * point.track_km;
-    const value = isFrp ? weight * point.frp / pixelArea : weight / pixelArea;
+    const pixelArea = (point.scan_km || 1) * (point.track_km || 1);
+    const value = isFrp ? weight * (point.frp || 0) / pixelArea : weight / pixelArea;
     return Math.max(maximum, value);
   }, 0);
-  document.getElementById("mapColorbarMax").textContent = fmt(mapMaximum);
+  const mcbMax = document.getElementById("mapColorbarMax");
+  if (mcbMax) mcbMax.textContent = fmt(mapMaximum);
 }
 
 export function refreshActivityCalendar(options) {

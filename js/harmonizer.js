@@ -1,4 +1,4 @@
-﻿import { updateMapData } from "./map.js";
+import { updateMapData } from "./map.js";
 
 const EARTH_RADIUS_KM = 6371;
 
@@ -109,20 +109,26 @@ function normalizeRaw(input) {
 
   const confidence = confidenceField(row);
   if (!confidence) return null;
+  // NASA FIRMS Sun-Glint & Noise Filter:
+  // Discard MODIS < 30% confidence, VIIRS low confidence, and non-positive FRP
+  if (sensor === "MODIS" && confidence.kind === "numeric" && Number(confidence.raw) < 30) return null;
+  if (sensor === "VIIRS" && (confidence.category === "l" || confidence.category === "low")) return null;
 
-  const scan_km = numericField(row, ["scan_km", "scan"]);
-  const track_km = numericField(row, ["track_km", "track"]);
+  const frp = numericField(row, ["frp", "frp_mw"]);
+  if (frp == null || frp <= 0) return null;
+
+  const scan_km = numericField(row, ["scan_km", "scan"]) || (sensor === "MODIS" ? 1.0 : 0.375);
+  const track_km = numericField(row, ["track_km", "track"]) || (sensor === "MODIS" ? 1.0 : 0.375);
   if (scan_km == null || track_km == null || scan_km <= 0 || track_km <= 0) return null;
 
   const acq_date = row.acq_date || "";
-  const acq_time = String(row.acq_time ?? "").padStart(4, "0");
-  const ts = parseUTC(acq_date, acq_time);
+  const rawTime = String(row.acq_time ?? "").replace(/\D/g, "").padStart(4, "0").slice(0, 4);
+  const acq_time = rawTime.length === 4 ? rawTime : "0000";
+  const ts = parseUTC(acq_date, acq_time) || (acq_date ? new Date(acq_date + "T00:00:00Z").getTime() : null);
   if (ts == null) return null;
 
-  const daynightValue = String(row.daynight || "").toUpperCase();
-  const daynight = daynightValue === "N" || daynightValue === "D" ? daynightValue : null;
-  const frp = numericField(row, ["frp", "frp_mw"]);
-  if (frp == null) return null;
+  const daynightValue = String(row.daynight || row.day_night || "").toUpperCase();
+  const daynight = daynightValue === "N" || daynightValue === "D" ? daynightValue : "D";
 
   const delta_t = temp_k - temp_bg_k;
 
@@ -228,10 +234,10 @@ function classifyError(members) {
   const sensors = new Set(members.map(member => member.sensor));
   const totalArea = members.reduce((sum, member) => sum + member.scan_km * member.track_km, 0);
   if (sensors.size === 1 && sensors.has("VIIRS") && totalArea < 0.5) {
-    flags.push({ code: "OMISSION", text: "SUB-PIXEL DETECTION (MODIS Omission Yakalandı)", cls: "warn" });
+    flags.push({ code: "OMISSION", text: "SUB-PIXEL DETECTION (MODIS Omission Recovered)", cls: "warn" });
   }
   if (members.length === 1 && members[0].daynight === "D" && members[0].delta_t < 12) {
-    flags.push({ code: "COMMISSION", text: "LOW THERMAL ANOMALY / GLINT RISK (Commission Uyarısı)", cls: "err" });
+    flags.push({ code: "COMMISSION", text: "LOW THERMAL ANOMALY / GLINT RISK", cls: "err" });
   }
   return flags;
 }
@@ -307,15 +313,15 @@ function classifyRegime(members, spreadAreaKm2) {
   const isDaytimeCluster = members.every(member => member.daynight === "D");
   const averageFrp = members.reduce((sum, member) => sum + member.frp, 0) / members.length;
   if (totalFrp >= 40 || (hasNightDetection && maxDT >= 25)) {
-    return "ORMAN / DOĞAL ÖRTÜ YANGINI";
+    return "WILDFIRE / NATURAL VEGETATION FIRE";
   }
   if (isDaytimeCluster && members.length >= 2 && averageFrp < 25) {
-    return "TARIMSAL ANIZ / ARAZİ YAKMA";
+    return "AGRICULTURAL / STUBBLE BURNING";
   }
   if (members.length === 1 || (spreadAreaKm2 < 0.35 && maxDT < 18)) {
-    return "ENDÜSTRİYEL / STATİK TERMAL ANOMALİ";
+    return "INDUSTRIAL / STATIC THERMAL ANOMALY";
   }
-  return "KARIŞIK / SINIFLANDIRILMAMIŞ";
+  return "MIXED / UNCLASSIFIED";
 }
 
 function footprintPolygon(point) {
@@ -334,7 +340,7 @@ function footprintPolygon(point) {
 
 function popupPoint(point) {
   const tag = point.delta_t < 12 && point.daynight === "D"
-    ? `<div class="tag err">GLINT RİSK</div>`
+    ? `<div class="tag err">GLINT RISK</div>`
     : "";
   const confidenceCategoryLabel = { l: "low", n: "nominal", h: "high" }[point.confidenceCategory];
   const confidenceDisplay = confidenceCategoryLabel
@@ -360,18 +366,18 @@ function escapeHTML(value) {
 }
 
 function popupCluster(cluster) {
-  const tags = cluster.flags.map(flag => `<div class="tag ${flag.cls}">${flag.text}</div>`).join("");
+  const tags = (cluster.flags || []).map(flag => `<div class="tag ${flag.cls}">${flag.text}</div>`).join("");
   const primary = cluster.intelligence.rankedScores[0];
   return `
-    <div class="ph">BİRLEŞİK KÜME #${String(cluster.id).padStart(3, "0")}</div>
-    <div class="pr"><span>TESPİT DESTEĞİ</span><b>${cluster.members.length} tespit / ${cluster.sources.length} sensör</b></div>
-    <div class="pr"><span>SENSÖR</span><b>${cluster.sources.join(" + ")}</b></div>
-    <div class="pr"><span>ÜYE</span><b>${cluster.members.length}</b></div>
-    <div class="pr"><span>YANGIN REJİMİ</span><b>${escapeHTML(cluster.regime)}</b></div>
-    <div class="pr"><span>GÖRELİ HEURİSTİK SKOR (OLASILIK DEĞİL)</span><b>${primary.relativeScore}/100 ${escapeHTML(primary.label)}</b></div>
-    <div class="pr"><span>ARAZİ / BİTKİ</span><b>${escapeHTML(cluster.biome.label)}</b></div>
+    <div class="ph">HARMONIZED CLUSTER #${String(cluster.id).padStart(3, "0")}</div>
+    <div class="pr"><span>DETECTION SUPPORT</span><b>${cluster.members.length} detections / ${(cluster.sources || []).length} sensors</b></div>
+    <div class="pr"><span>SENSOR</span><b>${(cluster.sources || []).join(" + ")}</b></div>
+    <div class="pr"><span>MEMBERS</span><b>${cluster.members.length}</b></div>
+    <div class="pr"><span>FIRE REGIME</span><b>${escapeHTML(cluster.regime)}</b></div>
+    <div class="pr"><span>RELATIVE HEURISTIC SCORE (NON-PROBABILITY)</span><b>${primary.relativeScore}/100 ${escapeHTML(primary.label)}</b></div>
+    <div class="pr"><span>LAND COVER / BIOME</span><b>${escapeHTML(cluster.biome.label)}</b></div>
     <div class="pr"><span>MODIS / VIIRS</span><b>${cluster.sensorCounts.MODIS} / ${cluster.sensorCounts.VIIRS}</b></div>
-    <div class="pr"><span>10 KM TEKERRÜR</span><b>${cluster.intelligence.recurrenceCount} kayıt</b></div>
+    <div class="pr"><span>10 KM RECURRENCE</span><b>${cluster.intelligence.recurrenceCount} records</b></div>
     <div class="pr"><span>MAKS ΔT</span><b>${cluster.maxDT.toFixed(1)} K</b></div>
     <div class="pr"><span>FRP TOPLAM</span><b>${cluster.members.reduce((sum, member) => sum + member.frp, 0).toFixed(1)} MW</b></div>
     ${tags}
@@ -411,43 +417,43 @@ export function clusterProperties(cluster) {
   };
 }
 
-const MONTH_LABELS = ["OCAK", "ŞUBAT", "MART", "NİSAN", "MAYIS", "HAZİRAN", "TEMMUZ", "AĞUSTOS", "EYLÜL", "EKİM", "KASIM", "ARALIK"];
+const MONTH_LABELS = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
 const FIRE_SOURCE_LABELS = [
   "ORMAN / DOĞAL ÖRTÜ YANGINI",
   "TARIMSAL ANIZ / ARAZİ YAKMA",
-  "ENDÜSTRİYEL TESİS / LİMAN / GAZ BACASI (STA)",
-  "KIRSAL / YERLEŞİM ARA YÜZÜ (WUI)",
-  "ATIK / TERMAL ANOMALİ",
-  "BOZKIR / ÇAYIR YANGINI",
+  "INDUSTRIAL FACILITY / PORT / FLARE (STA)",
+  "WILDLAND-URBAN INTERFACE (WUI)",
+  "WASTE / THERMAL ANOMALY",
+  "GRASSLAND / STEPPE FIRE",
 ];
 const FIRE_SOURCE_CATEGORIES = [
   "forest", "agriculture", "industrial", "human", "waste", "grassland",
 ];
 const STA_REGIONS = [
   {
-    name: "İskenderun / Payas / Dörtyol liman ve demir-çelik hattı",
+    name: "Iskenderun / Payas Industrial Port & Steel Complex",
     minLat: 36.55, maxLat: 36.90, minLon: 36.10, maxLon: 36.32,
   },
   {
-    name: "Aliağa rafineri ve gemi söküm sahası",
+    name: "Aliaga Refinery & Petrochemical Complex",
     minLat: 38.75, maxLat: 38.88, minLon: 26.88, maxLon: 27.02,
   },
   {
-    name: "İzmit / Dilovası / Tüpraş sanayi sahası",
+    name: "Izmit / Dilovasi / Tupras Industrial Hub",
     minLat: 40.72, maxLat: 40.82, minLon: 29.50, maxLon: 29.80,
   },
   {
-    name: "Zonguldak / Ereğli ağır sanayi sahası",
+    name: "Zonguldak / Eregli Steel & Industrial Hub",
     minLat: 41.15, maxLat: 41.32, minLon: 31.38, maxLon: 32.68,
   },
   {
-    name: "Ceyhan / Yumurtalık terminal sahası",
+    name: "Ceyhan / Yumurtalik Oil & Energy Terminal",
     minLat: 36.75, maxLat: 36.92, minLon: 35.80, maxLon: 36.00,
   },
-  { name: "Basra Körfezi petrol ve gaz havzası", minLat: 24, maxLat: 30, minLon: 48, maxLon: 57 },
-  { name: "Kuzey Denizi petrol ve gaz havzası", minLat: 51, maxLat: 62, minLon: -4, maxLon: 8 },
-  { name: "Meksika Körfezi petrol ve gaz havzası", minLat: 18, maxLat: 30, minLon: -98, maxLon: -80 },
-  { name: "Batı Sibirya petrol ve gaz havzası", minLat: 55, maxLat: 72, minLon: 60, maxLon: 90 },
+  { name: "Persian Gulf Oil & Gas Basin", minLat: 24, maxLat: 30, minLon: 48, maxLon: 57 },
+  { name: "North Sea Oil & Gas Basin", minLat: 51, maxLat: 62, minLon: -4, maxLon: 8 },
+  { name: "Gulf of Mexico Oil & Gas Basin", minLat: 18, maxLat: 30, minLon: -98, maxLon: -80 },
+  { name: "West Siberian Oil & Gas Basin", minLat: 55, maxLat: 72, minLon: 60, maxLon: 90 },
 ];
 
 function clamp01(value) {
@@ -501,23 +507,23 @@ function biomeRecord(code, label, vegetation, fuelLoad, source, extra = {}) {
 
 function classifyIgbpBiome(classCode) {
   const classNames = {
-    1: "İğne yapraklı herdem yeşil orman",
-    2: "Geniş yapraklı herdem yeşil orman",
-    3: "Yaprak döken iğne yapraklı orman",
-    4: "Yaprak döken geniş yapraklı orman",
-    5: "Karışık orman",
-    6: "Kapalı çalılık",
-    7: "Açık çalılık",
-    8: "Ağaçlı savan",
-    9: "Savan",
-    10: "Çayır",
-    11: "Kalıcı sulak alan",
-    12: "Ekili tarım alanı",
-    13: "Kentsel / yapılaşmış alan",
-    14: "Tarım-doğal bitki örtüsü mozaiği",
-    15: "Kalıcı kar ve buz",
-    16: "Çıplak / seyrek bitkili arazi",
-    17: "Su kütlesi",
+    1: "Evergreen Needleleaf Forest",
+    2: "Evergreen Broadleaf Forest",
+    3: "Deciduous Needleleaf Forest",
+    4: "Deciduous Broadleaf Forest",
+    5: "Mixed Forest",
+    6: "Closed Shrublands",
+    7: "Open Shrublands",
+    8: "Woody Savannas",
+    9: "Savannas",
+    10: "Grasslands",
+    11: "Permanent Wetlands",
+    12: "Croplands",
+    13: "Urban & Built-Up",
+    14: "Cropland/Natural Vegetation Mosaic",
+    15: "Permanent Snow & Ice",
+    16: "Barren / Sparsely Vegetated",
+    17: "Water Bodies",
   };
   const className = classNames[classCode];
   if (!className) return null;
@@ -962,7 +968,7 @@ function updateTelemetry(sourceLabel) {
   const badge = document.getElementById("sourceStatus");
   if (badge) {
     const source = sourceLabel.toUpperCase().includes("FIRMS") ? "NASA FIRMS" : sourceLabel;
-    badge.textContent = `${source} AKTİF / ${points.length.toLocaleString("tr-TR")} TESPİT`;
+    badge.textContent = `${source} ACTIVE / ${points.length.toLocaleString("en-US")} DETECTIONS`;
     badge.className = "source-status ok";
   }
 }
@@ -1077,7 +1083,7 @@ export function processRecords(records, sourceLabel, { epsKm = 0.8, maxPoints = 
   if (records.length > 0 && state.allPoints.length === 0) {
     const badge = document.getElementById("sourceStatus");
     if (badge) {
-      badge.textContent = "VERİ ŞEMASI HATASI";
+      badge.textContent = "DATA SCHEMA ERROR";
       badge.className = "source-status err";
     }
   }

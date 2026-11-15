@@ -83,7 +83,7 @@ def haversine_km(lat1, lon1, lat2, lon2):
 if __name__ == "__main__":
     # 1. Verileri Çek
     df_modis = normalize_schema(fetch_sensor_data("MODIS_NRT"), "MODIS")
-    df_viirs = normalize_schema(fetch_sensor_data("VIIRS_SNPP_NRT"), "VIIRS")
+    df_viirs = normalize_schema(fetch_sensor_data("VIIRS_NOAA20_NRT"), "VIIRS")
     
     # 2. Tek Tabloda Birleştir
     combined_df = pd.concat([df_modis, df_viirs], ignore_index=True)
