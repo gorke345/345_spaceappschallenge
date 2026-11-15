@@ -5,7 +5,8 @@
 // 2) 2023 Çanakkale / Hatay Wildfires (2023-07 / 2023-08)
 // 3) Payas / İskenderun STA (Static Thermal Anomaly: Isdemir Integrated Steelworks, 36.71N, 36.20E)
 
-const CASE_STUDIES_OFFLINE = {
+var CASE_STUDIES_OFFLINE = (typeof window !== "undefined" ? (window.CASE_STUDIES_OFFLINE = window.TURQUA_CASE_STUDIES_OFFLINE = {}) : {});
+Object.assign(CASE_STUDIES_OFFLINE, {
   "mediterranean-2021": [
   {
     "latitude": 36.8812,
@@ -7740,7 +7741,16 @@ const CASE_STUDIES_OFFLINE = {
     "provenance": "SYNTHETIC EXAMPLE (CALIBRATED EMPIRICAL CASE STUDY)"
   }
 ]
-};
+});
+
+// Aliases for compatibility
+CASE_STUDIES_OFFLINE["canada2023"] = CASE_STUDIES_OFFLINE["canada-2023"];
+CASE_STUDIES_OFFLINE["california2020"] = CASE_STUDIES_OFFLINE["california-2020"];
+CASE_STUDIES_OFFLINE["mediterranean2021"] = CASE_STUDIES_OFFLINE["mediterranean-2021"];
+CASE_STUDIES_OFFLINE["hatay2023"] = CASE_STUDIES_OFFLINE["canakkale-hatay-2023"];
+CASE_STUDIES_OFFLINE["canakkale2023"] = CASE_STUDIES_OFFLINE["canakkale-hatay-2023"];
+CASE_STUDIES_OFFLINE["sta_control"] = CASE_STUDIES_OFFLINE["payas-sta"];
+CASE_STUDIES_OFFLINE["sta"] = CASE_STUDIES_OFFLINE["payas-sta"];
 
 if (typeof window !== "undefined") {
   window.CASE_STUDIES_OFFLINE = CASE_STUDIES_OFFLINE;

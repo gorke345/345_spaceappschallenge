@@ -362,11 +362,11 @@ const map = new maplibregl.Map({
         filter: ["all", ["==", ["get", "kind"], "point"], ["==", ["get", "sensor"], "MODIS"]],
         layout: { visibility: "visible" },
         paint: {
-          "circle-radius": ["interpolate", ["linear"], ["zoom"], 1, 1.5, 5, 3, 9, 5],
-          "circle-color": "#F59E0B",
-          "circle-opacity": 0.85,
-          "circle-stroke-width": 1,
-          "circle-stroke-color": "#070B1E",
+          "circle-radius": ["interpolate", ["linear"], ["zoom"], 1, 3.5, 5, 5.5, 9, 8.5],
+          "circle-color": "#FFB020",
+          "circle-opacity": 0.95,
+          "circle-stroke-width": 1.2,
+          "circle-stroke-color": "#FFFFFF",
         },
       },
       {
@@ -376,24 +376,24 @@ const map = new maplibregl.Map({
         filter: ["all", ["==", ["get", "kind"], "point"], ["==", ["get", "sensor"], "VIIRS"]],
         layout: { visibility: "visible" },
         paint: {
-          "circle-radius": ["interpolate", ["linear"], ["zoom"], 1, 2.2, 5, 4.5, 9, 8],
-          "circle-color": "#FCD34D",
-          "circle-opacity": 0.85,
-          "circle-stroke-width": 1,
-          "circle-stroke-color": "#070B1E",
+          "circle-radius": ["interpolate", ["linear"], ["zoom"], 1, 3.0, 5, 5.0, 9, 8.0],
+          "circle-color": "#EF4444",
+          "circle-opacity": 0.95,
+          "circle-stroke-width": 1.2,
+          "circle-stroke-color": "#FFFFFF",
         },
       },
-                  {
+      {
         id: "pt-cluster",
         type: "circle",
         source: "fires",
         filter: ["all", ["==", ["get", "kind"], "cluster"], [">=", ["get", "detection_count"], 2]],
         layout: { visibility: "visible" },
         paint: {
-          "circle-radius": ["interpolate", ["linear"], ["zoom"], 1, 2.2, 5, 4.2, 9, 7.5],
-          "circle-color": "rgba(239,68,68,0.14)",
-          "circle-stroke-width": 1.2,
-          "circle-stroke-color": "#EF4444",
+          "circle-radius": ["interpolate", ["linear"], ["zoom"], 1, 4.5, 5, 8.0, 9, 14.0],
+          "circle-color": "rgba(239, 68, 68, 0.25)",
+          "circle-stroke-width": 1.8,
+          "circle-stroke-color": "#FF3B30",
         },
       },
       {
@@ -402,19 +402,21 @@ const map = new maplibregl.Map({
         source: "fires",
         filter: [
           "any",
+          ["==", ["get", "is_confirmed_fire"], true],
           ["==", ["get", "multi_sensor"], true],
+          ["==", ["get", "multi_sensor_support"], true],
           ["all",
             ["==", ["get", "kind"], "cluster"],
-            [">=", ["get", "detection_count"], 3],
-            [">=", ["get", "cluster_frp"], 40]
+            [">=", ["get", "detection_count"], 2],
+            [">=", ["get", "cluster_frp"], 20]
           ]
         ],
         layout: {
           visibility: "visible",
           "icon-image": "fire-emoji",
-          "icon-size": ["interpolate", ["linear"], ["zoom"], 1, 0.45, 5, 0.75, 9, 1.0],
-          "icon-allow-overlap": false,
-          "icon-ignore-placement": false,
+          "icon-size": ["interpolate", ["linear"], ["zoom"], 1, 0.65, 5, 0.85, 9, 1.2],
+          "icon-allow-overlap": true,
+          "icon-ignore-placement": true,
         },
       },
       {
@@ -509,11 +511,18 @@ function updateMapData(fireFeatures, footprintFeatures, hullFeatures) {
     footprints: { type: "FeatureCollection", features: footprintFeatures },
     hulls: { type: "FeatureCollection", features: hullFeatures },
   };
-  if (!map.isStyleLoaded()) return;
-  for (const [sourceId, data] of Object.entries(latestMapData)) {
-    const source = map.getSource(sourceId);
-    if (source) source.setData(data);
+  const applyData = () => {
+    for (const [sourceId, data] of Object.entries(latestMapData)) {
+      const source = map.getSource(sourceId);
+      if (source) source.setData(data);
+    }
+  };
+  if (!map.isStyleLoaded()) {
+    map.once("load", applyData);
+    map.once("idle", applyData);
+    return;
   }
+  applyData();
 }
 
 function setMapLayers(options) {
@@ -675,8 +684,10 @@ function applyMapLayers() {
     "pt-cluster": showClusters ? ["all", ["==", ["get", "kind"], "cluster"], [">=", ["get", "detection_count"], 2]] : hiddenFilter,
     "fire-emoji-label": [
       "any",
+      ["==", ["get", "is_confirmed_fire"], true],
       ["==", ["get", "multi_sensor"], true],
-      ["all", ["==", ["get", "kind"], "cluster"], [">=", ["get", "detection_count"], 3], [">=", ["get", "cluster_frp"], 40]]
+      ["==", ["get", "multi_sensor_support"], true],
+      ["all", ["==", ["get", "kind"], "cluster"], [">=", ["get", "detection_count"], 2], [">=", ["get", "cluster_frp"], 20]]
     ],
     "cluster-hull-fill": showClusters ? null : hiddenFilter,
     "cluster-hull-outline": showClusters ? null : hiddenFilter,
@@ -1289,7 +1300,9 @@ function clusterProperties(cluster) {
     viirs_count: cluster.sensorCounts.VIIRS,
     detection_count: cluster.members.length,
     sensor_count: cluster.sources.length,
+    multi_sensor: cluster.sources.length > 1,
     multi_sensor_support: cluster.sources.length > 1,
+    is_confirmed_fire: cluster.sources.length > 1 || (cluster.members.length >= 2 && cluster.harmonizedFrp >= 15) || cluster.harmonizedFrp >= 50,
     confidence_summary: summarizeConfidence(cluster.members),
     bow_tie_expansion: bowTieExpansion,
     cluster_frp: cluster.harmonizedFrp,
@@ -1912,7 +1925,9 @@ function updateMapAndTelemetry(sourceLabel = state.sourceLabel) {
         viirs_count: cluster?.sensorCounts.VIIRS ?? (point.sensor === "VIIRS" ? 1 : 0),
         detection_count: cluster?.members.length ?? 1,
         sensor_count: cluster?.sources.length ?? 1,
+        multi_sensor: (cluster?.sources.length ?? 1) > 1,
         multi_sensor_support: (cluster?.sources.length ?? 1) > 1,
+        is_confirmed_fire: ((cluster?.sources.length ?? 1) > 1) || (cluster ? (cluster.members.length >= 2 && cluster.harmonizedFrp >= 15) : (point.confidenceCategory === "high" && point.frp >= 25)),
         confidence_summary: cluster
           ? summarizeConfidence(cluster.members)
           : summarizeConfidence([point]),
@@ -2196,6 +2211,8 @@ const PRESETS = {
   amazon: { minLat: -18, maxLat: 5, minLon: -75, maxLon: -44 },
   global: { minLat: -60, maxLat: 70, minLon: -170, maxLon: 170 },
 };
+window.__TQ.PRESETS = PRESETS;
+window.TURQUA_PRESETS = PRESETS;
 const PALETTES = {
   amber_gold: ["#451A03", "#B45309", "#F59E0B", "#FEF08A"],
   solar_yellow: ["#1F1608", "#854D0E", "#EAB308", "#FDE047"],
@@ -3350,14 +3367,6 @@ async function initProofLab() {
     modeBtn.title = "Switch between Harmonized Burning Days and Raw Uncalibrated Sum (watch 2012/2019/2024 jumps)";
     modeBtn.addEventListener("click", toggleRawHarmonized);
 
-    // 2) 25s Jury Tour Button
-    const tourBtn = document.createElement("button");
-    tourBtn.id = "btnJuryTour";
-    tourBtn.className = "btn btn-proof";
-    tourBtn.textContent = "🎬 25s JURY TOUR";
-    tourBtn.title = "Start 25-second cinematic jury presentation tour with scientific narration";
-    tourBtn.addEventListener("click", toggleJuryTour);
-
     // 3) Evidence Page Link (proof/index.html)
     const proofLink = document.createElement("a");
     proofLink.id = "btnEvidencePage";
@@ -3374,10 +3383,9 @@ async function initProofLab() {
     solverBtn.title = "Open interactive in-app mathematical formula solver";
     solverBtn.addEventListener("click", openSolverModal);
 
-    // (3D Spin & EN/TR toggles removed for clean mission interface)
+    // Clean mission interface: Evidence, Mode Toggle, Solver Lab
     cmdActions.prepend(solverBtn);
     cmdActions.prepend(modeBtn);
-    cmdActions.prepend(tourBtn);
     cmdActions.prepend(proofLink);
   }
 
@@ -3631,6 +3639,16 @@ const { initProofLab, updateInlineProof } = window.__TQ;
 const DEFAULT_MAP_KEY = ""; // Secret removed per Rule #4
 const { applyDataQuery, clusterProperties, exportGeoJSON, popupCluster, mergeRecords, processRecords, recluster, state, updateClusterBiome, updateAoiCriticalAlarm, updateMapAndTelemetry } = window.__TQ;
 const { focusAOI, setMapLogger, setMapLayers, setMapOrbits, setMapSelectionHandler, setGibsDate, setGibsLayerMode, setTerrainEnabled, fetchIgbpLandCover, activePopup, updateAOI } = window.__TQ;
+const PRESETS = window.__TQ.PRESETS || window.TURQUA_PRESETS || {
+  northamerica: { minLat: 24.5, maxLat: 60.0, minLon: -130.0, maxLon: -65.0 },
+  usa: { minLat: 24.5, maxLat: 49.5, minLon: -125.0, maxLon: -66.9 },
+  canada: { minLat: 48.0, maxLat: 68.0, minLon: -141.0, maxLon: -55.0 },
+  california: { minLat: 32.5, maxLat: 42.0, minLon: -124.5, maxLon: -114.1 },
+  turkey: { minLat: 35.8, maxLat: 42.1, minLon: 25.6, maxLon: 44.8 },
+  mediterranean: { minLat: 30, maxLat: 47, minLon: -6, maxLon: 37 },
+  amazon: { minLat: -18, maxLat: 5, minLon: -75, maxLon: -44 },
+  global: { minLat: -60, maxLat: 70, minLon: -170, maxLon: 170 },
+};
 const { downloadHistoricalArchive, initCalendar, refreshActivityCalendar } = window.__TQ;
 
 const TURKEY_BOUNDS = { minLat: 35.8, maxLat: 42.1, minLon: 25.6, maxLon: 44.8 };
@@ -3773,20 +3791,26 @@ async function loadLocalJSON() {
     }
     const offlineObj = window.CASE_STUDIES_OFFLINE || window.TURQUA_CASE_STUDIES_OFFLINE;
     if (offlineObj) {
-      if (Array.isArray(offlineObj["canada-2023"])) records.push(...offlineObj["canada-2023"]);
-      if (Array.isArray(offlineObj["california-2020"])) records.push(...offlineObj["california-2020"]);
+      const can = offlineObj["canada-2023"] || offlineObj["canada2023"];
+      const cal = offlineObj["california-2020"] || offlineObj["california2020"];
+      if (Array.isArray(can)) records.push(...can);
+      if (Array.isArray(cal)) records.push(...cal);
     }
     const gm = document.getElementById("globalMode");
     if (gm) gm.checked = false;
     const initialBounds = PRESETS.northamerica;
     state.bounds = initialBounds;
+    state.startMonth = "2020-01";
+    state.endMonth = "2026-12";
+    const startEl = document.getElementById("startMonth"); if (startEl) startEl.value = "2020-01";
+    const endEl = document.getElementById("endMonth"); if (endEl) endEl.value = "2026-12";
     updateAOI(initialBounds);
     focusAOI(initialBounds);
-    const result = processRecords(records, "YEREL / JSON", { epsKm: currentEpsilon() });
+    const result = processRecords(records, "LOCAL / IN-SITU ARCHIVE", { epsKm: currentEpsilon() });
     setGibsDateFromLatestData();
     selectLargestCluster();
-    void refreshActivityCalendar({ focusLatestLocalMonth: true });
-    log(`${result.validCount}/${records.length} valid detections / ${result.displayedCount} displayed`,
+    void refreshActivityCalendar({ focusLatestLocalMonth: false });
+    log(`${result.validCount}/${records.length} valid detections / ${result.displayedCount} displayed across North America 🔥`,
       result.validCount === 0 ? "err" : result.validCount < records.length ? "warn" : "ok");
   } catch (error) {
     log(`Could not load in-situ archive (${error.message}). Use API or file import.`, "warn");
@@ -4618,7 +4642,8 @@ try {
 } catch (error) {
   log(`FIRMS ANAHTARI OTURUMDAN OKUNAMADI: ${error.message}`, "warn");
 }
-const endEl = document.getElementById("endMonth"); if (endEl) { endEl.value = "2026-07"; state.endMonth = "2026-07"; }
+const startEl = document.getElementById("startMonth"); if (startEl) { startEl.value = "2020-01"; state.startMonth = "2020-01"; }
+const endEl = document.getElementById("endMonth"); if (endEl) { endEl.value = "2026-12"; state.endMonth = "2026-12"; }
 initCalendar(log);
 loadLocalJSON();
 startSatelliteTelemetry();
