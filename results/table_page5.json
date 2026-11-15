@@ -1,0 +1,48 @@
+{
+  "title": "How we try to break it — Test on Türkiye",
+  "source": "NASA Space Apps 2026 Presentation Page 5/7",
+  "generated_by": "pipeline/harmonize_and_validate.py",
+  "headers": [
+    "TEST ON TÜRKIYE",
+    "RAW / PLAIN RATIO",
+    "TURQUA"
+  ],
+  "rows": [
+    {
+      "test": "Seams: series ÷ fixed instrument, 2001–2021",
+      "raw_plain_ratio": "17.49× (or 17.5×)",
+      "turqua": "1.13×",
+      "provenance": "results/seams.json"
+    },
+    {
+      "test": "Leave-one-year-out · national month, r",
+      "raw_plain_ratio": "0.812",
+      "turqua": "0.989",
+      "provenance": "results/loyo.json"
+    },
+    {
+      "test": "Leave-one-year-out · province month, r",
+      "raw_plain_ratio": "0.710",
+      "turqua": "0.955",
+      "provenance": "results/loyo.json"
+    },
+    {
+      "test": "Typical error, national month",
+      "raw_plain_ratio": "48.2%",
+      "turqua": "3.55%",
+      "provenance": "results/loyo.json"
+    },
+    {
+      "test": "80% interval coverage on held-out years",
+      "raw_plain_ratio": "34.0%",
+      "turqua": "82.4%",
+      "provenance": "results/loyo.json"
+    },
+    {
+      "test": "Remove the unseen-fire branch (ablation)",
+      "raw_plain_ratio": "-52.7%",
+      "turqua": "0.0% (full 2-branch)",
+      "provenance": "results/loyo.json"
+    }
+  ]
+}

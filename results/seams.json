@@ -1,0 +1,68 @@
+{
+  "title": "Seam Analysis & Raw Count Inflation vs Fixed Instrument (Terra MODIS 1km)",
+  "pdf_reference": "NASA Space Apps 2026 Presentation Page 2/7 & Page 5/7",
+  "region": "Türkiye (35.8-42.1N, 25.6-44.8E)",
+  "period": "2001-2021",
+  "fixed_instrument": "Terra MODIS 1km",
+  "pixel_ratio_modis_viirs": 7.11,
+  "raw_count_inflation_spread": 17.49,
+  "turqua_harmonized_spread": 1.13,
+  "artificial_inflation_removed_pct": 98,
+  "eras": [
+    {
+      "era": "1 Sat (2001–2002)",
+      "satellites": [
+        "Terra"
+      ],
+      "raw_over_terra": 1.81,
+      "bd_over_terra": 1.25,
+      "turqua_harm_over_terra": 4.96
+    },
+    {
+      "era": "2 Sat (2003–2011)",
+      "satellites": [
+        "Terra",
+        "Aqua"
+      ],
+      "raw_over_terra": 3.76,
+      "bd_over_terra": 2.24,
+      "turqua_harm_over_terra": 4.8
+    },
+    {
+      "era": "3 Sat (2012–2018)",
+      "satellites": [
+        "Terra",
+        "Aqua",
+        "Suomi-NPP"
+      ],
+      "raw_over_terra": 14,
+      "bd_over_terra": 6.37,
+      "turqua_harm_over_terra": 4.83
+    },
+    {
+      "era": "4 Sat (2019–2023)",
+      "satellites": [
+        "Terra",
+        "Aqua",
+        "Suomi-NPP",
+        "NOAA-20"
+      ],
+      "raw_over_terra": 23.59,
+      "bd_over_terra": 10.12,
+      "turqua_harm_over_terra": 5.43
+    },
+    {
+      "era": "5 Sat (2024–2026)",
+      "satellites": [
+        "Terra",
+        "Aqua",
+        "Suomi-NPP",
+        "NOAA-20",
+        "NOAA-21"
+      ],
+      "raw_over_terra": 31.66,
+      "bd_over_terra": 11.53,
+      "turqua_harm_over_terra": 4.8
+    }
+  ]
+}

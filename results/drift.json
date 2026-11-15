@@ -1,0 +1,75 @@
+{
+  "title": "Orbital Drift Measured from FIRMS Timestamps (Local Solar Time)",
+  "pdf_reference": "NASA Space Apps 2026 Presentation Page 6/7",
+  "formula": "LST = UTC + longitude / 15.0",
+  "findings": {
+    "terra": {
+      "start_lst": "10:55",
+      "end_lst": "09:19",
+      "capture_rate_change_pct": -10.8,
+      "note": "Drifted earlier into morning before peak diurnal burning"
+    },
+    "aqua": {
+      "start_lst": "13:09",
+      "end_lst": "15:02",
+      "capture_rate_change_pct": 15.9,
+      "note": "Drifted later into afternoon toward diurnal peak burning"
+    }
+  },
+  "series": [
+    {
+      "year": 2013,
+      "terra_lst": 10.92,
+      "aqua_lst": 13.15,
+      "terra_snpp_ratio": 0.207
+    },
+    {
+      "year": 2015,
+      "terra_lst": 10.9,
+      "aqua_lst": 13.18,
+      "terra_snpp_ratio": 0.207
+    },
+    {
+      "year": 2017,
+      "terra_lst": 10.88,
+      "aqua_lst": 13.21,
+      "terra_snpp_ratio": 0.207
+    },
+    {
+      "year": 2019,
+      "terra_lst": 10.85,
+      "aqua_lst": 13.25,
+      "terra_snpp_ratio": 0.206
+    },
+    {
+      "year": 2021,
+      "terra_lst": 10.72,
+      "aqua_lst": 13.42,
+      "terra_snpp_ratio": 0.206
+    },
+    {
+      "year": 2022,
+      "terra_lst": 10.48,
+      "aqua_lst": 13.78,
+      "terra_snpp_ratio": 0.179
+    },
+    {
+      "year": 2023,
+      "terra_lst": 10.12,
+      "aqua_lst": 14.15,
+      "terra_snpp_ratio": 0.178
+    },
+    {
+      "year": 2024,
+      "terra_lst": 9.75,
+      "aqua_lst": 14.58,
+      "terra_snpp_ratio": 0.177
+    },
+    {
+      "year": 2025,
+      "terra_lst": 9.32,
+      "aqua_lst": 15.04,
+      "terra_snpp_ratio": 0.176
+    }
+  ]
+}

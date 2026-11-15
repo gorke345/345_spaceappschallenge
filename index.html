@@ -281,34 +281,90 @@
 <!-- IN-APP EVIDENCE & MATHEMATICAL SOLVER LAB -->
 <dialog id="proofLabDialog" class="mode-dialog proof-dialog">
   <form method="dialog">
-    <h2>TURQUA // EMPIRICAL HARMONIZATION &amp; CONTINUITY ENGINE</h2>
-    <p>Interactive verification of our 4-stage NASA FIRMS harmonization pipeline (MODIS C6.1 &amp; VIIRS 375m, 2000–2026).</p>
+    <h2>TURQUA // HOW 25 YEARS LAND ON ONE SCALE</h2>
+    <p style="color:var(--fg-1);margin-bottom:12px;">Harmonization methodology &amp; empirical validation from our NASA Space Apps Challenge 2026 presentation (MODIS C6.1 &amp; VIIRS 375m, 2000–2026).</p>
+    
     <div class="proof-grid">
       <div class="proof-card">
-        <h4>1. CONFIDENCE &amp; STA INDUSTRIAL FILTER</h4>
-        <p>Removes low-confidence sun-glint pixels (MODIS &lt; 30, VIIRS 'l') and persistent industrial/port heat sources (Type=2) while isolating active volcanoes (Type=1, e.g. Kīlauea / Etna).</p>
-        <code class="proof-eq">VIIRS Industrial False Alarms: 25.7% → 1.6% (95.5% STA Capture)</code>
+        <h4>01 · BURNING DAYS</h4>
+        <p>Vegetation-fire hotspots become 0.1° cell × local-solar-day events. One MODIS pixel or several VIIRS pixels: it burned.</p>
+        <code class="proof-eq">LST = UTC + lon / 15 h | Activity frequency, not burned area</code>
       </div>
       <div class="proof-card">
-        <h4>2. 0.1° LOCAL SOLAR BURNING DAYS (BD)</h4>
-        <p>Collapses multi-pixel clusters (1 km MODIS vs 375 m VIIRS) into equal 0.1° × 0.1° grid cells per local solar day (UTC + lon/15°).</p>
-        <code class="proof-eq">BD(s, c, m) = count_distinct(day_local) | 1 MODIS ≈ 7 VIIRS → 1 BD</code>
+        <h4>02 · ONE TARGET SATELLITE</h4>
+        <p>Suomi-NPP's scale. Gaps are detected against twin NOAA-20, filled at measured twin ratio and flagged. NOAA-20/21 continue it after 2 Nov 2026.</p>
+        <code class="proof-eq">Post-SNPP Bridge (2 Nov 2026 13:00 UTC): NOAA-20 (0.985) &amp; NOAA-21 (0.978)</code>
       </div>
       <div class="proof-card">
-        <h4>3. TWO-BRANCH (k₁, k₂) TRANSFER &amp; DRIFT</h4>
-        <p>Reconstructs pre-2012 months using k₁ (co-observed cells) + k₂ (0.5° block small-fire residual, preventing 52.7% loss) and corrects Terra (-10.8%) &amp; Aqua (+15.9%) LST drift.</p>
-        <code class="proof-eq">LOYO Cross-Validation: r = 0.989 | Median Annual Error: 3.55%</code>
+        <h4>03 · TWO-BRANCH TRANSFER</h4>
+        <p>Learned where MODIS and VIIRS overlap, per land cover × calendar month (s). Fires MODIS missed are placed from MODIS activity nearby.</p>
+        <code class="proof-eq">MODIS saw: V ≈ k₁[s] · M_cell | Unseen: V ≈ k₂[s] · M_neighbourhood</code>
       </div>
       <div class="proof-card">
-        <h4>4. POST-SNPP RETIREMENT BRIDGE (2 NOV 2026)</h4>
-        <p>Suomi-NPP ceased fire data on 2 Nov 2026 (13:00–15:40 UTC). Subsequent days are bridged via co-planar NOAA-20 (0.957) &amp; NOAA-21 (0.997) overlap ratios.</p>
-        <code class="proof-eq">Invariance Spread (1→5 Satellites): Raw ×17.49 → TURQUA ×1.13</code>
-        <div style="margin-top:10px;">
-          <a href="proof/index.html" class="btn btn-proof" style="display:inline-block;text-decoration:none;">OPEN FULL 6-PANEL EVIDENCE PAGE →</a>
-        </div>
+        <h4>04 · RECONSTRUCT + INTERVAL</h4>
+        <p>2001–Jan 2012 rebuilt from MODIS, hatched in the calendar, with an uncertainty interval taken from held-out-year errors (80% CI: [q₁₀, q₉₀]).</p>
+        <code class="proof-eq">LOYO Cross-Validation: r = 0.989 | Median Annual Error = 3.55%</code>
       </div>
     </div>
-    <div style="margin-top:14px;text-align:right;">
+
+    <!-- TABLE: HOW WE TRY TO BREAK IT (PAGE 5) -->
+    <div style="margin-top:14px;background:rgba(255,255,255,0.02);padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.08);">
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--amber);margin-bottom:8px;font-weight:600;">
+        EMPIRICAL PROOF: HOW WE TRY TO BREAK IT (All numbers from results/*.json)
+      </div>
+      <table style="width:100%;border-collapse:collapse;font-family:'IBM Plex Mono',monospace;font-size:11.5px;">
+        <thead>
+          <tr style="background:rgba(255,255,255,0.05);color:var(--turqua);">
+            <th style="padding:6px 8px;border:1px solid rgba(255,255,255,0.1);text-align:left;">TEST ON TÜRKIYE</th>
+            <th style="padding:6px 8px;border:1px solid rgba(255,255,255,0.1);text-align:center;">RAW / PLAIN RATIO</th>
+            <th style="padding:6px 8px;border:1px solid rgba(255,255,255,0.1);text-align:center;color:var(--ok);font-weight:700;">TURQUA</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="padding:5px 8px;border:1px solid rgba(255,255,255,0.06);">Seams: series ÷ fixed instrument, 2001–2021</td>
+            <td style="padding:5px 8px;border:1px solid rgba(255,255,255,0.06);text-align:center;">17.49× (or 17.5×)</td>
+            <td style="padding:5px 8px;border:1px solid rgba(255,255,255,0.06);text-align:center;font-weight:700;color:var(--ok);">1.13×</td>
+          </tr>
+          <tr>
+            <td style="padding:5px 8px;border:1px solid rgba(255,255,255,0.06);">Leave-one-year-out · national month, r</td>
+            <td style="padding:5px 8px;border:1px solid rgba(255,255,255,0.06);text-align:center;">0.812</td>
+            <td style="padding:5px 8px;border:1px solid rgba(255,255,255,0.06);text-align:center;font-weight:700;color:var(--ok);">0.989</td>
+          </tr>
+          <tr>
+            <td style="padding:5px 8px;border:1px solid rgba(255,255,255,0.06);">Leave-one-year-out · province month, r</td>
+            <td style="padding:5px 8px;border:1px solid rgba(255,255,255,0.06);text-align:center;">0.710</td>
+            <td style="padding:5px 8px;border:1px solid rgba(255,255,255,0.06);text-align:center;font-weight:700;color:var(--ok);">0.955</td>
+          </tr>
+          <tr>
+            <td style="padding:5px 8px;border:1px solid rgba(255,255,255,0.06);">Typical error, national month</td>
+            <td style="padding:5px 8px;border:1px solid rgba(255,255,255,0.06);text-align:center;">48.2%</td>
+            <td style="padding:5px 8px;border:1px solid rgba(255,255,255,0.06);text-align:center;font-weight:700;color:var(--ok);">3.55%</td>
+          </tr>
+          <tr>
+            <td style="padding:5px 8px;border:1px solid rgba(255,255,255,0.06);">80% interval coverage on held-out years</td>
+            <td style="padding:5px 8px;border:1px solid rgba(255,255,255,0.06);text-align:center;">34.0%</td>
+            <td style="padding:5px 8px;border:1px solid rgba(255,255,255,0.06);text-align:center;font-weight:700;color:var(--ok);">82.4%</td>
+          </tr>
+          <tr>
+            <td style="padding:5px 8px;border:1px solid rgba(255,255,255,0.06);">Remove the unseen-fire branch (ablation)</td>
+            <td style="padding:5px 8px;border:1px solid rgba(255,255,255,0.06);text-align:center;">-52.7%</td>
+            <td style="padding:5px 8px;border:1px solid rgba(255,255,255,0.06);text-align:center;font-weight:700;color:var(--ok);">0.0% (full 2-branch)</td>
+          </tr>
+        </tbody>
+      </table>
+      <div style="margin-top:6px;font-size:10.5px;color:var(--fg-2);">
+        Each held-out year is predicted from coefficients fitted without it. Figures read from results/seams.json and results/loyo.json.
+      </div>
+    </div>
+
+    <!-- ORBITAL DRIFT NOTE (PAGE 6) -->
+    <div style="margin-top:10px;font-size:11.5px;color:var(--fg-1);background:rgba(255,255,255,0.03);padding:8px 12px;border-radius:6px;border-left:3px solid var(--amber);">
+      <b>The Ruler Itself Is Moving (Orbit Drift, from results/drift.json):</b> Measured from hotspot acquisition timestamps (LST = UTC + lon/15): Terra drifted earlier (<b>10:55 → 09:19 LST</b>, -10.8% capture rate), while Aqua drifted later toward peak burning (<b>13:09 → 15:02 LST</b>, +15.9%).
+    </div>
+
+    <div style="margin-top:14px;display:flex;justify-content:space-between;align-items:center;">
+      <a href="proof/index.html" class="btn btn-proof" style="display:inline-block;text-decoration:none;">OPEN FULL 6-PANEL EVIDENCE PAGE →</a>
       <button type="submit" class="btn">CLOSE</button>
     </div>
   </form>

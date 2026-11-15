@@ -1,44 +1,151 @@
-﻿# TURQUA // FIRE HARMONY — Harmonized Burning Activity Calendar
+﻿# When the satellites changed, the fire record changed with them. TURQUA puts it back on one scale.
 
-**Live Application:** https://turqua.netlify.app  
-**Challenge:** NASA International Space Apps Challenge 2026 — *Harmonization of MODIS and VIIRS Hot Spots*
+A harmonized burning activity calendar built from NASA FIRMS MODIS and VIIRS hotspots, for any area, with the uncertainty of every figure stated.
 
-## 1. Overview
-Satellites have tracked active fires since November 2000, but the historical record is split across incompatible instruments: 1 km **MODIS** (Terra, Aqua) and 375 m **VIIRS** (Suomi-NPP, NOAA-20, NOAA-21). Adding new satellites inflates raw hotspot counts by **×17.49** while unchanged Terra MODIS shows burning actually fell between 2011 and 2013. **TURQUA** reconciles 26 years (2000–2026) onto a single **SNPP-equivalent Burning Day** scale (**×17.49 → ×1.13**, **r = 0.989** on unseen hold-out years) and visualizes the record on a high-contrast 3D globe and interactive Burning Activity Calendar.
+- **Live Application:** [turqua.netlify.app](https://turqua.netlify.app) (Static web app, no login required)
+- **Repository:** [https://github.com/gorke345/345_spaceappschallenge](https://github.com/gorke345/345_spaceappschallenge)
+- **Challenge:** NASA International Space Apps Challenge 2026 — *Harmonization of MODIS and VIIRS Hot Spots*
+- **Team:** TURQUA · Türkiye (Universal Event)
+  - **Görkem Özer**
+  - **Yusuf Ziya Ayabakan**
+  - **Güner Can Özer**
 
-## 2. Prior Work & Hackathon Transparency Disclosure
-- **Prior Work (Pre-Hackathon Exploration):** Before the hackathon, the team explored NASA FIRMS archives and built learning prototypes (`gorke345/turqua-fire-harmony` and an early preview published on 8 November 2026) to test candidate spatial clustering (ST-DBSCAN) and pixel normalization methods.
-- **Built & Rebuilt During the Hackathon (14–15 November 2026):** During the official hackathon window, we audited and replaced the flawed area-weighted pixel index with the 0.1° Burning Day + Two-Branch ($k_1, k_2$) transfer model, added post-SNPP (2 November 2026) NOAA-20/21 bridging, built the 6-panel non-circular `proof/index.html` validation suite, replaced third-party icons with our custom `assets/flame.svg` WebGL symbol layer, and packaged all static `data/*.json` outputs.
+---
 
-## 3. Use of Artificial Intelligence (SI Disclosure)
-Built with AI assistance (**Anthropic Claude, Google Gemini, Antigravity**); all figures are computed by deterministic Python/Rust scripts in this repository (`pipeline/harmonize_and_validate.py`) and reviewed by the team. No AI-generated imagery or synthetic data is presented as empirical observation.
+## 1. The Problem: The Record Changed Its Ruler
 
-## 4. Data Sources & Licenses
-- **NASA Data:** NASA FIRMS / LANCE / EOSDIS MODIS Collection 6.1 (`MOD14`/`MYD14`), VIIRS 375m (`VNP14IMG`, `VJ114IMG`, `VJ214IMG`), NASA GIBS WMTS (`BlueMarble`, `VIIRS TrueColor`, `MODIS MCD12Q1 IGBP`).
-- **Partner & Open Data:** ESA WorldCover 2020 v100 (CC BY 4.0), AWS/Mapzen Terrarium DEM, OpenStreetMap Nominatim (ODbL), CelesTrak GP/TLE, MapLibre GL JS (BSD-3-Clause), satellite.js (MIT).
+FIRMS merges MODIS (1 km pixel) and VIIRS (375 m pixel). A VIIRS pixel covers about **1/7** of a MODIS pixel's area ($(1\text{ km} / 0.375\text{ km})^2 \approx 7.1$), so it can see smaller fires. Every time a satellite joins the constellation, the merged hotspot count can jump for reasons that have nothing to do with fire:
 
-## 5. Quick Start & Reproducibility
-
-### A. Run Web Application (Zero-install, Standalone)
-Open `index.html` in any modern web browser, or serve locally:
-```bash
-python -m http.server 8000
-# Open http://localhost:8000
 ```
-- No API key required for historical archives, 3D mission globe, and 2000–2026 calendar.
-- Preloaded data loads instantly via `data/preloaded-data.js`.
-- Click **"🎬 25s JURY TOUR"** in the top bar for a guided presentation with scientific narration.
-- Click **"🔥 EVIDENCE (6 PROOFS)"** or **"🔬 SOLVER LAB"** for full empirical validation and interactive formulas.
-
-### B. Reproduce Pipeline from Raw Satellite Data
-```bash
-python pipeline/harmonize_and_validate.py
+2000          2005          2010          2015          2020          2025
+|-------------|-------------|-------------|-------------|-------------|
+Terra · MODIS 1 km (approx 2000) =========================================>
+      Aqua · MODIS 1 km (approx 2002) ====================================>
+                            Suomi-NPP · VIIRS 375 m (2012 — 2 Nov 2026) ==> [RETIRED]
+                                                NOAA-20 · VIIRS 375 m ====>
+                                                              NOAA-21 ====>
 ```
-This ingests NASA FIRMS records and deterministically computes:
-- `data/monthly_tr.json` (Monthly time series, anomalies, medians)
-- `data/cells_tr.json` (0.1° cell clusters with 🔥 emoji layer)
-- `data/proof.json` (6 validation proof panels)
-- `data/meta.json` (Provenance, timestamp, challenge metadata)
-- `data/preloaded-data.js` (Offline standalone package)
-- `results/MANIFEST.json` (SHA-256 cryptographic hashes)
 
+A calendar built on the raw count is partly a **calendar of satellites**:
+- Adding satellites inflates raw counts by **×17.49** vs. a fixed instrument (Terra MODIS), creating massive artificial spikes at 2012 (Suomi-NPP), 2018/2019 (NOAA-20), and 2024 (NOAA-21).
+- Unchanged Terra MODIS shows burning actually fell **-51.1%** between 2011 and 2013, yet raw counts claimed it rose **+67.2%**.
+
+---
+
+## 2. The Method: How 25 Years Land on One Scale
+
+```
+┌─────────────────┐   ┌───────────────────────┐   ┌────────────────────────┐   ┌──────────────────────┐
+│  01. BURNING    │   │  02. ONE TARGET       │   │  03. TWO-BRANCH        │   │  04. RECONSTRUCT     │
+│      DAYS       │──>│      SATELLITE        │──>│      TRANSFER          │──>│      + INTERVAL      │
+│  0.1° cell ×    │   │  Suomi-NPP reference  │   │  k₁ (co-observed)      │   │  2001–Jan 2012       │
+│  local solar day│   │  NOAA-20/21 bridge    │   │  k₂ (unseen fires)     │   │  80% CI: [q₁₀, q₉₀]  │
+└─────────────────┘   └───────────────────────┘   └────────────────────────┘   └──────────────────────┘
+```
+
+1. **01 · Burning Days:**
+   - Vegetation-fire hotspots become $0.1^\circ$ cell $\times$ local-solar-day events ($LST = UTC + \text{longitude} / 15\text{ h}$).
+   - One MODIS pixel or several VIIRS pixels: it burned.
+   - Burning days measure **how often fire is detected, not burned area**.
+2. **02 · One Target Satellite:**
+   - Calibrated to Suomi-NPP's reference scale.
+   - Sensor gaps (such as the Aug 2022 safe mode outage) are detected against twin NOAA-20, filled at the measured twin ratio, and flagged (`outage_filled`).
+   - Following Suomi-NPP's retirement on **2 Nov 2026 13:00 UTC**, NOAA-20 and NOAA-21 continue the record seamlessly (`bridged_post_snpp`).
+3. **03 · Two-Branch Transfer:**
+   - Learned where MODIS and VIIRS overlap, per land cover $\times$ calendar month ($s$):
+     - When MODIS saw the cell-month: $V \approx k_1[s] \cdot M_\text{cell}$
+     - When MODIS saw nothing there: $V \approx k_2[s] \cdot M_\text{neighbourhood}$
+   - Strata $s$ use empirical Bayes shrinkage when sample counts are small.
+4. **04 · Reconstruct + Interval:**
+   - 2001–Jan 2012 rebuilt from MODIS, hatched in the calendar, with an uncertainty interval taken from held-out-year errors ($80\%\text{ CI}: [q_{10}, q_{90}]$).
+
+---
+
+## 3. The Proof: How We Try to Break It
+
+All figures below are generated by deterministic pipeline scripts and stored in `results/*.json`:
+
+| TEST ON TÜRKIYE | RAW / PLAIN RATIO | TURQUA | PROVENANCE |
+| :--- | :---: | :---: | :--- |
+| **Seams: series ÷ fixed instrument, 2001–2021** | 17.49× (or 17.5×) | **1.13×** | `results/seams.json` |
+| **Leave-one-year-out · national month, $r$** | 0.812 | **0.989** | `results/loyo.json` |
+| **Leave-one-year-out · province month, $r$** | 0.710 | **0.955** | `results/loyo.json` |
+| **Typical error, national month** | 48.2% | **3.55%** | `results/loyo.json` |
+| **80% interval coverage on held-out years** | 34.0% | **82.4%** | `results/loyo.json` |
+| **Remove the unseen-fire branch (ablation)** | -52.7% | **0.0% (full 2-branch)** | `results/loyo.json` |
+
+*Each held-out year is predicted from coefficients fitted without it. Figures are read from `results/*.json` written by the pipeline; reconstructed years carry larger error than measured ones.*
+
+---
+
+## 4. What We Found, and What No Satellite Sees: The Ruler Itself Is Moving
+
+- **Suomi-NPP Retirement:** Ceased producing FIRMS data on **2 Nov 2026, 13:00 UTC** (NASA Earthdata). The record continues on NOAA-20/21.
+- **Orbital Drift Measured from Timestamps:** Terra and Aqua no longer hold their original orbits; overpass times drift ($LST = UTC + \text{lon}/15$):
+  - **Terra Drift:** 10:55 $\rightarrow$ 09:19 LST (-10.8% fire capture rate)
+  - **Aqua Drift:** 13:09 $\rightarrow$ 15:02 LST (+15.9% fire capture rate)
+  - Stored in `results/drift.json`.
+- **Activity vs. Area:** Burning days measure fire occurrence frequency in $0.1^\circ$ cells, not burned area.
+- **Heuristic Context:** Cause-of-fire labels in the app are heuristic indicators and are not part of the empirical calendar.
+- **Pre-2012 Reconstruction:** Marked as statistical estimates with explicit uncertainty envelopes.
+
+---
+
+## 5. Web Application Features
+
+- **Standard Flat 2D Map (Mercator):** Natural NASA GIBS Blue Marble & Esri World Imagery with true living satellite colors.
+- **Custom Flame Map Layer:** Rendered using vector `assets/flame.svg` for multi-sensor verified fire clusters.
+- **Web3 Glassmorphism UI:** Frosted glass translucent panels with 14px rounded corners and cyber-turquoise / solar gold accents.
+- **2000–2026 Activity Calendar:** 324 monthly cells showing historical medians, anomalies, status flags, and 80% confidence bands.
+- **Interactive In-App Solver (`🔬 SOLVER LAB`):** Direct interactive inspection of the 4-stage engine and test table.
+- **Full Empirical Proof Page (`🔥 EVIDENCE (6 PROOFS)`):** Standalone `proof/index.html` with interactive canvas charts.
+- **Export Capabilities:** One-click CSV and GeoJSON downloads.
+
+---
+
+## 6. Project Structure
+
+```
+├── index.html                 # Main web application
+├── style.css                  # Web3 glassmorphism responsive styling
+├── assets/
+│   ├── flame.svg              # Custom high-contrast vector flame icon
+│   ├── turqua-logo.png        # Official TURQUA Space Systems insignia
+│   └── logo.png
+├── js/
+│   ├── map.js                 # Flat 2D MapLibre map with flame WebGL layer
+│   ├── harmonizer.js          # ST-DBSCAN clustering, STA filter, classification
+│   ├── calendar.js            # 2000–2026 burning activity matrix & anomaly logic
+│   ├── api.js                 # NASA FIRMS API, offline case study packages, telemetry
+│   └── turqua-bundle.js       # Production bundle (0 syntax / runtime errors)
+├── proof/
+│   ├── index.html             # 6-panel empirical proof validation page
+│   └── proof-lab.js           # Precomputed monthly series bridge & solver modal
+├── data/
+│   ├── monthly_tr.json        # 2000–2026 monthly series with status & 80% CI
+│   ├── cells_tr.json          # High-resolution 0.1° cell clusters
+│   ├── proof.json             # Empirical validation proof datasets
+│   ├── case-studies-offline.js# Offline empirical case studies
+│   ├── preloaded-data.js      # Zero-API key instant standalone package
+│   └── meta.json              # Provenance & challenge metadata
+├── results/
+│   ├── seams.json             # Seam & multiplier analysis vs Terra
+│   ├── loyo.json              # Leave-One-Year-Out validation results
+│   ├── drift.json             # Orbital drift measurements (LST)
+│   ├── table_page5.json       # Presentation test summary table
+│   └── MANIFEST.json          # SHA-256 cryptographic hashes
+└── pipeline/
+    └── harmonize_and_validate.py # Master reproducibility pipeline
+```
+
+---
+
+## 7. Disclosures & Attribution
+
+- **AI Use:** Built with AI assistance (**Anthropic Claude, Google Gemini, Google Antigravity**) for code and text under team direction. No AI-generated images or data; all figures come from the pipeline.
+- **Prior Work:** Before the event, the team explored FIRMS data and published an early preview (8 Nov 2026). The calendar method, validation, and app shown here were rebuilt and extended on 14–15 Nov 2026.
+- **Data Attributions:**
+  - NASA FIRMS / LANCE / EOSDIS MODIS Collection 6.1 & VIIRS 375m
+  - NASA GIBS WMTS (`BlueMarble`, `VIIRS TrueColor`, `MODIS MCD12Q1 IGBP`)
+  - ESA WorldCover 2020 v100
+  - MapLibre GL JS & satellite.js

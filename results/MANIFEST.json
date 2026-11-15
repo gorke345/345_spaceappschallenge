@@ -1,8 +1,9 @@
 {
-  "pipeline_version": "3.0.0-final",
-  "computed_at_utc": "2026-11-15T15:07:02Z",
-  "total_detections_processed": 186650,
-  "sta_detections_removed": 12273,
+  "pipeline_version": "3.2.0-spaceapps2026",
+  "computed_at_utc": "2026-11-15T18:43:21.326Z",
+  "pdf_deck_aligned": "When the satellites changed, the fire record changed with them. TURQUA puts it back on one scale.",
+  "team": "TURQUA · Türkiye (Görkem Özer · Yusuf Ziya Ayabakan · Güner Can Özer)",
+  "challenge": "NASA Space Apps 2026: Harmonization of MODIS and VIIRS Hot Spots",
   "files": [
     {
       "path": "data/monthly_tr.json",
@@ -26,8 +27,28 @@
     },
     {
       "path": "data/preloaded-data.js",
-      "bytes": 512569,
-      "sha256": "1575b5764c6706b2d17d0036d4e3d23d83ea49c36d3e4b2fa5916716e9566676"
+      "bytes": 376698,
+      "sha256": "8da5d7e5719ce9044339ae9124fca8a0f5714003a2c95433232836dd8a498024"
+    },
+    {
+      "path": "results/seams.json",
+      "bytes": 1593,
+      "sha256": "6932248e5ad293b12447db90f427fe634a3e0bda2875895ec945ca40788134a3"
+    },
+    {
+      "path": "results/loyo.json",
+      "bytes": 1707,
+      "sha256": "a6c81ea68c129b39e50209592c5d2ec83ec7ede6fa0e7760dab03750e1a1edb6"
+    },
+    {
+      "path": "results/drift.json",
+      "bytes": 1645,
+      "sha256": "4e59a20ac86c689a0539077056d5ba26f0b6a5d9b27fc23b9e8d3e79c7057c49"
+    },
+    {
+      "path": "results/table_page5.json",
+      "bytes": 1316,
+      "sha256": "6b6463b068207ed927c7d87ae1f35f23915a1492bc080e74d545efcb5ffc42c7"
     }
   ]
 }
