@@ -1,6 +1,6 @@
 {
   "pipeline_version": "3.0.0-final",
-  "computed_at_utc": "2026-11-15T14:09:02Z",
+  "computed_at_utc": "2026-11-15T15:07:02Z",
   "total_detections_processed": 186650,
   "sta_detections_removed": 12273,
   "files": [
@@ -22,12 +22,12 @@
     {
       "path": "data/meta.json",
       "bytes": 682,
-      "sha256": "33b27108f561fcb1b7773828d0d3e648c920fe3e970d22bb2b9bd8fdbf727176"
+      "sha256": "e82e7956b82df6611f5d8fb5c392fe9d8830f8c6bb82bbe4c7780c0009b4b31f"
     },
     {
       "path": "data/preloaded-data.js",
       "bytes": 512569,
-      "sha256": "9c35751ad20ff652e90d67eac599700cdccdbe6de3452f47ebc4511716c1a0f0"
+      "sha256": "1575b5764c6706b2d17d0036d4e3d23d83ea49c36d3e4b2fa5916716e9566676"
     }
   ]
 }
