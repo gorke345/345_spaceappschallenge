@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css" />
+<link rel="stylesheet" href="style.css?v=20261115b" />
 </head>
 <body>
 
@@ -33,8 +33,8 @@
     <span id="sourceStatus" class="source-status" role="status">PRELOADED ARCHIVE READY</span>
     <span id="aoiCriticalAlarm" class="aoi-critical-alarm" role="alert" aria-live="assertive" hidden></span>
     <span id="passStatus" class="pass-status" role="status">ORBIT PASS: TELEMETRY ACTIVE</span>
-    <button id="toggleAoi" class="btn" aria-expanded="true">AOI</button>
-    <button id="toggleTelemetry" class="btn" aria-expanded="true">SUMMARY</button>
+    <button id="toggleAoi" class="btn" aria-expanded="false">AOI</button>
+    <button id="toggleTelemetry" class="btn" aria-expanded="false">SUMMARY</button>
     <button id="btnLocal" class="btn" title="Load preloaded in-situ dataset">
       PRELOADED
     </button>
@@ -58,35 +58,45 @@
     <div class="hero-banner" id="heroBanner"><b>25 years of fire, one consistent scale.</b> Raw archive inflates ×17.5; TURQUA harmonizes to ×1.13 (r = 0.989).</div>
 
     <div class="hud hud-bl">
-      <span id="hudCam">lon 35.00 / lat 39.00 / z 1.65</span>
+      <span id="hudCam">lon -98.50 / lat 42.00 / z 3.50</span>
     </div>
 
     <!-- Sol üst: görünüm kontrolleri -->
-    <div class="hud hud-tl">
-      <div class="hud-row"><span>AREA OF INTEREST (AOI) &amp; DATE SELECTION</span></div>
+    <div class="hud hud-tl drawer-hidden">
+      <div class="hud-header">
+        <span>AREA OF INTEREST (AOI) &amp; DATES</span>
+        <button id="closeAoi" class="btn btn-close-sm" type="button" aria-label="Close AOI">CLOSE</button>
+      </div>
       <button class="btn btn-wide" id="drawAoi">DRAW AOI BOX ON GLOBE</button>
       <div class="aoi-grid">
-        <label>MIN LAT<input class="txt" id="minLat" type="number" step="0.01" value="35.8" /></label>
-        <label>MAX LAT<input class="txt" id="maxLat" type="number" step="0.01" value="42.1" /></label>
-        <label>MIN LON<input class="txt" id="minLon" type="number" step="0.01" value="25.6" /></label>
-        <label>MAX LON<input class="txt" id="maxLon" type="number" step="0.01" value="44.8" /></label>
+        <label>MIN LAT<input class="txt" id="minLat" type="number" step="0.01" value="24.5" /></label>
+        <label>MAX LAT<input class="txt" id="maxLat" type="number" step="0.01" value="60.0" /></label>
+        <label>MIN LON<input class="txt" id="minLon" type="number" step="0.01" value="-130.0" /></label>
+        <label>MAX LON<input class="txt" id="maxLon" type="number" step="0.01" value="-65.0" /></label>
       </div>
+      <div class="preset-label">REGIONAL PRESETS</div>
       <div class="preset-row">
+        <button class="btn" data-aoi-preset="northamerica">NORTH AMERICA</button>
+        <button class="btn" data-aoi-preset="usa">USA / CONUS</button>
+        <button class="btn" data-aoi-preset="canada">CANADA</button>
+        <button class="btn" data-aoi-preset="california">CALIFORNIA</button>
         <button class="btn" data-aoi-preset="turkey">TÜRKİYE</button>
         <button class="btn" data-aoi-preset="mediterranean">MEDITERRANEAN</button>
         <button class="btn" data-aoi-preset="amazon">AMAZON</button>
         <button class="btn" data-aoi-preset="global">GLOBAL</button>
       </div>
+      <div class="preset-label">AUTHENTIC CASE STUDIES</div>
       <div class="case-studies" aria-label="Case studies">
-        <button class="btn" data-case-study="mediterranean-2021">2021 MEDITERRANEAN MEGAFIRE</button>
-        <button class="btn" data-case-study="canakkale-hatay-2023">2023 ÇANAKKALE / HATAY</button>
-        <button class="btn" data-case-study="current-2026">2026 CURRENT SEASON</button>
-        <button class="btn" data-case-study="payas-sta">PAYAS / İSKENDERUN STA CONTROL</button>
+        <button class="btn btn-case" data-case-study="canada-2023">2023 CANADIAN BOREAL MEGAFIRE</button>
+        <button class="btn btn-case" data-case-study="california-2020">2020 CALIFORNIA AUGUST COMPLEX</button>
+        <button class="btn btn-case" data-case-study="mediterranean-2021">2021 MEDITERRANEAN MEGAFIRE</button>
+        <button class="btn btn-case" data-case-study="canakkale-hatay-2023">2023 ÇANAKKALE / HATAY</button>
+        <button class="btn btn-case" data-case-study="payas-sta">PAYAS / İSKENDERUN STA CONTROL</button>
       </div>
       <p class="case-study-note">Offline case packages load authentic NASA FIRMS archives instantly without requiring an API key.</p>
       <div class="aoi-grid date-grid">
-        <label>START<input class="txt" id="startMonth" type="month" min="2000-11" max="2026-12" value="2000-11" /></label>
-        <label>END<input class="txt" id="endMonth" type="month" min="2000-11" max="2026-12" value="2026-12" /></label>
+        <label>START<input class="txt" id="startMonth" type="month" min="2000-11" max="2026-12" value="2023-05" /></label>
+        <label>END<input class="txt" id="endMonth" type="month" min="2000-11" max="2026-12" value="2024-09" /></label>
       </div>
       <div class="date-playback">
         <div class="date-playback-head">
@@ -133,7 +143,7 @@
 
   </section>
 
-  <aside class="telemetry">
+  <aside class="telemetry drawer-hidden">
     <div class="drawer-head">
       <h2>ACTIVITY TELEMETRY</h2>
       <button id="closeTelemetry" class="btn" aria-label="Close telemetry">CLOSE</button>
@@ -207,7 +217,7 @@
   </aside>
 </main>
 
-<section class="calendar-panel" aria-label="Harmonized burning activity calendar">
+<section class="calendar-panel calendar-collapsed" aria-label="Harmonized burning activity calendar">
   <div class="calendar-head">
     <h2>HARMONIZED BURNING ACTIVITY CALENDAR (2000–2026)</h2>
     <div class="calendar-controls">
@@ -219,6 +229,8 @@
       </label>
       <label>COLOR PALETTE
         <select id="colorPalette" class="txt">
+          <option value="petronas" selected>PETRONAS TEAL</option>
+          <option value="aerospace">AEROSPACE GOLD</option>
           <option value="ylorrd">YL-OR-RD</option>
           <option value="viridis">VIRIDIS / CIVIDIS</option>
           <option value="inferno">INFERNO-MAT</option>
@@ -342,6 +354,13 @@
   </form>
 </dialog>
 
+<!-- FLOATING CALENDAR DOCK BUTTON -->
+<button id="toggleCalendarDock" class="floating-calendar-btn" type="button" aria-label="Toggle Activity Calendar">
+  <span class="dock-flame">🔥</span>
+  <span class="dock-title">HARMONIZED BURNING ACTIVITY CALENDAR (2000–2026)</span>
+  <span class="dock-badge">OPEN</span>
+</button>
+
 <footer class="legal-strip">
   <span>NASA FIRMS / LANCE / GIBS DATA | Built during NASA Space Apps 2026 with SI assistance (Claude / Gemini); all physical models verified on empirical data.</span>
   <button id="openLegal" type="button">[?] SCIENTIFIC METHOD &amp; ATTRIBUTION</button>
@@ -349,8 +368,8 @@
 
 <script src="https://cdn.jsdelivr.net/npm/satellite.js@6.0.1/dist/satellite.min.js"></script>
 <script src="https://unpkg.com/maplibre-gl@5.6.0/dist/maplibre-gl.js"></script>
-<script src="data/preloaded-data.js"></script>
-<script src="data/case-studies-offline.js"></script>
-<script src="js/turqua-bundle.js"></script>
+<script src="data/preloaded-data.js?v=20261115b"></script>
+<script src="data/case-studies-offline.js?v=20261115b"></script>
+<script src="js/turqua-bundle.js?v=20261115b"></script>
 </body>
 </html>

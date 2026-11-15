@@ -35,6 +35,20 @@ function registerCustomFlameIcon(mapInstance) {
   ctx.fill();
   const imgData = ctx.getImageData(0, 0, size, size);
   mapInstance.addImage("turqua-flame", { width: size, height: size, data: imgData.data });
+
+  if (!mapInstance.hasImage("fire-emoji")) {
+    const eSize = 64;
+    const eCanvas = document.createElement("canvas");
+    eCanvas.width = eSize;
+    eCanvas.height = eSize;
+    const eCtx = eCanvas.getContext("2d");
+    eCtx.font = "48px 'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji', sans-serif";
+    eCtx.textAlign = "center";
+    eCtx.textBaseline = "middle";
+    eCtx.fillText("🔥", eSize / 2, eSize / 2);
+    const eImgData = eCtx.getImageData(0, 0, eSize, eSize);
+    mapInstance.addImage("fire-emoji", { width: eSize, height: eSize, data: eImgData.data });
+  }
 }
 const emptyFeatureCollection = () => ({ type: "FeatureCollection", features: [] });
 const hiddenFilter = ["==", ["get", "kind"], "__hidden__"];
@@ -157,8 +171,25 @@ const map = new maplibregl.Map({
   container: "globe",
   style: {
     version: 8,
-    projection: { type: "globe" },
+    glyphs: "https://demotiles.maplibre.org/font/{fontstack}/{range}.pbf",
     sources: {
+      "esri-dark-base": {
+        type: "raster",
+        tiles: [
+          "https://services.arcgisonline.com/arcgis/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}"
+        ],
+        tileSize: 256,
+        maxzoom: 16,
+        attribution: "Esri, HERE, Garmin, © OpenStreetMap contributors"
+      },
+      "esri-dark-ref": {
+        type: "raster",
+        tiles: [
+          "https://services.arcgisonline.com/arcgis/rest/services/Canvas/World_Dark_Gray_Reference/MapServer/tile/{z}/{y}/{x}"
+        ],
+        tileSize: 256,
+        maxzoom: 16
+      },
       "nasa-blue-marble": {
         type: "raster",
         tiles: [
@@ -218,11 +249,26 @@ const map = new maplibregl.Map({
       aoi: { type: "geojson", data: emptyFeatureCollection() },
     },
     layers: [
-      { id: "bg", type: "background", paint: { "background-color": "#070B1E" } },
+      { id: "bg", type: "background", paint: { "background-color": "#05080A" } },
+      {
+        id: "esri-dark-base-layer",
+        type: "raster",
+        source: "esri-dark-base",
+        minzoom: 0,
+        paint: { "raster-opacity": 1.0 }
+      },
+      {
+        id: "esri-dark-ref-layer",
+        type: "raster",
+        source: "esri-dark-ref",
+        minzoom: 0,
+        paint: { "raster-opacity": 0.85 }
+      },
       {
         id: "blue-marble",
         type: "raster",
         source: "nasa-blue-marble",
+        layout: { visibility: "none" },
         paint: {
           "raster-brightness-min": 0.02,
           "raster-brightness-max": 0.96,
@@ -363,13 +409,26 @@ const map = new maplibregl.Map({
         id: "fire-emoji-label",
         type: "symbol",
         source: "fires",
-        filter: ["all", ["==", ["get", "kind"], "cluster"], [">=", ["get", "detection_count"], 2]],
+        filter: ["==", ["get", "kind"], "cluster"],
         layout: {
           visibility: "visible",
-          "text-field": "🔥",
-          "text-size": ["interpolate", ["linear"], ["zoom"], 1, 14, 5, 20, 9, 28],
-          "text-allow-overlap": true,
-          "text-ignore-placement": false,
+          "icon-image": "fire-emoji",
+          "icon-size": ["interpolate", ["linear"], ["zoom"], 1, 0.45, 5, 0.75, 9, 1.1],
+          "icon-allow-overlap": true,
+          "icon-ignore-placement": true,
+        },
+      },
+      {
+        id: "fire-emoji-points",
+        type: "symbol",
+        source: "fires",
+        filter: ["all", ["==", ["get", "kind"], "point"], [">=", ["get", "frp"], 25]],
+        layout: {
+          visibility: "visible",
+          "icon-image": "fire-emoji",
+          "icon-size": ["interpolate", ["linear"], ["zoom"], 1, 0.35, 5, 0.6, 9, 0.9],
+          "icon-allow-overlap": true,
+          "icon-ignore-placement": true,
         },
       },
       {
@@ -386,9 +445,27 @@ const map = new maplibregl.Map({
       },
     ],
   },
-  center: [35, 39],
-  zoom: 1.65,
+  center: [-98.5, 42.0],
+  zoom: 3.5,
+  pitch: 20,
   attributionControl: { compact: true },
+});
+
+if (typeof ResizeObserver !== "undefined") {
+  const globeEl = document.getElementById("globe");
+  if (globeEl) {
+    new ResizeObserver(() => {
+      map.resize();
+    }).observe(globeEl);
+  }
+}
+map.on("load", () => {
+  map.resize();
+  try {
+    map.setProjection({ type: "globe" });
+  } catch (e) {
+    console.warn("Globe projection:", e);
+  }
 });
 
 function setMapLogger(nextLogger) {
@@ -606,7 +683,7 @@ function applyMapLayers() {
       ? ["all", ["==", ["get", "kind"], "point"], ["==", ["get", "sensor"], "VIIRS"]]
       : hiddenFilter,
     "pt-cluster": showClusters ? ["all", ["==", ["get", "kind"], "cluster"], [">=", ["get", "detection_count"], 2]] : hiddenFilter,
-    "fire-emoji-label": showClusters ? ["all", ["==", ["get", "kind"], "cluster"], [">=", ["get", "detection_count"], 3], [">=", ["get", "cluster_frp"], 50]] : hiddenFilter,
+    "fire-emoji-label": showClusters ? ["==", ["get", "kind"], "cluster"] : ["all", ["==", ["get", "kind"], "point"], [">=", ["get", "frp"], 20]],
     "cluster-hull-fill": showClusters ? null : hiddenFilter,
     "cluster-hull-outline": showClusters ? null : hiddenFilter,
     "fp-outline": showFootprints ? null : hiddenFilter,
@@ -688,13 +765,19 @@ function updateAOI(bounds) {
 
 function focusAOI(bounds) {
   if (!bounds) {
-    map.flyTo({ center: [0, 20], zoom: 0.6, duration: 650 });
+    map.flyTo({ center: [-98.5, 42.0], zoom: 3.5, duration: 800 });
     return;
   }
-  map.fitBounds(
-    [[bounds.minLon, bounds.minLat], [bounds.maxLon, bounds.maxLat]],
-    { padding: 90, maxZoom: 5.5, duration: 650 },
-  );
+  const centerLon = (bounds.minLon + bounds.maxLon) / 2;
+  const centerLat = (bounds.minLat + bounds.maxLat) / 2;
+  try {
+    map.fitBounds(
+      [[bounds.minLon, bounds.minLat], [bounds.maxLon, bounds.maxLat]],
+      { padding: 70, maxZoom: 6.0, duration: 800 },
+    );
+  } catch (e) {
+    map.flyTo({ center: [centerLon, centerLat], zoom: 4.0, duration: 800 });
+  }
 }
 
 function beginAoiDrawing(onBounds) {
@@ -2112,14 +2195,21 @@ const PRODUCTS = [
   { id: "VIIRS_NOAA21_NRT", from: "2024-01-17" },
 ];
 const PRESETS = {
+  northamerica: { minLat: 24.5, maxLat: 60.0, minLon: -130.0, maxLon: -65.0 },
+  usa: { minLat: 24.5, maxLat: 49.5, minLon: -125.0, maxLon: -66.9 },
+  canada: { minLat: 48.0, maxLat: 68.0, minLon: -141.0, maxLon: -55.0 },
+  california: { minLat: 32.5, maxLat: 42.0, minLon: -124.5, maxLon: -114.1 },
   turkey: { minLat: 35.8, maxLat: 42.1, minLon: 25.6, maxLon: 44.8 },
   mediterranean: { minLat: 30, maxLat: 47, minLon: -6, maxLon: 37 },
   amazon: { minLat: -18, maxLat: 5, minLon: -75, maxLon: -44 },
+  global: { minLat: -60, maxLat: 70, minLon: -170, maxLon: 170 },
 };
 const PALETTES = {
-  ylorrd: ["#FACC15", "#F59E0B", "#EF4444"],
-  viridis: ["#1E3A5F", "#14B8A6", "#FACC15"],
-  inferno: ["#7F1D1D", "#EF4444", "#F59E0B"],
+  petronas: ["#004743", "#00A19B", "#00F5D4", "#E2E8F0"],
+  aerospace: ["#0F172A", "#334155", "#F59E0B", "#F8FAFC"],
+  ylorrd: ["#FACC15", "#F59E0B", "#EF4444", "#991B1B"],
+  viridis: ["#1E3A5F", "#14B8A6", "#00A19B", "#FACC15"],
+  inferno: ["#7F1D1D", "#EF4444", "#F59E0B", "#FEF08A"],
 };
 const DB_NAME = "fireharmony-historical";
 const COVERAGE_STORE = "coverage";
@@ -2136,7 +2226,7 @@ let refreshRevision = 0;
 let coverageByProduct = new Map();
 let coverageMonthCache = new Map();
 let databasePromise;
-let selectedPalette = "ylorrd";
+let selectedPalette = "petronas";
 let calendarExpanded = true;
 let activeYearsOnly = false;
 let playbackDates = [];
@@ -3585,6 +3675,18 @@ const TURKEY_BOUNDS = { minLat: 35.8, maxLat: 42.1, minLon: 25.6, maxLon: 44.8 }
 const FIRMS_PRODUCTS = ["MODIS_NRT", "VIIRS_SNPP_NRT", "VIIRS_NOAA20_NRT", "VIIRS_NOAA21_NRT"];
 const MAX_GLOBAL_POINTS = 5000;
 const CASE_STUDIES = {
+  "canada-2023": {
+    label: "2023 Canadian Boreal Megafires",
+    bounds: { minLat: 48.0, maxLat: 63.5, minLon: -125.0, maxLon: -70.0 },
+    startMonth: "2023-05",
+    endMonth: "2023-09",
+  },
+  "california-2020": {
+    label: "2020 California August Complex",
+    bounds: { minLat: 36.5, maxLat: 41.5, minLon: -124.0, maxLon: -118.0 },
+    startMonth: "2020-08",
+    endMonth: "2020-10",
+  },
   "mediterranean-2021": {
     label: "2021 Akdeniz mega yangını",
     bounds: { minLat: 35.8, maxLat: 40.2, minLon: 25.6, maxLon: 37.0 },
@@ -3700,15 +3802,24 @@ function readJSONRecords(data) {
 async function loadLocalJSON() {
   log("YEREL PAKET YÜKLENİYOR...");
   try {
-    let records = window.TURQUA_PRELOADED_FIRES;
-    if (!Array.isArray(records) || !records.length) {
-      const response = await fetch("harmonized_fires.json", { cache: "no-store" });
-      records = readJSONRecords(await response.json());
+    let records = Array.isArray(window.TURQUA_PRELOADED_FIRES) ? [...window.TURQUA_PRELOADED_FIRES] : [];
+    if (!records.length) {
+      try {
+        const response = await fetch("harmonized_fires.json", { cache: "no-store" });
+        records = readJSONRecords(await response.json());
+      } catch (e) {}
+    }
+    const offlineObj = window.CASE_STUDIES_OFFLINE || window.TURQUA_CASE_STUDIES_OFFLINE;
+    if (offlineObj) {
+      if (Array.isArray(offlineObj["canada-2023"])) records.push(...offlineObj["canada-2023"]);
+      if (Array.isArray(offlineObj["california-2020"])) records.push(...offlineObj["california-2020"]);
     }
     const gm = document.getElementById("globalMode");
-    if (gm) gm.checked = true;
-    state.bounds = null;
-    updateAOI(null);
+    if (gm) gm.checked = false;
+    const initialBounds = PRESETS.northamerica;
+    state.bounds = initialBounds;
+    updateAOI(initialBounds);
+    focusAOI(initialBounds);
     const result = processRecords(records, "YEREL / JSON", { epsKm: currentEpsilon() });
     setGibsDateFromLatestData();
     selectLargestCluster();
@@ -4453,6 +4564,23 @@ document.getElementById("closeTelemetry").addEventListener("click", () => {
   document.querySelector(".telemetry").classList.add("drawer-hidden");
   document.getElementById("toggleTelemetry").setAttribute("aria-expanded", "false");
 });
+const closeAoiBtn = document.getElementById("closeAoi");
+if (closeAoiBtn) {
+  closeAoiBtn.addEventListener("click", () => {
+    document.querySelector(".hud-tl").classList.add("drawer-hidden");
+    document.getElementById("toggleAoi").setAttribute("aria-expanded", "false");
+  });
+}
+const toggleCalDockBtn = document.getElementById("toggleCalendarDock");
+if (toggleCalDockBtn) {
+  toggleCalDockBtn.addEventListener("click", () => {
+    const cal = document.querySelector(".calendar-panel");
+    const isCollapsed = cal.classList.contains("calendar-collapsed");
+    cal.classList.toggle("calendar-collapsed", !isCollapsed);
+    const toggleCalBtn = document.getElementById("toggleCalendar");
+    if (toggleCalBtn) toggleCalBtn.textContent = isCollapsed ? "COLLAPSE" : "EXPAND";
+  });
+}
 document.getElementById("openLegal").addEventListener("click", () =>
   document.getElementById("legalDialog").showModal()
 );
